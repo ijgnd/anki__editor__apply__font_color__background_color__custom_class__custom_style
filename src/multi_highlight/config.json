@@ -1,0 +1,60 @@
+{
+    "background": [{
+            "name": "yellow",
+            "color": "#ffff00",
+            "buttontext": "Ye",
+            "size": false,
+            "tooltip": "hilight yellow",
+            "hotkey": "Alt+q"
+        },
+        {
+            "name": "green",
+            "color": "#00ff00",
+            "buttontext": "Gr",
+            "size": false,
+            "tooltip": "hilight green",
+            "hotkey": "Alt+w"
+        },
+        {
+            "name": "blue",
+            "color": "#00ffff",
+            "buttontext": "Bl",
+            "size": false,
+            "tooltip": "hilight blue",
+            "hotkey": "Alt+e"
+        },
+        {
+            "name": "red",
+            "color": "#fd9796",
+            "buttontext": "Re",
+            "size": false,
+            "tooltip": "hilight red",
+            "hotkey": "Alt+r"
+        }
+    ],
+    "fontcolor": [{
+            "name": "green",
+            "color": "#00aa00",
+            "buttontext": "fG",
+            "size": false,
+            "tooltip": "font-color green",
+            "hotkey": "Alt+shift+w"
+        },
+        {
+            "name": "blue",
+            "color": "#0000ff",
+            "buttontext": "fB",
+            "size": false,
+            "tooltip": "font-color blue",
+            "hotkey": "Alt+shift+e"
+        },
+        {
+            "name": "red",
+            "color": "#ff0000",
+            "buttontext": "fR",
+            "size": false,
+            "tooltip": "font-color red",
+            "hotkey": "Alt+shift+r"
+        }
+    ]
+}
