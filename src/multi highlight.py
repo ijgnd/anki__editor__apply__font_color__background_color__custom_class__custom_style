@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
-import multi_highlight.main
+import quick_highlight_fontcolor_background.main
  
