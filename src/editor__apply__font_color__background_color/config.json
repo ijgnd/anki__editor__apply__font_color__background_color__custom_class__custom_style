@@ -1,0 +1,102 @@
+{
+    "v2_configwarning":true,
+    "v2_menu_styling": true,
+    "v2_key_styling_menu": "F2",
+    "v2_show_in_contextmenu": true,
+    "v2_wider_button_in_menu": true,
+    "v2": [
+        {
+            "Category":"backcolor",
+            "Hotkey": "Alt+q",
+            "Setting": "#ffff00",
+            "Show_in_menu": true,
+            "Text_in_menu": "background yellow",
+            "extrabutton_show": true,
+            "extrabutton_text": "Ye",
+            "extrabutton_tooltip": "background yellow"
+        },
+        {
+            "Category":"backcolor",
+            "Hotkey": "Alt+w",
+            "Setting": "#00ff00",
+            "Show_in_menu": true,
+            "Text_in_menu": "background green",
+            "extrabutton_show": false,
+            "extrabutton_text": "Gr",
+            "extrabutton_tooltip": "background green"
+        },
+        {
+            "Category":"backcolor",
+            "Hotkey": "Alt+e",
+            "Setting": "#00ffff",
+            "Show_in_menu": true,
+            "Text_in_menu": "background blue",
+            "extrabutton_show": false,
+            "extrabutton_text": "bl",
+            "extrabutton_tooltip": "background blue"
+        },
+        {
+            "Category":"backcolor",
+            "Hotkey": "Alt+r",
+            "Setting": "#fd9796",
+            "Show_in_menu": true,
+            "Text_in_menu": "background red",
+            "extrabutton_show": false,
+            "extrabutton_text": "Re",
+            "extrabutton_tooltip": "background red"
+        },
+        {
+            "Category":"forecolor",
+            "Hotkey": "Alt+shift+w",
+            "Setting": "#00aa00",
+            "Show_in_menu": true,
+            "Text_in_menu": "font-color green",
+            "extrabutton_show": false,
+            "extrabutton_text": "fG",
+            "extrabutton_tooltip": "font-color green"
+        },
+        {
+            "Category":"forecolor",
+            "Hotkey": "Alt+shift+e",
+            "Setting": "#0000ff",
+            "Show_in_menu": true,
+            "Text_in_menu": "font-color blue",
+            "extrabutton_show": false,
+            "extrabutton_text": "fB",
+            "extrabutton_tooltip": "font-color blue"
+        },
+        {
+            "Category":"forecolor",
+            "Hotkey": "Alt+shift+r",
+            "Setting": "#ff0000",
+            "Show_in_menu": true,
+            "Text_in_menu": "font-color red",
+            "extrabutton_show": false,
+            "extrabutton_text": "fR",
+            "extrabutton_tooltip": "font-color red"
+        },
+        {
+            "Category":"style",
+            "Hotkey": "alt+shift+g",
+            "Setting": "font-family: sans; font-size: smaller;",
+            "Show_in_menu": true,
+            "Text_in_menu": "sans serif font",
+            "Text_in_menu_styling":"font-family:sans; font-size: smaller;",
+            "extrabutton_show": true,
+            "extrabutton_text": "FO",
+            "extrabutton_tooltip": "sans serif fonts"
+        },
+        {
+            "Category":"class",
+            "Hotkey": "Alt+shift+b",
+            "Setting": "class1",
+            "Show_in_menu": true,
+            "Text_in_menu": "important (class1)",
+            "Text_in_menu_styling":"color: magenta;font-style: italic;font-family:monospace;",
+            "extrabutton_show": true,
+            "extrabutton_text": "c1",
+            "extrabutton_tooltip": "apply class1",
+            "extrabutton_width": false
+        }
+    ]
+}
