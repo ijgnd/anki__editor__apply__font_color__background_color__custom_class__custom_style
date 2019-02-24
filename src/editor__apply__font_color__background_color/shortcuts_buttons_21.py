@@ -49,8 +49,6 @@ def SetupShortcuts21(cuts, editor):
 
 
 def setupButtons21(buttons, editor):
-    import pprint
-    pprint.pprint(config)
     for e in config['v2']:
         #check if extrabutton_show is set and if True:
         if e.get('extrabutton_show',False):
