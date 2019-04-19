@@ -1,0 +1,31 @@
+This add-on allows you to quickly set a font color, the background color or a a custom class or custom style. You can use shortcuts, buttons from the top of the editor or the context menu. I frequently apply the same styling and want to quickly change between these. 
+
+You can configure different colors, styles, or classes. For details about the configuration options see the readme that is shown in the add-on configuration dialog of 2.1 and <a href="https://apps.ankiweb.net/docs/manual.html#card-styling" rel="nofollow">the Styling Cards section</a> from the manual. 
+If you use Anki 2.1 and if you installed this add-on before 2019-02-18 and you have updated you need to reset the config of this add-on: In the lower left corner of the add-on configuration window click the button "Restore Defaults".
+If you use Anki 2.0 there is in the folder of the add-on a file named <a href="http://readme.md" rel="nofollow">readme.md</a> and a config.json that you need to adjust, for details see <a href="https://apps.ankiweb.net/docs/manual.html#file-locations" rel="nofollow">here</a>.
+
+Some of the default shortcuts might not work on all systems (like MacOS) and might conflict with built-in or general shortcuts. Then you need to adjust the config. 
+
+<img src="https://raw.githubusercontent.com/ijgnd/anki__editor__apply__font_color__background_color__custom_class__custom_style/master/screenshots/screenshot_v2_main.png"> 
+
+<img src="https://raw.githubusercontent.com/ijgnd/anki__editor__apply__font_color__background_color__custom_class__custom_style/master/screenshots/screenshot_v2_context_menu.png"> 
+
+If you just want to sometimes change the text color or background color this add-on might be overkill. Or maybe you find the config too complicated. Or maybe you run into an error with this add-on. Then you could have a look at these options:
+- The option to change the background color is available in the <a href="https://ankiweb.net/shared/info/162313389" rel="nofollow">Power Format Pack</a> (2.0)/<a href="https://ankiweb.net/shared/info/295889520" rel="nofollow">Mini Format Pack</a>(2.1). But switching between different colors is time consuming.
+- Anki has a function to change the font color. But switching between different colors is time consuming.
+- There's the add-on <a href="https://ankiweb.net/shared/info/2491935955" rel="nofollow">Quick Colour Changing</a> that allows to set shortcuts for different font colors.
+
+
+
+<b># styling with "class"</b>
+This just applies a class. You need to set the appropriate CSS in the relevant stylesheet. This gives you much flexibility and makes it easy to adjust the styling for all cards you have - e.g. if you use some dark mode etc.
+You need to adjust <b>TWO</b> style sheets:
+- You need to adjust the stylesheet of the <b>editor</b> in the Add window and bottom of the browser with the add-on  <a href="https://ankiweb.net/shared/info/1215991469" rel="nofollow">Customize Editor Stylesheet</a>.
+- For <b>reviews</b> you need to adjust adjust the <a href="https://apps.ankiweb.net/docs/manual.html#card-styling" rel="nofollow">Card Styling</a>. If you have many card types or note types it might be easier to use one external stylesheet that you use for each note type. You put this stylesheet in your media folder and in the styling section use "@import". The only content of the Styling section would be e.g. <code>@import  url("_style.anki.main.css");</code> Note the leading underscore in the file name. This is necessary to keep Anki from marking the file as unused and deleting it. for the location of the media folder of your profile see <a href="https://apps.ankiweb.net/docs/manual.html#file-locations" rel="nofollow">this section</a>  from the manual.
+
+
+<b># applying different font size </b>
+If you want to change the font size you could apply a class and define appropriate css. I dislike setting fixed values like "30pt" in my cards because my next notebook might have a much higher resolution and who knows how such a fixed value will look on my next tablet.
+ 
+
+If you find a bug or have improvements please post them on <a href="https://github.com/ijgnd/anki__quick_highlight_fontcolor_background" rel="nofollow">github</a>. This add-on was created in a copy &amp; paste way and needs some cleanup ... As always: Use it at your own risk.
