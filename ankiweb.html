@@ -25,7 +25,34 @@ You need to adjust <b>TWO</b> style sheets:
 
 
 <b># applying different font size </b>
-If you want to change the font size you could apply a class and define appropriate css. I dislike setting fixed values like "30pt" in my cards because my next notebook might have a much higher resolution and who knows how such a fixed value will look on my next tablet.
- 
+There are different methods to change the font size.
 
+I think the best one is to apply a class and define appropriate css. I dislike setting fixed values like "30pt" in my cards because my next notebook might have a much higher resolution and who knows how such a fixed value will look on my next tablet.
+
+But you can also set a fixed size if you are not afraid of the potential problems I mentioned. If you want to just have one button to set the font size of selected text to 30 replace the whole config with this:
+
+<code>
+{
+    "v2": [
+        {
+            "Category": "style",
+            "Hotkey": "alt+shift+g",
+            "Setting": "font-size:30px;",
+            "Show_in_menu": false,
+            "Text_in_menu": "sans serif font",
+            "Text_in_menu_styling": "font-size:30px;",
+            "extrabutton_show": true,
+            "extrabutton_text": "fs",
+            "extrabutton_tooltip": "larger fonts: "
+        }
+    ],
+    "v2_configwarning": true,
+    "v2_key_styling_menu": "F2",
+    "v2_menu_styling": true,
+    "v2_show_in_contextmenu": false,
+    "v2_wider_button_in_menu": true
+}
+</code>
+
+<b># bugs etc. </b>
 If you find a bug or have improvements please post them on <a href="https://github.com/ijgnd/anki__quick_highlight_fontcolor_background" rel="nofollow">github</a>. This add-on was created in a copy &amp; paste way and needs some cleanup ... As always: Use it at your own risk.
