@@ -56,6 +56,7 @@ def setupButtons21(buttons, editor):
             buttons.append(makethisbutton21(editor,e,func))
 
     #collapsible menu
+    show_style_selector_button = False
     for e in config['v2']:
         if e['Show_in_menu']:
             show_style_selector_button = True
