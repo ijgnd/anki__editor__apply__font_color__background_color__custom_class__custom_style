@@ -1,11 +1,10 @@
 {
-    "v2_configwarning":true,
     "v2_menu_styling": true,
     "v2_key_styling_menu": "F2",
     "v2_show_in_contextmenu": true,
-    "v2_wider_button_in_menu": true,
     "v2": [
         {
+            "active": true,
             "Category":"backcolor",
             "Hotkey": "Alt+q",
             "Setting": "#ffff00",
@@ -16,6 +15,7 @@
             "extrabutton_tooltip": "background yellow"
         },
         {
+            "active": false,
             "Category":"backcolor",
             "Hotkey": "Alt+w",
             "Setting": "#00ff00",
@@ -95,8 +95,7 @@
             "Text_in_menu_styling":"color: magenta;font-style: italic;font-family:monospace;",
             "extrabutton_show": true,
             "extrabutton_text": "c1",
-            "extrabutton_tooltip": "apply class1",
-            "extrabutton_width": false
+            "extrabutton_tooltip": "apply class1"
         }
     ]
 }
