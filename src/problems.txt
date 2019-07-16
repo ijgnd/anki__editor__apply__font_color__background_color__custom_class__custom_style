@@ -1,7 +1,3 @@
 - additional_menu_basic not aligned properly
   - in 2.1.8 shortcuts for menu entries are not shown. So this is not an option: ugly monospaced font workaround
-- can't print() from additional_menu_basic
-- additional_menu_basic: why dummy needed
-
-- 20 fixes
-- shortcut to open menu in 21
+- deduplicate/refactor
