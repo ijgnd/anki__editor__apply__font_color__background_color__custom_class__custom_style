@@ -190,9 +190,12 @@ def loaddict():
         config["update_v3_message_shown"] = True
     update_style_file_in_media()  # always rewrite the file in case a new profile is used
     config = update_config(config)
+    if not os.path.exists(user_files_folder):
+        os.makedirs(user_files_folder)
 
 
 def savedict():
+    # prevent error after deleting add-on
     if os.path.exists(user_files_folder):
         with open(picklefile, 'wb') as PO:
             pickle.dump(config, PO)
