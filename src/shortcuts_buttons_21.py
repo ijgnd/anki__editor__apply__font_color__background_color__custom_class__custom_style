@@ -7,6 +7,7 @@ License: GNU AGPL, version 3 or later; http://www.gnu.org/licenses/agpl.html
 Use this at your own risk
 """
 
+from pprint import pprint as pp
 
 from aqt.editor import Editor
 from aqt.utils import showInfo
@@ -43,7 +44,7 @@ def makethisbutton21(editor, e, func):
 def SetupShortcuts21(cuts, editor):
     from .color_style_class_buttons import config
     for e in config['v3']:
-        if e.get("Hotkey", False):
+        if e.get("Hotkey", False):  # and not config["v2_show_in_contextmenu"]:
             func = editor.mycategories[e['Category']]
             cuts.append((e["Hotkey"], lambda s=e["Setting"], f=func: f(editor, s)))
 

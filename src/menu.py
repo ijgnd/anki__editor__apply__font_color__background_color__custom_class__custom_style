@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 """
 Copyright:  (c) 2019 ignd
             (c) Glutanimate 2015-2017
@@ -59,43 +57,50 @@ def return_stylesheet(editor, e):
 Editor.return_stylesheet = return_stylesheet
 
 
-def my_label_text(editor, _dict):
+def my_label_text(editor, _dict, fmt):
     from .color_style_class_buttons import config
     totallength = config['maxname'] + config['maxshortcut'] + 3
     remaining = totallength - len(_dict.get("Hotkey", 0))
     t1 = _dict.get("Text_in_menu", "Variable Text_in_menu missing")
-    out = t1.ljust(remaining) + _dict.get("Hotkey", "")
+    # ideally hotkey would be right aligned
+    # in html I can use:
+    #    <span style="text-align:left;">left<span style="float:right;">right</span></span>
+    # BUT float is not supported for text in a QLabel/QString
+    # https://doc.qt.io/qt-5/richtext-html-subset.html
+    # so I would need two QLabels and some container: complicated
+    # I don't want to set the shortcut here with 
+    #       a.setShortcut(QKeySequence(e["Hotkey"]))
+    #       a.setShortcutVisibleInContextMenu(True)
+    # because I set them globally in a different place
+    # and setting the same shortcut multiple times disables them. 
+    # Also this only works for an unstyled menu and might need to be adjusted for QActionWidget
+    if fmt:
+        # formatted 
+        h = _dict.get("Hotkey", "")
+        if h:
+            out = t1 + "  (" + h + ")" 
+        else:
+            out = t1
+    else:
+        # unformatted
+        out = t1.ljust(remaining) + _dict.get("Hotkey", "")
     return out
 Editor.my_label_text = my_label_text
 
 
 def create_menu_entry(editor, e, parentmenu):
-    # e.get('Icon_in_menu',False) doesn't work???
-    # maybe show icons with settings like:
-            # {
-            #     "Category":"justifyCenter",
-            #     "Hotkey": "ctrl+shift+alt+s",
-            #     "Show_in_menu": true,
-            #     "IconInMenu": "justifyCenter.png"
-            # }
-    # But small icons look really strange.
     if e.get('IconInMenu', False):
         y = QLabel()
         path = os.path.join(icon_path, e['IconInMenu'])
         pixmap = QPixmap(path)
         y.setPixmap(pixmap)
     else:
-        t = editor.my_label_text(e)
+        t = editor.my_label_text(e, True)
         y = QLabel(t)
     # https://stackoverflow.com/a/6876509
     y.setAutoFillBackground(True)
     stylesheet = editor.return_stylesheet(e)
     y.setStyleSheet(stylesheet)
-
-    # font = QFont()
-    # #font.setBold(True)
-    # y.setFont(font)
-
     x = QWidgetAction(parentmenu)
     x.setDefaultWidget(y)
     cat = e["Category"]
@@ -136,14 +141,13 @@ def additional_menu_basic(editor):
     # mod of onAdvanced from editor.py
     m = QMenu(editor.mw)
     # m.setStyleSheet(basic_stylesheet)
-    m.setFont(QFont('Courier New', 9))
+    m.setFont(QFont('Courier New', 11))
     for e in config['v3']:
         if e.get('Show_in_menu', False):
-            text = editor.my_label_text(e)
+            text = editor.my_label_text(e, False)
             a = m.addAction(text)
             cat = e["Category"]
             se = e.get("Setting", e.get("Category", False))
             a.triggered.connect(lambda _, a=cat, b=se: my_highlight_helper(editor, a, b))
-            # a.setShortcut(QKeySequence(e.get("Hotkey","")))   #hotkey is not shown in 2.1.8
     m.exec_(QCursor.pos())
 Editor.additional_menu_basic = additional_menu_basic

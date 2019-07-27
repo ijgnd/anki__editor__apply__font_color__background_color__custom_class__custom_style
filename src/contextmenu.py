@@ -1,14 +1,10 @@
-"""
-Copyright:  (c) 2019 ignd
-            (c) Glutanimate 2015-2017
-License: GNU AGPL, version 3 or later; http://www.gnu.org/licenses/agpl.html
-Use this at your own risk
-"""
+# License: AGPLv3
 
 import os
 
 from aqt.editor import Editor, EditorWebView
 from aqt.qt import *
+from pprint import pprint as pp
 
 
 def co_my_highlight_helper(view, category, setting):
@@ -38,7 +34,7 @@ def co_return_stylesheet(e):
         thiscolor = co_hex_to_rgb(e['Setting'])
         line1 = "color: rgba({}); ".format(thiscolor)
     else:
-        line1 = ""  # e['Text_in_menu_styling']
+        line1 = e['Text_in_menu_styling']
 
     stylesheet = """QLabel {{
         {}
@@ -52,26 +48,43 @@ def co_return_stylesheet(e):
     return stylesheet
 
 
-def co_my_label_text(_dict):
+def co_my_label_text(_dict, fmt):
     from .color_style_class_buttons import config
     totallength = config['maxname'] + config['maxshortcut'] + 3
     remaining = totallength - len(_dict.get("Hotkey", 0))
     t1 = _dict.get("Text_in_menu", "Variable Text_in_menu missing")
-    return t1.ljust(remaining) + _dict.get("Hotkey", "")
+    # ideally hotkey would be right aligned
+    # in html I can use:
+    #    <span style="text-align:left;">left<span style="float:right;">right</span></span>
+    # BUT float is not supported for text in a QLabel/QString
+    # https://doc.qt.io/qt-5/richtext-html-subset.html
+    # so I would need two QLabels and some container: complicated
+    # I don't want to set the shortcut here with 
+    #       a.setShortcut(QKeySequence(e["Hotkey"]))
+    #       a.setShortcutVisibleInContextMenu(True)
+    # because I set them globally in a different place
+    # and setting the same shortcut multiple times disables them. 
+    # Also this only works for an unstyled menu and might need to be adjusted for QActionWidget
+    if fmt:
+        # formatted 
+        h = _dict.get("Hotkey", "")
+        if h:
+            out = t1 + "  (" + h + ")" 
+        else:
+            out = t1
+    else:
+        # unformatted
+        out = t1.ljust(remaining) + _dict.get("Hotkey", "")
+    return out
 
 
 def co_create_menu_entry(view, e, parentmenu):
-    t = co_my_label_text(e)
+    t = co_my_label_text(e, True)
     y = QLabel(t)
     # https://stackoverflow.com/a/6876509
     y.setAutoFillBackground(True)
     stylesheet = co_return_stylesheet(e)
     y.setStyleSheet(stylesheet)
-
-    # font = QFont()
-    # #font.setBold(True)
-    # y.setFont(font)
-
     x = QWidgetAction(parentmenu)
     x.setDefaultWidget(y)
     cat = e["Category"]
@@ -82,7 +95,6 @@ def co_create_menu_entry(view, e, parentmenu):
 
 def add_to_context_styled(view, menu):
     from .color_style_class_buttons import config
-    selected = view.page().selectedText()
     menu.addSeparator()
 
     cmbg, cmbgc, cmfc, cmst, cmcl = "", "", "", "", ""
@@ -97,7 +109,7 @@ def add_to_context_styled(view, menu):
         groups[i] = menu.addMenu(i)
 
     for e in config['v3']:
-        if e.get('Show_in_menu', False):
+        if e.get('Show_in_menu', True):
             relevantgroup = groups[e['Category']]
             relevantgroup.addAction(co_create_menu_entry(view, e, relevantgroup))
     # menu.exec_(QCursor.pos())
@@ -105,7 +117,6 @@ def add_to_context_styled(view, menu):
 
 def add_to_context_unstyled(view, menu):
     from .color_style_class_buttons import config
-    selected = view.page().selectedText()
     menu.addSeparator()
 
     cmbg, cmbgc, cmfc, cmst, cmcl = "", "", "", "", ""
@@ -121,12 +132,13 @@ def add_to_context_unstyled(view, menu):
 
     for e in config['v3']:
         if e.get('Show_in_menu', False):
-            text = co_my_label_text(e)
+            text = co_my_label_text(e, False)
             relevantgroup = groups[e['Category']]
             a = relevantgroup.addAction(text)
             cat = e["Category"]
             se = e.get("Setting", e.get("Category", False))
             a.triggered.connect(lambda _, a=cat, b=se: co_my_highlight_helper(view, a, b))
+            # a.setShortcutVisibleInContextMenu(True)
 
 
 def add_to_context(view, menu):

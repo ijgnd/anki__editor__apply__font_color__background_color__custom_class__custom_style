@@ -1,6 +1,5 @@
 # Copyright:  (c) 2019 ignd
 # License: GNU AGPL, version 3 or later; http://www.gnu.org/licenses/agpl.html
-# Use this at your own risk
 
 
 import os
@@ -21,6 +20,7 @@ from .config import ButtonOptions
 from .colors import hex_to_rgb_tuple, html4colors, css3colors
 from .contextmenu import add_to_context
 from .shortcuts_buttons_21 import setmycategories, setupButtons21, SetupShortcuts21
+from .defaultconfig import defaultconfig
 
 
 addon_path = os.path.dirname(__file__)
@@ -29,12 +29,7 @@ iconfolder = os.path.join(addon_path, "icons")
 user_files_folder = os.path.join(addon_path, "user_files")
 picklefile = os.path.join(user_files_folder, "settings.pypickle")
 mjfile = os.path.join(addon_path, "meta.json")
-config = {
-    "v2_menu_styling": True,
-    "v2_key_styling_menu": "F2",
-    "v2_show_in_contextmenu": True,
-    "v3": [],
-}
+config = defaultconfig.copy()
 
 
 updatetext = ('The add-on "editor: apply font color, background color '
@@ -133,6 +128,7 @@ def get_config_from_meta_json():
                             )
                     showInfo(text)
                     return
+        showInfo(updatetext)
         config = mjconfig
         v2 = config['v2']
         # adjust old config
@@ -153,7 +149,6 @@ def get_config_from_meta_json():
                 if v == "Category" and k == "forecolor":
                     v2[i]["Category"] = "Forecolor"
         config['v3'] = v2
-        pp(config['v3'])
     return config
 
 
@@ -161,10 +156,10 @@ def update_config(config):
     config['maxname'] = 0
     config['maxshortcut'] = 0
     config['context_menu_groups'] = []
+    config['maxname'] = 0
+    config['maxshortcut'] = 0
     for e in config['v3']:
         if e['Show_in_menu']:
-            config['maxname'] = 0
-            config['maxshortcut'] = 0
             if e.get('Text_in_menu', False):
                 config['maxname'] = max(config['maxname'], len(e["Text_in_menu"]))
                 if e['Category'] not in config['context_menu_groups']:
@@ -185,9 +180,6 @@ def loaddict():
     else:
         # tooltip("Settings file not found")
         config = get_config_from_meta_json()
-    if (not "update_v3_message_shown" in config) or (not config["update_v3_message_shown"]):
-        showInfo(updatetext)
-        config["update_v3_message_shown"] = True
     update_style_file_in_media()  # always rewrite the file in case a new profile is used
     config = update_config(config)
     if not os.path.exists(user_files_folder):
@@ -218,20 +210,14 @@ def prepareEditorStylesheet():
     global config
     global css_path
     global css_path_Customize_Editor_Stylesheet
-    if not os.path.isfile(css_path):
-        return False
-    with open(css_path, "r") as css_file:
-        css1 = css_file.read()
-    if not css1:
-        return False
-
-    if not os.path.isfile(css_path_Customize_Editor_Stylesheet):
-        return False
-    with open(css_path_Customize_Editor_Stylesheet, "r") as css_file:
-        css2 = css_file.read()
-    if not css2:
-        return False
-
+    css1 = ""
+    if os.path.isfile(css_path):
+        with open(css_path, "r") as css_file:
+            css1 = css_file.read()
+    css2 = ""
+    if os.path.isfile(css_path_Customize_Editor_Stylesheet):
+        with open(css_path_Customize_Editor_Stylesheet, "r") as css_file:
+            css2 = css_file.read()
     # css2 first in case it contains @import url
     css = css2 + "\n" + css1
     editor_style = "<style>\n{}\n</style>".format(css.replace("%", "%%"))
@@ -255,8 +241,8 @@ def update_style_file_in_media():
                             )
         if e["Category"] == "Backcolor (via class)":
             classes_str += ("." + str(e["Setting"]) +
-                            "{\nbackground-color: " + str(e['Text_in_menu_styling']) +
-                            "\n}\n\n"
+                            "{\nbackground-color: " + str(e['Text_in_menu_styling']) + ";" +
+                             "\n}\n\n"
                             )
     with open(css_path, "w") as f:
         f.write(classes_str)

@@ -35,7 +35,7 @@
        <item>
         <widget class="QCheckBox" name="cb_global_contextmenu_with_styling">
          <property name="text">
-          <string>context menu styling</string>
+          <string>(context) menu styling</string>
          </property>
         </widget>
        </item>
@@ -58,14 +58,14 @@
        <item>
         <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>Key for multi button</string>
+          <string>Key for multi-button</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="pb_global_multibutton_show">
          <property name="text">
-          <string>...(click to config)</string>
+          <string>click to set</string>
          </property>
         </widget>
        </item>
@@ -86,6 +86,13 @@
         <widget class="QCheckBox" name="cb_classes_to_styling">
          <property name="text">
           <string>Write Link to CSS into every Template</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pb_more">
+         <property name="text">
+          <string>more</string>
          </property>
         </widget>
        </item>

@@ -1,6 +1,8 @@
 # License: AGPLv3
 
 import random
+import re
+import json
 
 from pprint import pprint as pp
 from collections import OrderedDict
@@ -20,8 +22,15 @@ from PyQt5.QtGui import QKeySequence
 
 from aqt import mw
 from aqt.qt import *
-from aqt.utils import tooltip, showInfo, askUser
+from aqt.utils import (
+    askUser,
+    getFile,
+    getSaveFile,
+    showInfo,
+    tooltip
+)
 
+from .defaultconfig import defaultconfig
 from .forms import settings_main_widgets
 from .forms import settings_select_category
 from .forms import settings_forecolor_bgcolor
@@ -127,7 +136,7 @@ class SettingsForStyle(QDialog):
             "Show_in_menu": self.dialog.cb_contextmenu_show.isChecked(),
             "Text_in_menu":  self.dialog.le_contextmenu_text.text(),
             "Text_in_menu_styling": self.dialog.pte_style.toPlainText(),
-            "extrabutton_show": self.dialog.cb_contextmenu_show.isChecked(),
+            "extrabutton_show": self.dialog.cb_extrabutton_show.isChecked(),
             "extrabutton_text":  self.dialog.le_extrabutton_text.text(),
             "extrabutton_tooltip":  self.dialog.le_tooltip_text.text(),
         }
@@ -176,6 +185,17 @@ class SettingsForClass(QDialog):
         QDialog.reject(self)
 
     def accept(self):
+        classname = self.dialog.le_classname.text()
+        o = re.match("""-?[_a-zA-Z]+[_a-zA-Z0-9-]*""", classname)
+        if not o:
+            t = ("Illegal character in classname. "
+                 "the name must begin with an underscore (_), a hyphen (-), or a letter(a–z), "
+                 "followed by any number of hyphens, underscores, letters, or numbers. "
+                 "If the first character is a hyphen, the second character must be a letter"
+                 "or underscore, and the name must be at least 2 characters long."
+                )
+            showInfo(t)
+            return
         self.newsetting = {
             "Category": "",  # if new I add in the category in the parent
             "Hotkey": self.hotkey,
@@ -183,7 +203,7 @@ class SettingsForClass(QDialog):
             "Show_in_menu": self.dialog.cb_contextmenu_show.isChecked(),
             "Text_in_menu":  self.dialog.le_contextmenu_text.text(),
             "Text_in_menu_styling": self.dialog.pte_style.toPlainText(),
-            "extrabutton_show": self.dialog.cb_contextmenu_show.isChecked(),
+            "extrabutton_show": self.dialog.cb_extrabutton_show.isChecked(),
             "extrabutton_text":  self.dialog.le_extrabutton_text.text(),
             "extrabutton_tooltip":  self.dialog.le_tooltip_text.text(),
         }
@@ -251,7 +271,7 @@ class SettingsForBgColorClass(QDialog):
             "Show_in_menu": self.dialog.cb_contextmenu_show.isChecked(),
             "Text_in_menu":  self.dialog.le_contextmenu_text.text(),
             "Text_in_menu_styling": self.color,
-            "extrabutton_show": self.dialog.cb_contextmenu_show.isChecked(),
+            "extrabutton_show": self.dialog.cb_extrabutton_show.isChecked(),
             "extrabutton_text":  self.dialog.le_extrabutton_text.text(),
             "extrabutton_tooltip":  self.dialog.le_tooltip_text.text(),
         }
@@ -311,7 +331,7 @@ class SettingsForForeBgColor(QDialog):
             "Show_in_menu": self.dialog.cb_contextmenu_show.isChecked(),
             "Text_in_menu":  self.dialog.le_contextmenu_text.text(),
             "Text_in_menu_styling": "",
-            "extrabutton_show": self.dialog.cb_contextmenu_show.isChecked(),
+            "extrabutton_show": self.dialog.cb_extrabutton_show.isChecked(),
             "extrabutton_text":  self.dialog.le_extrabutton_text.text(),
             "extrabutton_tooltip":  self.dialog.le_tooltip_text.text(),
         }
@@ -393,6 +413,7 @@ class ButtonOptions(QDialog):
         self.init_buttons()
 
     def init_buttons(self):
+        self.set_check_state_buttons()
         self.bo.pb_modify_active.clicked.connect(
             lambda _, w=self.bo.tw_active: self.process_row(w, "modify"))
         self.bo.pb_modify_inactive.clicked.connect(
@@ -406,23 +427,81 @@ class ButtonOptions(QDialog):
             lambda _, w=self.bo.tw_active: self.process_row(w, "del"))
         self.bo.pb_delete_from_inactive.clicked.connect(
             lambda _, w=self.bo.tw_inactive: self.process_row(w, "del"))
+        self.bo.cb_classes_to_styling.toggled.connect(self.onClassesToStyling)
+        self.bo.pb_global_multibutton_show.clicked.connect(self.onHotkey)
+        self.bo.pb_more.clicked.connect(self.onMore)
+
+    def set_check_state_buttons(self):
         if self.config["v2_show_in_contextmenu"]:
             self.bo.cb_global_contextmenu_show.setChecked(True)
         if self.config["v2_menu_styling"]:
             self.bo.cb_global_contextmenu_with_styling.setChecked(True)
         if "write_classes_to_templates" in self.config:
-            if config["write_classes_to_templates"]:
+            if self.config["write_classes_to_templates"]:
                 self.bo.cb_classes_to_styling.setChecked(True)
-        self.bo.cb_classes_to_styling.toggled.connect(self.onClassesToStyling)
         if self.config["v2_key_styling_menu"]:
             self.bo.pb_global_multibutton_show.setText(self.config["v2_key_styling_menu"])
-        self.bo.pb_global_multibutton_show.clicked.connect(self.onHotkey)
 
     def onHotkey(self):
         h = HotkeySelect(self, self.config["v2_key_styling_menu"])
         if h.exec_():
             self.config["v2_key_styling_menu"] = h.hotkey
             self.bo.pb_global_multibutton_show.setText(self.config["v2_key_styling_menu"])
+
+    def onMore(self):
+        m = QMenu(mw)
+        a = m.addAction("Restore default config")
+        a.triggered.connect(self.restoreDefault)
+        a = m.addAction("Export Button Config to json")
+        a.triggered.connect(self.onExport)
+        a = m.addAction("Import Button Config from json")
+        a.triggered.connect(self.onImport)
+        m.exec_(QCursor.pos())
+
+    def restoreDefault(self):
+        text = "Delete your setup and restore default buttons config?"
+        if askUser(text, defaultno=False):
+            self.config["v3"] = defaultconfig["v3"][:]
+            self.config["v3_inactive"] = [][:]
+            self.active = self.config["v3"]
+            self.inactive = self.config["v3_inactive"]
+            self.bo.tw_active.setRowCount(0)
+            self.bo.tw_inactive.setRowCount(0)
+            self.set_table(self.bo.tw_active, self.active)
+            self.set_table(self.bo.tw_inactive, self.inactive)
+
+    def onExport(self):
+        o = getSaveFile(mw, title="Anki - Select file for export",
+                        dir_description="jsonbuttons",
+                        key=".json",
+                        ext=".json",
+                        fname="anki_addon_styling_buttons_config.json"
+                        )
+        if o:
+            self.updateConfig()
+            with open(o, 'w') as fp:
+                json.dump(self.config, fp)
+
+    def onImport(self):
+        o = getFile(self, "Anki - Select file for import ", None, "json",
+                            key="json", multi=False)
+        if o:
+            try:
+                with open(o, 'r') as fp:
+                    c = json.load(fp)
+            except:
+                showInfo("Aborting. Error while reading file.")
+            try:
+                self.config = c
+            except:
+                showInfo("Aborting. Error in file.")
+            self.set_check_state_buttons()
+            self.active = self.config["v3"]
+            self.inactive = self.config["v3_inactive"]
+            self.bo.tw_active.setRowCount(0)
+            self.bo.tw_inactive.setRowCount(0)
+            self.set_table(self.bo.tw_active, self.active)
+            self.set_table(self.bo.tw_inactive, self.inactive)
 
     def onClassesToStyling(self):
         text = ("Only use this option if you have backups and know how to restore them. "
@@ -542,8 +621,8 @@ class ButtonOptions(QDialog):
                     if b["Category"] in ["Backcolor (via class)", "class"]:
                         if k == "Text_in_menu_styling":
                             index = 3
-                        newitem = QTableWidgetItem(str(v))
-                        widget.setItem(a, index, newitem)
+                            newitem = QTableWidgetItem(str(v))
+                            widget.setItem(a, index, newitem)
                 else:
                     newitem = QTableWidgetItem(str(v))
                     widget.setItem(a, index, newitem)
@@ -561,7 +640,7 @@ class ButtonOptions(QDialog):
             li[row] = a.newsetting
             self.set_table(w, li)
 
-    def accept(self):
+    def updateConfig(self):
         self.config["v3"] = self.active
         self.config["v3_inactive"] = self.inactive
 
@@ -580,4 +659,6 @@ class ButtonOptions(QDialog):
         else:
             self.config["v2_menu_styling"] = False
 
+    def accept(self):
+        self.updateConfig()
         QDialog.accept(self)
