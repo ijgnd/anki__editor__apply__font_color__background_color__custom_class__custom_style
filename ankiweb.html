@@ -6,6 +6,17 @@ The configuration of this add-on was changed with the release 0.3 from July 2019
 
 If you want to use a custom style but don't know css there are online sites that make creating styles easier. A google search lead to sites like [this one](https://html-css-js.com/css/generator/font/) or [this one](https://webdesign-assistant.com/font-editor/css-font-generator.php).
 
+<b># Setup</b>
+Each note type must have the string `@import url("_editor_button_styles.css");` at the top(!) of the "Styling" section in the "Card Types for ..." window. If you don't want to modify all your note types there's an option "Write Link to CSS into every Template" at the top right of the add-on config which should add this line into all your templates. 
+
+Before you can use this you'll get a warning that if the function fails your collection might be damaged. This function should work reliably but it has not been widely used. For Anki there are over 400 different add-ons and I can't know if there are some interactions.
+
+"Key for multi-button" is the button that opens a custom context menu that just contains the styling options from this add-on (see the last screenshot below)
+
+This add-on allows you to add individual buttons for each option to the button bar on top of the fields. I don't do this because the buttons are quite small and this bar gets crowded if you use many add-ons and you can't set the order of buttons from different add-ons. Using the context menu is much faster for me (third screenshot below). There's also a dedicated context menu that only includes styling options (see the last screenshot below). 
+
+If you use the dedicated buttons you can adjust their styling, see <a href="https://www.reddit.com/r/Anki/comments/ce9wk7/bigger_edit_icons/" rel="nofollow">here</a>
+
 <b># Incompatible addons</b>
 <a href="https://ankiweb.net/shared/info/1215991469" rel="nofollow">Customize Editor Stylesheet</a> because my add-on reuses its main function so that you can use classes for styling and see the styling in the editor without any additional setup. Prior versions of my add-on just linked to this add-on. This resulted in multiple bug reports. Thanks @Glutanimate for making this option available.
 
@@ -18,17 +29,21 @@ If you find a bug or have improvements please post them on <a href="https://gith
 
 <img src="https://raw.githubusercontent.com/ijgnd/anki__editor__apply__font_color__background_color__custom_class__custom_style/master/screenshots/screenshot_v3_config.png">
 
+<img src="https://raw.githubusercontent.com/ijgnd/anki__editor__apply__font_color__background_color__custom_class__custom_style/master/screenshots/screenshot_v3_quick.png">
+
 <b># Alternatives</b>
 If you just want to sometimes change the text color or background color this add-on might be overkill. Or maybe you find the config too complicated. Or maybe you run into an error with this add-on. Then you could have a look at these options:
 - The option to change the background color is available in the <a href="https://ankiweb.net/shared/info/295889520" rel="nofollow">Mini Format Pack</a>. But switching between different colors is time consuming.
 - Anki has a function to change the font color. But switching between different colors is time consuming.
 - There's the add-on <a href="https://ankiweb.net/shared/info/2491935955" rel="nofollow">Quick Colour Changing</a> that allows to set shortcuts for different font colors.
 
-<b># applying different font size</b>
-You could use a class and put "font-size:30px;" into the field "styling of class".
+<b># other authors / code reused from</b>
+- Glutanimate
+- Stefan van den Akker
+- Damien Elmes
 
 <b># Versions </b>
-- 2019-      v0.3   new configuration dialog
+- 2019-08-06 v0.3   new configuration dialog
 - 2019-07-16 v0.2.3 added manifest.json
 - 2019-06-15 v0.2.2 bugfix
 - 2019-02-25 v0.2.1 bugfix

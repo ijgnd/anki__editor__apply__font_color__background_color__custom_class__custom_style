@@ -44,6 +44,8 @@ updatetext = ('The add-on "editor: apply font color, background color '
               "the file 'meta.json' which is in the folder of this add-on. "
               "\n\nTo view your 'meta.json' go to the add-on manager, select this "
               "add-on and click 'View Files'."
+              "\n\nIf you run into a problem you can report this on"
+              "\nhttps://github.com/ijgnd/anki__quick_highlight_fontcolor_background/issues"
               )
 
 
@@ -218,6 +220,8 @@ def prepareEditorStylesheet():
     if os.path.isfile(css_path_Customize_Editor_Stylesheet):
         with open(css_path_Customize_Editor_Stylesheet, "r") as css_file:
             css2 = css_file.read()
+    # TODO adjust height of buttons, maybe add option to make wider, see 
+    # https://www.reddit.com/r/Anki/comments/ce9wk7/bigger_edit_icons/
     # css2 first in case it contains @import url
     css = css2 + "\n" + css1
     editor_style = "<style>\n{}\n</style>".format(css.replace("%", "%%"))
