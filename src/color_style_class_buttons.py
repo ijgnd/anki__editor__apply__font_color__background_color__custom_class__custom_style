@@ -222,7 +222,7 @@ def prepareEditorStylesheet():
     if os.path.isfile(css_path_Customize_Editor_Stylesheet):
         with open(css_path_Customize_Editor_Stylesheet, "r") as css_file:
             css2 = css_file.read()
-    # TODO adjust height of buttons, maybe add option to make wider, see 
+    # TODO adjust height of buttons, maybe add option to make wider, see
     # https://www.reddit.com/r/Anki/comments/ce9wk7/bigger_edit_icons/
     # css2 first in case it contains @import url
     css = css2 + "\n" + css1
@@ -233,6 +233,7 @@ def prepareEditorStylesheet():
 def onEditorInit(self, *args, **kwargs):
     """Apply modified Editor HTML"""
     # TODO night mode
+    pass
 
 
 def update_style_file_in_media():
@@ -248,7 +249,7 @@ def update_style_file_in_media():
         if e["Category"] == "Backcolor (via class)":
             classes_str += ("." + str(e["Setting"]) +
                             "{\nbackground-color: " + str(e['Text_in_menu_styling']) + ";" +
-                             "\n}\n\n"
+                            "\n}\n\n"
                             )
     with open(css_path, "w") as f:
         f.write(classes_str)
@@ -290,12 +291,12 @@ def onMySettings():
                    """at the top(!) of """
                    """the "Styling" section in the "Card Types for ..." window.\n\n"""
                    """At the moment the following note types of yours miss this text:"""
-                   """\n- %s\nWhen you apply styling with this add-on to notes of these"""
-                   """types it will show up the note editor. But it won't be shown """
-                   """when you later cards that belong to these notes.\n\n"""
-                   """In other words: There's a good chance that you encounter problems"""
+                   """\n- %s\nWhen you apply styling with this add-on to notes of these """
+                   """types it will show up in the note editor. But it won't be shown """
+                   """when you later review cards that belong to these notes.\n\n"""
+                   """In other words: There's a good chance that you encounter problems """
                    """in the future because you didn't setup the add-on properly as """
-                   """described on add-on page on Ankiweb.\n\n"""
+                   """described on the add-on page on Ankiweb.\n\n"""
                    """If you don't want to modify all your note types there's an option"""
                    """"Write Link to CSS into every Template" at the top right of the add-on """
                    """config which should add this line into all your templates. Before you """

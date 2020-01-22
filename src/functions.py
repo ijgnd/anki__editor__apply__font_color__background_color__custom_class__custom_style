@@ -7,8 +7,13 @@ License: GNU AGPL, version 3 or later; http://www.gnu.org/licenses/agpl.html
 Use this at your own risk
 """
 
+import json
+from anki.utils import (
+    isMac,
+    isWin,
+)
+
 from aqt.editor import Editor
-from anki.utils import json
 
 
 def setmycategories(editor):
@@ -23,7 +28,28 @@ Editor.setmycategories = setmycategories
 
 
 def setBackcolor(editor, color):
-    editor.web.eval("setFormat('backcolor', '%s')" % color)
+    # from miniformat pack _wrapWithBgColour
+    """
+    Wrap the selected text in an appropriate tag with a background color.
+    """
+    # On Linux, the standard 'hiliteColor' method works. On Windows and OSX
+    # the formatting seems to get filtered out
+
+    editor.web.eval("""
+        if (!setFormat('hiliteColor', '%s')) {
+            setFormat('backcolor', '%s');
+        }
+        """ % (color, color))
+
+    if isWin or isMac:
+        # remove all Apple style classes, which is needed for
+        # text highlighting on platforms other than Linux
+        editor.web.eval("""
+            var matches = document.querySelectorAll(".Apple-style-span");
+            for (var i = 0; i < matches.length; i++) {
+                matches[i].removeAttribute("class");
+            }
+        """)
 Editor.setBackcolor = setBackcolor
 
 
@@ -37,6 +63,9 @@ def my_apply_style(editor, style):
     styled = "".join(['<span style="{}">'.format(style), selected, '</span>'])
     editor.web.eval("document.execCommand('inserthtml', false, %s);"
                     % json.dumps(styled))
+    # before = """<span style="{}">""".format(style)
+    # after = """</span>"""
+    # editor.web.eval("wrap('{}', '{}');".format(before, after))
 Editor.my_apply_style = my_apply_style
 
 

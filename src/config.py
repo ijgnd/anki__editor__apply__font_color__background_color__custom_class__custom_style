@@ -1,24 +1,12 @@
 # License: AGPLv3
 
 import random
+import os
 import re
 import json
 
 from pprint import pprint as pp
 from collections import OrderedDict
-
-from PyQt5.QtCore import Qt, QSize
-from PyQt5.QtWidgets import (
-    QAbstractItemView,
-    QAbstractScrollArea,
-    QDialog,
-    QHeaderView,
-    QPushButton,
-    QShortcut,
-    QTableView,
-    QTableWidget
-)
-from PyQt5.QtGui import QKeySequence
 
 from aqt import mw
 from aqt.qt import *
@@ -381,12 +369,13 @@ class AddEntry(QDialog):
         if sel in ["Backcolor (inline)", "style"]:
             text = ("In Anki 2.1 when you copy text from one field to another "
                     "Anki will remove the background color and styles. "
-                    "\n\nIf you ever plan to copy highlighted text from one field "
-                    "to another you shouldn't use these settings. "
                     "\n\nThis is not just a limitation of this add-on. The same "
                     "applies e.g. to the background color function of the "
                     "add-on 'Mini Format Pack'. "
-                    "\n\nContinue nevertheless?"
+                    "On the other hand when trying to apply the background color "
+                    "to text that belongs to different html tags like a heading and "
+                    "regular text the wrapping in a class will not work."
+                    "\n\nContinue?"
                     )
             if not askUser(text):
                 return
@@ -506,7 +495,9 @@ class ButtonOptions(QDialog):
     def onClassesToStyling(self):
         text = ("Only use this option if you have backups and know how to restore them. "
                 "This option modifies all of your note types. If something went wrong "
-                "there would be a lot of damage. But so far I haven't noticed a problem. "
+                "there would be a lot of damage. But this option has been available for months "
+                "and in this time the add-on had hundreds of downloads and so far I "
+                "haven't seen a problem reported."
                 )
         showInfo(text)
 
@@ -658,6 +649,12 @@ class ButtonOptions(QDialog):
             self.config["v2_menu_styling"] = True
         else:
             self.config["v2_menu_styling"] = False
+        media_dir = mw.col.media.dir()
+        fpath = os.path.join(media_dir, "syncdummy.txt")
+        if not os.path.isfile(fpath):
+            with open(fpath, "w") as f:
+                f.write("anki sync dummy")
+        os.remove(fpath)
 
     def accept(self):
         self.updateConfig()
