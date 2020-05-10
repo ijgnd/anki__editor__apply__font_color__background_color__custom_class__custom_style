@@ -8,12 +8,11 @@ import pickle
 import json
 from pprint import pprint as pp
 
-from aqt import mw
-from aqt.qt import *
-from aqt import editor
-from aqt.editor import Editor
 from anki.hooks import wrap, addHook
 from anki.utils import json
+from aqt import mw
+from aqt import editor
+from aqt.editor import Editor
 from aqt.utils import showInfo, tooltip
 
 from .config import ButtonOptions
