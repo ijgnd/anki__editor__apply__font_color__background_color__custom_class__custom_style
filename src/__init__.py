@@ -27,7 +27,7 @@ from .vars import (
     user_files_folder
 )
 from .oldconfigs import update_config, get_config_from_meta_json
-from .editor_setup import prepareEditorStylesheet
+from .editor_set_css_js_for_webview import prepareEditorStylesheet
 
 
 #### config: on startup load it, then maybe update old version, save on exit
