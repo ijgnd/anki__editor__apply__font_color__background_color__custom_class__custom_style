@@ -16,7 +16,6 @@ from aqt.editor import Editor
 from aqt.utils import showInfo
 
 from .menu import additional_menu_basic, additional_menu_styled
-# from .functions import *
 from .vars import iconfolder
 
 
