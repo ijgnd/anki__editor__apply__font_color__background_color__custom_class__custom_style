@@ -45,6 +45,10 @@ from .forms import settings_class
 from .forms import settings_shortcut
 
 
+def getconfig():
+    return mw.addon_custom_class_config
+
+
 '''
 def rangy_js_str_for_class(classname):
     return f"""
@@ -55,7 +59,7 @@ def rangy_js_str_for_class(classname):
 
 def highlighter_js_code():
     js_str = "rangy.init();"
-    for e in mw.addon_custom_class_config["v3"]:
+    for e in getconfig()["v3"]:
         if e["Category"] in  ["class", "Backcolor (via class)"]:
             # class name is e["Setting"]
             js_str += rangy_js_str_for_class(e["Setting"])
@@ -68,7 +72,7 @@ def highlighter_js_code():
     # JS info /_addons/1899278645/web/rangy-core.js:10 Rangy is not supported in this environment. Reason: No body element found
 
     js_str = ""
-    for e in mw.addon_custom_class_config["v3"]:
+    for e in getconfig()["v3"]:
         if e["Category"] in  ["class", "Backcolor (via class)"]:
             js_str += f"""var {e["Setting"]}highlighter;\n"""
 
@@ -78,7 +82,7 @@ if ($('body').length) {
     rangy.init();
 """
 
-    for e in mw.addon_custom_class_config["v3"]:
+    for e in getconfig()["v3"]:
         if e["Category"] in  ["class", "Backcolor (via class)"]:
             classname = e["Setting"]
             js_str += f"""
@@ -96,15 +100,21 @@ if ($('body').length) {
 
 def get_css_for_editor_from_config():
     classes_str = ""
-    for e in mw.addon_custom_class_config["v3"]:
+    for e in getconfig()["v3"]:
         if e["Category"] in ["class"]:
             classes_str += ("." + str(e["Setting"]) +
                             "{\n" + str(e['Text_in_menu_styling']) +
                             "\n}\n\n"
+                            ".nightMode ." + str(e["Setting"]) +
+                            "{\n" + str(e['Text_in_menu_styling_nightmode']) +
+                            "\n}\n\n"
                             )
         if e["Category"] == "Backcolor (via class)":
             classes_str += ("." + str(e["Setting"]) +
-                            "{\nbackground-color: " + str(e['Text_in_menu_styling']) + "!important;" +
+                            "{\nbackground-color: " + str(e['Text_in_menu_styling']) + " !important;" +
+                            "\n}\n\n"
+                            ".nightMode ." + str(e["Setting"]) +
+                            "{\nbackground-color: " + str(e['Text_in_menu_styling_nightmode']) + " !important;" +
                             "\n}\n\n"
                             )
     return classes_str
@@ -235,6 +245,8 @@ class SettingsForClass(QDialog):
                 self.dialog.le_classname.setText(config["Setting"])
             if config["Text_in_menu_styling"]:
                 self.dialog.pte_style.insertPlainText(config["Text_in_menu_styling"])
+            if config["Text_in_menu_styling_nightmode"]:
+                self.dialog.pte_style_nm.insertPlainText(config["Text_in_menu_styling_nightmode"])
             if config["Show_in_menu"]:
                 self.dialog.cb_contextmenu_show.setChecked(True)
             if config["Text_in_menu"]:
@@ -274,6 +286,7 @@ class SettingsForClass(QDialog):
             "Show_in_menu": self.dialog.cb_contextmenu_show.isChecked(),
             "Text_in_menu":  self.dialog.le_contextmenu_text.text(),
             "Text_in_menu_styling": self.dialog.pte_style.toPlainText(),
+            "Text_in_menu_styling_nightmode": self.dialog.pte_style_nm.toPlainText(),
             "extrabutton_show": self.dialog.cb_extrabutton_show.isChecked(),
             "extrabutton_text":  self.dialog.le_extrabutton_text.text(),
             "extrabutton_tooltip":  self.dialog.le_tooltip_text.text(),
@@ -284,7 +297,6 @@ class SettingsForClass(QDialog):
         QDialog.accept(self)
 
 
-# TODO Merge with SettingsForForeBgColor (just some ifs neeeded)
 class SettingsForBgColorClass(QDialog):
     def __init__(self, parent=None, category=None, config=None):
         self.category = category
@@ -296,6 +308,7 @@ class SettingsForBgColorClass(QDialog):
         self.dialog.pb_hotkeyset.clicked.connect(self.onHotkey)
         self.hotkey = ""
         self.color = ""
+        self.color_nightmode = ""
         self.thisclass = bg_classname()
         if config:
             if "Hotkey" in config:
@@ -307,6 +320,9 @@ class SettingsForBgColorClass(QDialog):
             if "Text_in_menu_styling" in config:
                 self.color = config["Text_in_menu_styling"]
                 self.dialog.pb_color.setText(str(self.color))
+            if "Text_in_menu_styling_nightmode" in config:
+                self.color_nightmode = config["Text_in_menu_styling_nightmode"]
+                self.dialog.pb_color_nm.setText(str(self.color_nightmode))
             if config["Show_in_menu"]:
                 self.dialog.cb_contextmenu_show.setChecked(True)
             if config["Text_in_menu"]:
@@ -318,6 +334,7 @@ class SettingsForBgColorClass(QDialog):
             if config["extrabutton_tooltip"]:
                 self.dialog.le_tooltip_text.setText(config["extrabutton_tooltip"])
         self.dialog.pb_color.clicked.connect(self.getColor)
+        self.dialog.pb_color_nm.clicked.connect(self.getColor_nm)
 
     def onHotkey(self):
         h = HotkeySelect(self, self.hotkey)
@@ -331,6 +348,12 @@ class SettingsForBgColorClass(QDialog):
             self.color = new.name()
         self.dialog.pb_color.setText(str(self.color))
 
+    def getColor_nm(self):
+        new = QColorDialog.getColor(QColor(self.color_nightmode), None)
+        if new.isValid():
+            self.color_nightmode = new.name()
+        self.dialog.pb_color_nm.setText(str(self.color_nightmode))
+
     def reject(self):
         QDialog.reject(self)
 
@@ -342,6 +365,7 @@ class SettingsForBgColorClass(QDialog):
             "Show_in_menu": self.dialog.cb_contextmenu_show.isChecked(),
             "Text_in_menu":  self.dialog.le_contextmenu_text.text(),
             "Text_in_menu_styling": self.color,
+            "Text_in_menu_styling_nightmode": self.color_nightmode,
             "extrabutton_show": self.dialog.cb_extrabutton_show.isChecked(),
             "extrabutton_text":  self.dialog.le_extrabutton_text.text(),
             "extrabutton_tooltip":  self.dialog.le_tooltip_text.text(),
@@ -463,6 +487,8 @@ class AddEntry(QDialog):
         if a.exec_():
             self.newsetting = a.newsetting
             self.newsetting['Category'] = sel
+            print('self.newsetting is:-....................')
+            print(self.newsetting)
             QDialog.accept(self)
         else:
             QDialog.reject(self)
