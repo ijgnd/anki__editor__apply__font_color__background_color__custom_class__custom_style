@@ -7,20 +7,22 @@ License: GNU AGPL, version 3 or later; http://www.gnu.org/licenses/agpl.html
 Use this at your own risk
 """
 
+
+import os
 from pprint import pprint as pp
 
+from aqt import mw
 from aqt.editor import Editor
 from aqt.utils import showInfo
 
-from .menu import *
-from .functions import *
+from .menu import additional_menu_basic, additional_menu_styled
+# from .functions import *
+from .vars import iconfolder
 
-addon_path = os.path.dirname(__file__)
-iconfolder = os.path.join(addon_path, "icons")
 
 
 def makethisbutton21(editor, e, func):
-    from .color_style_class_buttons import config
+    config = mw.addon_custom_class_config
     try:
         name = e["Text_in_menu"]
         tooltip = e["extrabutton_tooltip"] + ' ' + e["Setting"]
@@ -42,7 +44,7 @@ def makethisbutton21(editor, e, func):
 
 
 def SetupShortcuts21(cuts, editor):
-    from .color_style_class_buttons import config
+    config = mw.addon_custom_class_config
     for e in config['v3']:
         if e.get("Hotkey", False):  # and not config["v2_show_in_contextmenu"]:
             func = editor.mycategories[e['Category']]
@@ -50,7 +52,7 @@ def SetupShortcuts21(cuts, editor):
 
 
 def setupButtons21(buttons, editor):
-    from .color_style_class_buttons import config
+    config = mw.addon_custom_class_config
     for e in config['v3']:
         # check if extrabutton_show is set and if True:
         if e.get('extrabutton_show', False):

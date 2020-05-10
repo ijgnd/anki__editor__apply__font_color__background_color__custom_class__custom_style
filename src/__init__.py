@@ -18,83 +18,55 @@ from aqt.utils import showInfo, tooltip
 from .config import ButtonOptions
 from .colors import hex_to_rgb_tuple, html4colors, css3colors
 from .contextmenu import add_to_context
-from .shortcuts_buttons_21 import setmycategories, setupButtons21, SetupShortcuts21
+from .functions import setmycategories
+from .shortcuts_buttons_21 import setupButtons21, SetupShortcuts21
 from .defaultconfig import defaultconfig
-from .vars import *
+from .vars import (
+    css_path,
+    picklefile,
+    user_files_folder
+)
 from .oldconfigs import update_config, get_config_from_meta_json
+from .editor_setup import prepareEditorStylesheet
 
 
-config = defaultconfig.copy()
+#### config: on startup load it, then maybe update old version, save on exit
+mw.addon_custom_class_config = defaultconfig.copy()
 
 
-def loaddict():
-    global config
+def load_conf_dict():
+    conf = mw.addon_custom_class_config
     if os.path.isfile(picklefile):
         with open(picklefile, 'rb') as PO:
             try:
-                config = pickle.load(PO)
+                conf = pickle.load(PO)
             except:
                 showInfo("Error. Settings file not readable")
     else:
         # tooltip("Settings file not found")
-        config = get_config_from_meta_json(config)
+        conf = get_config_from_meta_json(conf)
     update_style_file_in_media()  # always rewrite the file in case a new profile is used
-    config = update_config(config)
+    conf = update_config(conf)
     if not os.path.exists(user_files_folder):
         os.makedirs(user_files_folder)
 
 
-def savedict():
+def save_conf_dict():
     # prevent error after deleting add-on
     if os.path.exists(user_files_folder):
         with open(picklefile, 'wb') as PO:
-            pickle.dump(config, PO)
+            pickle.dump(mw.addon_custom_class_config, PO)
 
 
-media_dir = None
-css_path = None
 
 
-def setCssPath():
-    global media_dir
-    global css_path
-    global css_path_Customize_Editor_Stylesheet
-    media_dir = mw.col.media.dir()
-    css_path = os.path.join(media_dir, "_editor_button_styles.css")
-    css_path_Customize_Editor_Stylesheet = os.path.join(media_dir, "_editor.css")
 
 
-def prepareEditorStylesheet():
-    global config
-    global css_path
-    global css_path_Customize_Editor_Stylesheet
-    css1 = ""
-    if os.path.isfile(css_path):
-        with open(css_path, "r") as css_file:
-            css1 = css_file.read()
-    css2 = ""
-    if os.path.isfile(css_path_Customize_Editor_Stylesheet):
-        with open(css_path_Customize_Editor_Stylesheet, "r") as css_file:
-            css2 = css_file.read()
-    # TODO adjust height of buttons, maybe add option to make wider, see
-    # https://www.reddit.com/r/Anki/comments/ce9wk7/bigger_edit_icons/
-    # css2 first in case it contains @import url
-    css = css2 + "\n" + css1
-    editor_style = "<style>\n{}\n</style>".format(css.replace("%", "%%"))
-    editor._html = editor_style + editor._html
-
-
-def onEditorInit(self, *args, **kwargs):
-    """Apply modified Editor HTML"""
-    # TODO night mode
-    pass
 
 
 def update_style_file_in_media():
-    global config
-    global css_path
     classes_str = ""
-    for e in config["v3"]:
+    for e in mw.addon_custom_class_config["v3"]:
         if e["Category"] in ["class"]:
             classes_str += ("." + str(e["Setting"]) +
                             "{\n" + str(e['Text_in_menu_styling']) +
@@ -105,7 +77,7 @@ def update_style_file_in_media():
                             "{\nbackground-color: " + str(e['Text_in_menu_styling']) + ";" +
                             "\n}\n\n"
                             )
-    with open(css_path, "w") as f:
+    with open(css_path(), "w") as f:
         f.write(classes_str)
 
 
@@ -119,7 +91,7 @@ def update_all_templates():
 
 
 def onMySettings():
-    global config
+    config = mw.addon_custom_class_config
     # TODO only call settings dialog if Editor or Browser are not active
     # P: User can install "Open the same window multiple times", "Advanced Browser",
     # my "Add and reschedule" so that these are from different classes.
@@ -169,17 +141,16 @@ mw.addonManager.setConfigAction(__name__, onMySettings)
 
 
 def contextmenu():
-    global config
+    config = mw.addon_custom_class_config
     if config.get("v2_show_in_contextmenu", False):
         addHook("EditorWebView.contextMenuEvent", add_to_context)
 
-addHook("profileLoaded", setCssPath)
-addHook("profileLoaded", loaddict)
-addHook('unloadProfile', savedict)
-addHook("profileLoaded", lambda: setmycategories(Editor))
+
+addHook("profileLoaded", load_conf_dict)
+addHook('unloadProfile', save_conf_dict)
+
 addHook("profileLoaded", contextmenu)
 addHook("setupEditorButtons", setupButtons21)
 addHook("setupEditorShortcuts", SetupShortcuts21)
-
+addHook("profileLoaded", lambda: setmycategories(Editor))
 addHook("profileLoaded", prepareEditorStylesheet)
-# Editor.__init__ = wrap(Editor.__init__, onEditorInit, "after")

@@ -9,6 +9,7 @@ Use this at your own risk
 
 import json
 
+from anki.hooks import addHook
 from anki.utils import (
     isMac,
     isWin,
@@ -24,7 +25,7 @@ def setmycategories(editor):
         'Backcolor (via class)': editor.my_apply_span_class,
         'Forecolor': editor.setForecolor,
     }
-Editor.setmycategories = setmycategories
+
 
 
 def setBackcolor(editor, color):

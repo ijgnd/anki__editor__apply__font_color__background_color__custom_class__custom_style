@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import (
     QWidgetAction,
 )
 
+from aqt import mw
 from aqt.editor import Editor, EditorWebView
 #from aqt.qt import *
 
@@ -54,7 +55,7 @@ def co_return_stylesheet(e):
 
 
 def co_my_label_text(_dict, fmt):
-    from .color_style_class_buttons import config
+    config = mw.addon_custom_class_config
     totallength = config['maxname'] + config['maxshortcut'] + 3
     remaining = totallength - len(_dict.get("Hotkey", 0))
     t1 = _dict.get("Text_in_menu", "Variable Text_in_menu missing")
@@ -99,7 +100,7 @@ def co_create_menu_entry(view, e, parentmenu):
 
 
 def add_to_context_styled(view, menu):
-    from .color_style_class_buttons import config
+    config = mw.addon_custom_class_config
     menu.addSeparator()
 
     cmbg, cmbgc, cmfc, cmst, cmcl = "", "", "", "", ""
@@ -121,7 +122,7 @@ def add_to_context_styled(view, menu):
 
 
 def add_to_context_unstyled(view, menu):
-    from .color_style_class_buttons import config
+    config = mw.addon_custom_class_config
     menu.addSeparator()
 
     cmbg, cmbgc, cmfc, cmst, cmcl = "", "", "", "", ""
@@ -147,7 +148,7 @@ def add_to_context_unstyled(view, menu):
 
 
 def add_to_context(view, menu):
-    from .color_style_class_buttons import config
+    config = mw.addon_custom_class_config
     if config["v2_menu_styling"]:
         add_to_context_styled(view, menu)
     else:
