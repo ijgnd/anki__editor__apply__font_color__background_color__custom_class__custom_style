@@ -104,7 +104,7 @@ def get_css_for_editor_from_config():
                             )
         if e["Category"] == "Backcolor (via class)":
             classes_str += ("." + str(e["Setting"]) +
-                            "{\nbackground-color: " + str(e['Text_in_menu_styling']) + ";" +
+                            "{\nbackground-color: " + str(e['Text_in_menu_styling']) + "!important;" +
                             "\n}\n\n"
                             )
     return classes_str
