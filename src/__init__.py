@@ -15,7 +15,7 @@ from aqt import editor
 from aqt.editor import Editor
 from aqt.utils import showInfo, tooltip
 
-from .config import ButtonOptions
+from .config import ButtonOptions, get_css_for_editor_from_config
 from .colors import hex_to_rgb_tuple, html4colors, css3colors
 from .contextmenu import add_to_context
 from .editor_apply_styling_functions import setmycategories
@@ -27,7 +27,11 @@ from .vars import (
     user_files_folder
 )
 from .oldconfigs import update_config, get_config_from_meta_json
-from .editor_set_css_js_for_webview import prepareEditorStylesheet
+from .editor_set_css_js_for_webview import set_css_js_for_editor
+
+
+regex = r"(web.*)"
+mw.addonManager.setWebExports(__name__, regex)
 
 
 #### config: on startup load it, then maybe update old version, save on exit
@@ -58,25 +62,8 @@ def save_conf_dict():
             pickle.dump(mw.addon_custom_class_config, PO)
 
 
-
-
-
-
-
-
 def update_style_file_in_media():
-    classes_str = ""
-    for e in mw.addon_custom_class_config["v3"]:
-        if e["Category"] in ["class"]:
-            classes_str += ("." + str(e["Setting"]) +
-                            "{\n" + str(e['Text_in_menu_styling']) +
-                            "\n}\n\n"
-                            )
-        if e["Category"] == "Backcolor (via class)":
-            classes_str += ("." + str(e["Setting"]) +
-                            "{\nbackground-color: " + str(e['Text_in_menu_styling']) + ";" +
-                            "\n}\n\n"
-                            )
+    classes_str = get_css_for_editor_from_config()
     with open(css_path(), "w") as f:
         f.write(classes_str)
 
@@ -153,4 +140,4 @@ addHook("profileLoaded", contextmenu)
 addHook("setupEditorButtons", setupButtons)
 addHook("setupEditorShortcuts", SetupShortcuts)
 addHook("profileLoaded", lambda: setmycategories(Editor))
-addHook("profileLoaded", prepareEditorStylesheet)
+addHook("profileLoaded", set_css_js_for_editor)

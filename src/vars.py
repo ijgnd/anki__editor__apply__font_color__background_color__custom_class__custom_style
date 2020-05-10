@@ -1,14 +1,21 @@
 import os
 
+from anki import version as anki_version
+
 from aqt import mw
 
+old_anki = tuple(int(i) for i in anki_version.split(".")) < (2, 1, 20)
 addon_path = os.path.dirname(__file__)
+addon_folder_name = os.path.basename(addon_path)
+web_absolute = os.path.join(addon_path, "web")
+js_to_append = [os.path.basename(f) for f in os.listdir(web_absolute) if f.endswith(".js")]
 iconfolder = os.path.join(addon_path, "icons")
 # don't use settings/meta.json to make it easier to save multiline values
 user_files_folder = os.path.join(addon_path, "user_files")
 picklefile = os.path.join(user_files_folder, "settings.pypickle")
 mjfile = os.path.join(addon_path, "meta.json")
 addonname = "editor: apply font color, background color custom class, custom style"   
+
 
 
 # I use a function because mw.col.media.dir() only works after the profile is loaded

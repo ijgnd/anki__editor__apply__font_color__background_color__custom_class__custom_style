@@ -68,7 +68,8 @@ Editor.my_apply_style = my_apply_style
 
 def my_apply_span_class(editor, _class):
     selected = editor.web.selectedText()
-    styled = "".join(['<span class="{}">'.format(_class), selected, '</span>'])
-    editor.web.eval("document.execCommand('inserthtml', false, %s);"
-                    % json.dumps(styled))
+    # styled = "".join(['<span class="{}">'.format(_class), selected, '</span>'])
+    # editor.web.eval("document.execCommand('inserthtml', false, %s);"
+    #                 % json.dumps(styled))
+    editor.web.eval(f"""{_class}highlighter.highlightSelection('{_class}');""")
 Editor.my_apply_span_class = my_apply_span_class
