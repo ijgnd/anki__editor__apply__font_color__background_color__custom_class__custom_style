@@ -27,7 +27,7 @@ from .vars import (
     user_files_folder
 )
 from .check_config import update_config, get_config_from_meta_json
-from .editor_set_css_js_for_webview import set_css_js_for_editor
+from . import editor_set_css_js_for_webview
 
 
 regex = r"(web.*)"
@@ -140,4 +140,3 @@ addHook("profileLoaded", contextmenu)
 addHook("setupEditorButtons", setupButtons)
 addHook("setupEditorShortcuts", SetupShortcuts)
 addHook("profileLoaded", lambda: setmycategories(Editor))
-addHook("profileLoaded", set_css_js_for_editor)
