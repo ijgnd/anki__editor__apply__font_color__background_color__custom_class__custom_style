@@ -38,6 +38,7 @@ from aqt.utils import (
 from .defaultconfig import defaultconfig
 from .forms import settings_main_widgets
 from .forms import settings_select_category
+from .forms import settings_bgcolor_class
 from .forms import settings_forecolor_bgcolor
 from .forms import settings_style
 from .forms import settings_class
@@ -225,7 +226,7 @@ class SettingsForBgColorClass(QDialog):
         self.config = config
         self.parent = parent
         QDialog.__init__(self, parent, Qt.Window)
-        self.dialog = settings_forecolor_bgcolor.Ui_Dialog()
+        self.dialog = settings_bgcolor_class.Ui_Dialog()
         self.dialog.setupUi(self)
         self.dialog.pb_hotkeyset.clicked.connect(self.onHotkey)
         self.hotkey = ""
@@ -374,7 +375,7 @@ class AddEntry(QDialog):
         QDialog.__init__(self, parent, Qt.Window)
         self.dialog = settings_select_category.Ui_Dialog()
         self.dialog.setupUi(self)
-        l = ["Backcolor (inline)", "Backcolor (via class)", "Forecolor", "class", "style"]
+        l = ["Backcolor (via class)", "Forecolor", "class"]
         self.dialog.list_categories.addItems(l)
         self.dialog.list_categories.itemDoubleClicked.connect(self.accept)
 
@@ -383,15 +384,12 @@ class AddEntry(QDialog):
 
     def accept(self):
         sel = self.dialog.list_categories.currentItem().text()
-        if sel in ["Backcolor (inline)", "style"]:
+        if sel in ["Backcolor (inline)", "style"]:  # this can no longer be True in 2020-05
             text = ("In Anki 2.1 when you copy text from one field to another "
                     "Anki will remove the background color and styles. "
                     "\n\nThis is not just a limitation of this add-on. The same "
                     "applies e.g. to the background color function of the "
                     "add-on 'Mini Format Pack'. "
-                    "On the other hand when trying to apply the background color "
-                    "to text that belongs to different html tags like a heading and "
-                    "regular text the wrapping in a class will not work."
                     "\n\nContinue?"
                     )
             if not askUser(text):
