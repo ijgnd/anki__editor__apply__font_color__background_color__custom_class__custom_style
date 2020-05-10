@@ -63,9 +63,6 @@ def my_apply_style(editor, style):
     styled = "".join(['<span style="{}">'.format(style), selected, '</span>'])
     editor.web.eval("document.execCommand('inserthtml', false, %s);"
                     % json.dumps(styled))
-    # before = """<span style="{}">""".format(style)
-    # after = """</span>"""
-    # editor.web.eval("wrap('{}', '{}');".format(before, after))
 Editor.my_apply_style = my_apply_style
 
 
