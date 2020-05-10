@@ -1,4 +1,5 @@
-# License: AGPLv3
+# Copyright:  (c) 2019- ignd
+# License: GNU AGPL, version 3 or later; http://www.gnu.org/licenses/agpl.html
 
 import random
 import os
@@ -9,8 +10,7 @@ from pprint import pprint as pp
 from collections import OrderedDict
 
 from aqt import mw
-# from aqt.qt import (
-# )
+
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import (
     QColor,

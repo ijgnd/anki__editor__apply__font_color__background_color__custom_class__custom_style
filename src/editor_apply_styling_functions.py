@@ -7,6 +7,7 @@ License: GNU AGPL, version 3 or later; http://www.gnu.org/licenses/agpl.html
 Use this at your own risk
 """
 
+
 import json
 
 from anki.hooks import addHook
