@@ -156,6 +156,8 @@ def autogenerate_config_values_for_menus(config):
                 config['maxname'] = max(config['maxname'], len(e["Text_in_menu"]))
                 if e['Category'] == "class (other)" and e["Target group in menu"]:
                     thisgroup = e["Target group in menu"]
+                if e['Category'] == "text wrapper" and e["Target group in menu"]:
+                    thisgroup = e["Target group in menu"]
                 else:
                     thisgroup = e['Category']
                 if thisgroup not in config['context_menu_groups']:

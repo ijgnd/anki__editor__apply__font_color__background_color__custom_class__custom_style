@@ -170,5 +170,31 @@ defaultconfig = {
             "extrabutton_text": "130",
             "extrabutton_tooltip": "set font size to 130%"
         },
+        {
+            "Category": "text wrapper",
+            "Hotkey": "Alt+shift+7",
+            "Setting": "[[91cb101665994f66a728db9aa0a4294a]]",
+            "Show_in_menu": True,
+            "Target group in menu": "set randomizer",
+            "Text_in_menu": "[[]]",
+            "Text_in_menu_styling": "[[",
+            "Text_in_menu_styling_nightmode": "]]",
+            "extrabutton_show": False,
+            "extrabutton_text": "[]",
+            "extrabutton_tooltip": "Surround with double square brackets"
+        },
+        {
+            "Category": "text wrapper",
+            "Hotkey": "Alt+shift+8",
+            "Setting": "[[$pick(91cb101665994f66a728db9aa0a4294a)]]",
+            "Show_in_menu": True,
+            "Target group in menu": "set randomizer",
+            "Text_in_menu": "[[$pick(..)]]",
+            "Text_in_menu_styling": "[[$pick(",
+            "Text_in_menu_styling_nightmode": ")]]",
+            "extrabutton_show": False,
+            "extrabutton_text": "rtb",
+            "extrabutton_tooltip": "sr: pick"
+        }
     ]
 } 

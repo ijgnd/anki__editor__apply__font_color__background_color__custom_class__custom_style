@@ -15,6 +15,7 @@ mjfile = os.path.join(addon_path, "meta.json")
 addonname = "editor: apply font color, background color custom class, custom style"
 ankiwebpage = "https://ankiweb.net/shared/info/1899278645"
 
+unique_string = "91cb101665994f66a728db9aa0a4294a"
 
 
 # I use a function because mw.col.media.dir() only works after the profile is loaded

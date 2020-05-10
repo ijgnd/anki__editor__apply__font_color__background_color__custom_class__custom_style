@@ -37,6 +37,8 @@ from aqt.utils import (
     tooltip
 )
 
+from .vars import unique_string
+
 from .defaultconfig import defaultconfig
 from .forms import settings_main_widgets
 from .forms import settings_select_category
@@ -46,6 +48,7 @@ from .forms import settings_forecolor_bgcolor
 from .forms import settings_style
 from .forms import settings_class
 from .forms import settings_shortcut
+from .forms import settings_textwrapper
 
 
 def bg_classname():
@@ -212,6 +215,72 @@ class SettingsForFont(QDialog):
             "extrabutton_text":  self.dialog.le_extrabutton_text.text(),
             "extrabutton_tooltip":  self.dialog.le_tooltip_text.text(),
         }
+        QDialog.accept(self)
+
+
+
+class SettingsForTextWrapper(QDialog):
+    def __init__(self, parent=None, config=None):
+        self.parent = parent
+        self.config = config
+        QDialog.__init__(self, parent, Qt.Window)
+        self.dialog = settings_textwrapper.Ui_Dialog()
+        self.dialog.setupUi(self)
+        self.dialog.pb_hotkeyset.clicked.connect(self.onHotkey)
+        self.hotkey = ""
+        self.menuentry = ""
+        if config:
+            if config["Hotkey"]:
+                self.hotkey = config["Hotkey"]
+                self.dialog.pb_hotkeyset.setText(self.hotkey)
+            if config["Target group in menu"]:
+                self.dialog.le_menu_group.setText(config["Target group in menu"])
+            if config["Text_in_menu_styling"]:
+                self.dialog.pte_before.insertPlainText(config["Text_in_menu_styling"])
+            if config["Text_in_menu_styling_nightmode"]:
+                self.dialog.pte_after.insertPlainText(config["Text_in_menu_styling_nightmode"])
+            if config["Show_in_menu"]:
+                self.dialog.cb_contextmenu_show.setChecked(True)
+            if config["Text_in_menu"]:
+                self.dialog.le_contextmenu_text.setText(config["Text_in_menu"])
+            if config["extrabutton_show"]:
+                self.dialog.cb_extrabutton_show.setChecked(True)
+            if config["extrabutton_text"]:
+                self.dialog.le_extrabutton_text.setText(config["extrabutton_text"])
+            if config["extrabutton_tooltip"]:
+                self.dialog.le_tooltip_text.setText(config["extrabutton_tooltip"])
+
+    def onHotkey(self):
+        h = HotkeySelect(self, self.hotkey)
+        if h.exec_():
+            self.hotkey = h.hotkey
+            self.dialog.pb_hotkeyset.setText(self.hotkey)
+
+    def reject(self):
+        QDialog.reject(self)
+
+    def accept(self):
+        # originally "Setting" was used for the foreground or background color. The value for 
+        # "Setting" is used when clicking a menu/button or shortcut. So before/after must be
+        # in "Setting"
+        bef = self.dialog.pte_before.toPlainText()
+        aft = self.dialog.pte_after.toPlainText()
+        self.newsetting = {
+            "Category": "text wrapper",
+            "Hotkey": self.hotkey,
+            "Setting": bef + unique_string + aft, 
+            "Show_in_menu": self.dialog.cb_contextmenu_show.isChecked(),
+            "Target group in menu": self.dialog.le_menu_group.text(),
+            "Text_in_menu":  self.dialog.le_contextmenu_text.text(),
+            "Text_in_menu_styling": bef,
+            "Text_in_menu_styling_nightmode": aft,
+            "extrabutton_show": self.dialog.cb_extrabutton_show.isChecked(),
+            "extrabutton_text":  self.dialog.le_extrabutton_text.text(),
+            "extrabutton_tooltip":  self.dialog.le_tooltip_text.text(),
+        }
+        if self.config:   # new entries don't have this entry yet
+            if "Category" in self.config:
+                self.newsetting["Category"] = self.config["Category"]
         QDialog.accept(self)
 
 
@@ -434,10 +503,12 @@ def gui_dialog(inst, sel=None, config=None):
         return SettingsForFgBgColorClass(inst, sel, config)
     if sel == "font size (via class)":
         return SettingsForFont(inst, sel, config)
-    elif sel == "style":
+    if sel == "style":
         return SettingsForStyle(inst, config)
-    elif sel == "class (other)":
+    if sel == "class (other)":
         return SettingsForClass(inst, config)
+    if sel == "text wrapper":
+        return SettingsForTextWrapper(inst, config)
     else:
         text = ("Error in config of add-on 'editor: apply font "
                 "color, background color, custom class, custom style'"

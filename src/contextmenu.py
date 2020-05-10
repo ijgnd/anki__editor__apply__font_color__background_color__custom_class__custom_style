@@ -44,6 +44,8 @@ def co_return_stylesheet(e):
     elif e['Category'] == 'Forecolor (via class)':
         thiscolor = co_hex_to_rgb(e['Text_in_menu_styling'])
         line1 = "color: rgba({}); ".format(thiscolor)
+    elif e['Category'] == 'text wrapper':
+        line1 = ""
     else:
         line1 = e['Text_in_menu_styling']
 
@@ -124,7 +126,7 @@ def add_to_context_styled(view, menu):
         groups[i] = menu.addMenu(i)
     for row in config['v3']:
         if row.get('Show_in_menu', True):
-            if row['Category'] == "class (other)":
+            if row['Category'] in ["class (other)", "text wrapper"]:
                 if row["Target group in menu"]:
                     submenu = groups[row['Target group in menu']]
                 else:

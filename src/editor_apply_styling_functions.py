@@ -17,6 +17,8 @@ from anki.utils import (
 )
 from aqt.editor import Editor
 
+from .vars import unique_string
+
 
 def setmycategories(editor):
     editor.mycategories = {
@@ -27,7 +29,15 @@ def setmycategories(editor):
         "Forecolor": editor.setForecolor,
         "Forecolor (via class)": editor.my_apply_span_class,
         "font size (via class)": editor.my_apply_span_class,
+        "text wrapper": editor.my_wrap_helper,
     }
+
+
+def my_wrap_helper(editor, beforeAfter):
+    before, after = beforeAfter.split(unique_string)
+    # editor.web.eval(f"wrap('{before}', '{after}');")
+    editor.web.eval(f"wrap({json.dumps(before)}, {json.dumps(after)});")
+Editor.my_wrap_helper = my_wrap_helper
 
 
 def setBackcolor(editor, color):
