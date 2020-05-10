@@ -27,7 +27,7 @@ from .vars import (
     picklefile,
     user_files_folder
 )
-from .check_config import (
+from .adjust_config import (
     autogenerate_config_values_for_menus, 
     read_and_update_old_v2_config_from_meta_json,
 )
