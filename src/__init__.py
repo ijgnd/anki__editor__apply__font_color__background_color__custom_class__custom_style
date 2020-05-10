@@ -27,8 +27,12 @@ from .vars import (
     picklefile,
     user_files_folder
 )
-from .check_config import update_config, get_config_from_meta_json
+from .check_config import (
+    autogenerate_config_values_for_menus, 
+    read_and_update_old_v2_config_from_meta_json,
+)
 from . import editor_set_css_js_for_webview
+
 
 
 regex = r"(web.*)"
@@ -49,8 +53,8 @@ def load_conf_dict():
                 showInfo("Error. Settings file not readable")
     else:
         # tooltip("Settings file not found")
-        config = get_config_from_meta_json(config)
-    config = update_config(config)
+        config = read_and_update_old_v2_config_from_meta_json(config)
+    config = autogenerate_config_values_for_menus(config)
     mw.col.set_config("1899278645_config", config)
     update_style_file_in_media()  # always rewrite the file in case a new profile is used
     if not os.path.exists(user_files_folder):
@@ -86,7 +90,7 @@ def onMySettings():
     # tooltip('Close all Browser, Add, Editcurrent windows.')
     dialog = ButtonOptions(getconfig())
     if dialog.exec_():
-        new = update_config(dialog.config)
+        new = autogenerate_config_values_for_menus(dialog.config)
         mw.col.set_config("1899278645_config", new)
         update_style_file_in_media()
         if dialog.update_all_templates:
