@@ -5,11 +5,12 @@ from pprint import pprint as pp
 
 from aqt import mw
 
-config = {}
+from . import config_var
 
 
 def getconfig():
-    return mw.col.get_config("1899278645_config")
+    #return mw.col.get_config("1899278645_config")
+    return config_var.myconfig
 
 
 '''

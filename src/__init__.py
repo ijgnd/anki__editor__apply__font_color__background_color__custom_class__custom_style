@@ -68,6 +68,7 @@ from aqt.utils import showInfo, tooltip
 
 from .config_change_guis import ButtonOptions
 from .config import get_css_for_editor_from_config, getconfig
+from . import config_var
 from .colors import hex_to_rgb_tuple, html4colors, css3colors
 from .contextmenu import add_to_context
 from .editor_apply_styling_functions import setmycategories
@@ -93,7 +94,7 @@ mw.addonManager.setWebExports(__name__, regex)
 
 
 #### config: on startup load it, then maybe update old version, save on exit
-
+config_var.init()
 
 
 def load_conf_dict():
@@ -109,9 +110,9 @@ def load_conf_dict():
         config = read_and_update_old_v2_config_from_meta_json(config)
     config = update_config_for_202005(config)
     config = autogenerate_config_values_for_menus(config)
-    mw.col.set_config("1899278645_config", config)
+    # mw.col.set_config("1899278645_config", config)
+    config_var.myconfig = config
     update_style_file_in_media()  # always rewrite the file in case a new profile is used
-    pp(config)
     if not os.path.exists(user_files_folder):
         os.makedirs(user_files_folder)
 
@@ -146,7 +147,8 @@ def onMySettings():
     dialog = ButtonOptions(getconfig())
     if dialog.exec_():
         new = autogenerate_config_values_for_menus(dialog.config)
-        mw.col.set_config("1899278645_config", new)
+        # mw.col.set_config("1899278645_config", new)
+        config_var.myconfig
         update_style_file_in_media()
         if dialog.update_all_templates:
             update_all_templates()
