@@ -142,6 +142,32 @@ defaultconfig = {
             "extrabutton_show": False,
             "extrabutton_text": "br",
             "extrabutton_tooltip": "apply class 'bold_red'"
-        }
+        },
+        {
+            "Category": "font size (via class)",
+            "Hotkey": "Alt+shift+4",
+            "Setting": "font_size_80",
+            "Show_in_menu": True,
+            "Target group in menu": "",
+            "Text_in_menu": "font size 80%",
+            "Text_in_menu_styling": "80%",
+            "Text_in_menu_styling_nightmode": "",
+            "extrabutton_show": False,
+            "extrabutton_text": "80",
+            "extrabutton_tooltip": "set font size to 80%"
+        },
+        {
+            "Category": "font size (via class)",
+            "Hotkey": "Alt+shift+5",
+            "Setting": "font_size_130",
+            "Show_in_menu": True,
+            "Target group in menu": "",
+            "Text_in_menu": "bigger font",
+            "Text_in_menu_styling": "130%",
+            "Text_in_menu_styling_nightmode": "",
+            "extrabutton_show": False,
+            "extrabutton_text": "130",
+            "extrabutton_tooltip": "set font size to 130%"
+        },
     ]
 } 

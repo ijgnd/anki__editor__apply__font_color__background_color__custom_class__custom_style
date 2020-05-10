@@ -55,6 +55,17 @@ def co_return_stylesheet(e):
         padding-left: 5px;
         }}
     """.format(line1)
+
+    # TODO
+    if e['Category'] == 'font size (via class)':
+        stylesheet = """QLabel {{
+            font-size: {};
+            padding-top: 7px;
+            padding-bottom: 7px;
+            padding-right: 5px;
+            padding-left: 5px;
+            }}
+        """.format(e['Text_in_menu_styling'])
     return stylesheet
 
 

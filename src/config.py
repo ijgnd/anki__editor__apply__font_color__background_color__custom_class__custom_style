@@ -27,13 +27,21 @@ def highlighter_js_code():
 '''
 
 
+uses_classes = [
+    "class (other)",
+    "Backcolor (via class)",
+    "Forecolor (via class)",
+    "font size (via class)",
+]
+
+
 def highlighter_js_code():
     # workaround for error with checkExist
     # JS info /_addons/1899278645/web/rangy-core.js:10 Rangy is not supported in this environment. Reason: No body element found
 
     js_str = ""
     for e in getconfig()["v3"]:
-        if e["Category"] in  ["class (other)", "Backcolor (via class)", "Forecolor (via class)"]:
+        if e["Category"] in uses_classes:
             js_str += f"""var {e["Setting"]}highlighter;\n"""
 
     js_str += """
@@ -43,7 +51,7 @@ if ($('body').length) {
 """
 
     for e in getconfig()["v3"]:
-        if e["Category"] in  ["class (other)", "Backcolor (via class)", "Forecolor (via class)"]:
+        if e["Category"] in uses_classes:
             classname = e["Setting"]
             js_str += f"""
 {classname}highlighter = rangy.createHighlighter();
@@ -83,6 +91,11 @@ def get_css_for_editor_from_config():
                             "\n}\n\n"
                             ".nightMode ." + str(e["Setting"]) +
                             "{\ncolor: " + str(e['Text_in_menu_styling_nightmode']) + " !important;" +
+                            "\n}\n\n"
+                            )
+        if e["Category"] in ["font size (via class)"]:
+            classes_str += ("." + str(e["Setting"]) +
+                            "{\nfont-size: " + str(e['Text_in_menu_styling']) + " !important;" +
                             "\n}\n\n"
                             )
     return classes_str
