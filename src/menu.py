@@ -18,6 +18,7 @@ from PyQt5.QtWidgets import (
     QWidgetAction
 )
 
+from aqt import mw
 from anki.hooks import addHook
 from aqt.editor import Editor
 #from aqt.qt import *
