@@ -9,7 +9,24 @@ from pprint import pprint as pp
 from collections import OrderedDict
 
 from aqt import mw
-from aqt.qt import *
+# from aqt.qt import (
+# )
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import (
+    QColor,
+    QCursor,
+) 
+from PyQt5.QtWidgets import (
+    QAbstractItemView,
+    QAbstractScrollArea,
+    QColorDialog,
+    QDialog,
+    QHeaderView,
+    QMenu,
+    QTableView,
+    QTableWidgetItem,
+)
+
 from aqt.utils import (
     askUser,
     getFile,
