@@ -24,6 +24,7 @@ def setmycategories(editor):
         'Backcolor (inline)': editor.setBackcolor,
         'Backcolor (via class)': editor.my_apply_span_class,
         'Forecolor': editor.setForecolor,
+        'Forecolor (via class)': editor.my_apply_span_class,
     }
 
 

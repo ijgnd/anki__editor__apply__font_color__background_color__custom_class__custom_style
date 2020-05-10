@@ -1,3 +1,5 @@
+from pprint import pprint as pp
+
 from aqt import mw
 
 config = {}
@@ -31,7 +33,7 @@ def highlighter_js_code():
 
     js_str = ""
     for e in getconfig()["v3"]:
-        if e["Category"] in  ["class", "Backcolor (via class)"]:
+        if e["Category"] in  ["class", "Backcolor (via class)", "Forecolor (via class)"]:
             js_str += f"""var {e["Setting"]}highlighter;\n"""
 
     js_str += """
@@ -41,7 +43,7 @@ if ($('body').length) {
 """
 
     for e in getconfig()["v3"]:
-        if e["Category"] in  ["class", "Backcolor (via class)"]:
+        if e["Category"] in  ["class", "Backcolor (via class)", "Forecolor (via class)"]:
             classname = e["Setting"]
             js_str += f"""
 {classname}highlighter = rangy.createHighlighter();
@@ -67,12 +69,20 @@ def get_css_for_editor_from_config():
                             "{\n" + str(e['Text_in_menu_styling_nightmode']) +
                             "\n}\n\n"
                             )
-        if e["Category"] == "Backcolor (via class)":
+        if e["Category"] in ["Backcolor (via class)"]:
             classes_str += ("." + str(e["Setting"]) +
                             "{\nbackground-color: " + str(e['Text_in_menu_styling']) + " !important;" +
                             "\n}\n\n"
                             ".nightMode ." + str(e["Setting"]) +
                             "{\nbackground-color: " + str(e['Text_in_menu_styling_nightmode']) + " !important;" +
+                            "\n}\n\n"
+                            )
+        if e["Category"] in ["Forecolor (via class)"]:
+            classes_str += ("." + str(e["Setting"]) +
+                            "{\ncolor: " + str(e['Text_in_menu_styling']) + " !important;" +
+                            "\n}\n\n"
+                            ".nightMode ." + str(e["Setting"]) +
+                            "{\ncolor: " + str(e['Text_in_menu_styling_nightmode']) + " !important;" +
                             "\n}\n\n"
                             )
     return classes_str

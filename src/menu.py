@@ -55,6 +55,9 @@ def return_stylesheet(editor, e):
     elif e['Category'] == 'Forecolor':
         thiscolor = hex_to_rgb_string(e['Setting'])
         line1 = "color: rgba({}); ".format(thiscolor)
+    elif e['Category'] == 'Forecolor (via class)':
+        thiscolor = co_hex_to_rgb(e['Text_in_menu_styling'])
+        line1 = "color: rgba({}); ".format(thiscolor)
     else:
         line1 = e['Text_in_menu_styling']
 

@@ -1,8 +1,8 @@
 import os
 
+from aqt import gui_hooks
 from aqt import mw
 from aqt.editor import Editor
-
 
 from .vars import (
     addon_folder_name,
@@ -26,6 +26,6 @@ def append_css_to_Editor(web_content, context):
         web_content.head += f"""\n<style>\n{get_css_for_editor_from_config()}\n</style>\n"""
 
 
-from aqt import gui_hooks
+
 gui_hooks.webview_will_set_content.append(append_js_to_Editor)
 gui_hooks.webview_will_set_content.append(append_css_to_Editor)

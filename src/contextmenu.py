@@ -40,6 +40,9 @@ def co_return_stylesheet(e):
     elif e['Category'] == 'Forecolor':
         thiscolor = co_hex_to_rgb(e['Setting'])
         line1 = "color: rgba({}); ".format(thiscolor)
+    elif e['Category'] == 'Forecolor (via class)':
+        thiscolor = co_hex_to_rgb(e['Text_in_menu_styling'])
+        line1 = "color: rgba({}); ".format(thiscolor)
     else:
         line1 = e['Text_in_menu_styling']
 
@@ -104,53 +107,20 @@ def add_to_context_styled(view, menu):
     config = getconfig()
     menu.addSeparator()
 
-    cmbg, cmbgc, cmfc, cmst, cmcl = "", "", "", "", ""
-    groups = {
-        'Backcolor (inline)': cmbg,
-        'Backcolor (via class)': cmbgc,
-        'Forecolor': cmfc,
-        'style': cmst,
-        'class': cmcl,
-    }
+    groups = {}
     for i in config['context_menu_groups']:
         groups[i] = menu.addMenu(i)
-
-    for e in config['v3']:
-        if e.get('Show_in_menu', True):
-            relevantgroup = groups[e['Category']]
-            relevantgroup.addAction(co_create_menu_entry(view, e, relevantgroup))
-    # menu.exec_(QCursor.pos())
-
-
-def add_to_context_unstyled(view, menu):
-    config = getconfig()
-    menu.addSeparator()
-
-    cmbg, cmbgc, cmfc, cmst, cmcl = "", "", "", "", ""
-    groups = {
-        'Backcolor (inline)': cmbg,
-        'Forecolor': cmfc,
-        'Backcolor (via class)': cmbgc,
-        'style': cmst,
-        'class': cmcl,
-    }
-    for i in config['context_menu_groups']:
-        groups[i] = menu.addMenu(i)
-
-    for e in config['v3']:
-        if e.get('Show_in_menu', False):
-            text = co_my_label_text(e, False)
-            relevantgroup = groups[e['Category']]
-            a = relevantgroup.addAction(text)
-            cat = e["Category"]
-            se = e.get("Setting", e.get("Category", False))
-            a.triggered.connect(lambda _, a=cat, b=se: co_my_highlight_helper(view, a, b))
-            # a.setShortcutVisibleInContextMenu(True)
+    for row in config['v3']:
+        if row.get('Show_in_menu', True):
+            if row['Category'] == "class":
+                if row["Target group in menu"]:
+                    submenu = groups[row['Target group in menu']]
+                else:
+                    submenu = groups[row['Category']]
+            else:
+                submenu = groups[row['Category']]
+            submenu.addAction(co_create_menu_entry(view, row, submenu))
 
 
 def add_to_context(view, menu):
-    config = getconfig()
-    if config["v2_menu_styling"]:
-        add_to_context_styled(view, menu)
-    else:
-        add_to_context_unstyled(view, menu)
+    add_to_context_styled(view, menu)

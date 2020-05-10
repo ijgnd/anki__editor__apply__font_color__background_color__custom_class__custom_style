@@ -31,6 +31,8 @@ from aqt.utils import (
     askUser,
     getFile,
     getSaveFile,
+    restoreGeom,
+    saveGeom,
     showInfo,
     tooltip
 )
@@ -38,7 +40,7 @@ from aqt.utils import (
 from .defaultconfig import defaultconfig
 from .forms import settings_main_widgets
 from .forms import settings_select_category
-from .forms import settings_bgcolor_class
+from .forms import settings_forecolor_bgcolor_class
 from .forms import settings_forecolor_bgcolor
 from .forms import settings_style
 from .forms import settings_class
@@ -161,13 +163,15 @@ class SettingsForClass(QDialog):
         self.dialog.setupUi(self)
         self.dialog.pb_hotkeyset.clicked.connect(self.onHotkey)
         self.hotkey = ""
-        self.color = ""
+        self.menuentry = ""
         if config:
             if config["Hotkey"]:
                 self.hotkey = config["Hotkey"]
                 self.dialog.pb_hotkeyset.setText(self.hotkey)
             if config["Setting"]:
                 self.dialog.le_classname.setText(config["Setting"])
+            if config["Target group in menu"]:
+                self.dialog.le_menu_group.setText(config["Target group in menu"])
             if config["Text_in_menu_styling"]:
                 self.dialog.pte_style.insertPlainText(config["Text_in_menu_styling"])
             if config["Text_in_menu_styling_nightmode"]:
@@ -209,6 +213,7 @@ class SettingsForClass(QDialog):
             "Hotkey": self.hotkey,
             "Setting": self.dialog.le_classname.text(),
             "Show_in_menu": self.dialog.cb_contextmenu_show.isChecked(),
+            "Target group in menu": self.dialog.le_menu_group.text(),
             "Text_in_menu":  self.dialog.le_contextmenu_text.text(),
             "Text_in_menu_styling": self.dialog.pte_style.toPlainText(),
             "Text_in_menu_styling_nightmode": self.dialog.pte_style_nm.toPlainText(),
@@ -222,13 +227,13 @@ class SettingsForClass(QDialog):
         QDialog.accept(self)
 
 
-class SettingsForBgColorClass(QDialog):
+class SettingsForFgBgColorClass(QDialog):
     def __init__(self, parent=None, category=None, config=None):
         self.category = category
         self.config = config
         self.parent = parent
         QDialog.__init__(self, parent, Qt.Window)
-        self.dialog = settings_bgcolor_class.Ui_Dialog()
+        self.dialog = settings_forecolor_bgcolor_class.Ui_Dialog()
         self.dialog.setupUi(self)
         self.dialog.pb_hotkeyset.clicked.connect(self.onHotkey)
         self.hotkey = ""
@@ -363,8 +368,8 @@ def gui_dialog(inst, sel=None, config=None):
         sel = config['Category']
     if sel in ["Backcolor (inline)", "Forecolor"]:
         return SettingsForForeBgColor(inst, sel, config)
-    if sel in ["Backcolor (via class)"]:
-        return SettingsForBgColorClass(inst, sel, config)
+    if sel in ["Backcolor (via class)", "Forecolor (via class)"]:
+        return SettingsForFgBgColorClass(inst, sel, config)
     elif sel == "style":
         return SettingsForStyle(inst, config)
     elif sel == "class":
@@ -426,6 +431,8 @@ class ButtonOptions(QDialog):
         self.config = c
         self.bo = settings_main_widgets.Ui_Dialog()
         self.bo.setupUi(self)
+        self.bo.cb_global_contextmenu_with_styling.setParent(None)  # To make the add-on less complex I removed the option for an unstyled context menu.
+        restoreGeom(self, "class_custom_style_config_gui")
         self.setWindowTitle("Anki: Change Options for Add-on 'Buttons for Color and Style'")
         self.init_tables()
         self.init_buttons()
@@ -578,13 +585,14 @@ class ButtonOptions(QDialog):
     def init_tables(self):
         headers = [("Category", "Category"),
                    ("Hotkey", "Hotkey"),
-                   ("Class", "Class"),
-                   ("Setting", "Setting\n(Color or style/class properties)"),
+                   ("Setting", "Class"),
+                   ("Text_in_menu_styling", "Styling"),
+                   ("Text_in_menu_styling_nightmode", "Styling\n(night mode)"),
                    ("Show_in_menu", "Show in\nmenu"),
                    ("Text_in_menu", "Text in\nmenu"),
-                   ("extrabutton_show", "extrabutton\nshow"),
-                   ("extrabutton_text", "extrabutton\ntext"),
-                   ("extrabutton_tooltip", "extrabutton\ntooltip"),
+                   ("extrabutton_show", "extra\nbutton\nshow"),
+                   ("extrabutton_text", "extra\nbutton\ntext"),
+                   ("extrabutton_tooltip", "extra\nbutton\ntooltip"),
                    ]
         self.tableHeaders = OrderedDict(headers)
 
@@ -610,18 +618,14 @@ class ButtonOptions(QDialog):
         widget.setSizeAdjustPolicy(QAbstractScrollArea.AdjustToContents)
         widget.resizeColumnsToContents()
         widget.verticalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
+
         # stretch all to resize
         widget.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)  # Stretch
         # per column https://stackoverflow.com/q/38098763
-        # widget.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeToContents)
-        # widget.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeToContents)
-        # widget.horizontalHeader().setSectionResizeMode(2, QHeaderView.ResizeToContents)
         widget.horizontalHeader().setSectionResizeMode(3, QHeaderView.Stretch)
-        # widget.horizontalHeader().setSectionResizeMode(4, QHeaderView.ResizeToContents)
-        widget.horizontalHeader().setSectionResizeMode(5, QHeaderView.Stretch)
-        # widget.horizontalHeader().setSectionResizeMode(6, QHeaderView.ResizeToContents)
-        # widget.horizontalHeader().setSectionResizeMode(7, QHeaderView.ResizeToContents)
-        widget.horizontalHeader().setSectionResizeMode(8, QHeaderView.Stretch)
+        widget.horizontalHeader().setSectionResizeMode(4, QHeaderView.Stretch)
+        # widget.horizontalHeader().setSectionResizeMode(6, QHeaderView.Stretch)
+        # widget.horizontalHeader().setSectionResizeMode(9, QHeaderView.Stretch)
 
         # workaround for QTableWidget: add empty strings to all fields to make them clickable
         for i in range(len(li)):
@@ -629,23 +633,23 @@ class ButtonOptions(QDialog):
                 newitem = QTableWidgetItem(str(" "))
                 widget.setItem(j, i, newitem)
 
-        for a, b in enumerate(li):
-            for k, v in b.items():
+        for rowidx, rowdict in enumerate(li):
+            for k, v in rowdict.items():
                 try:
                     index = list(self.tableHeaders.keys()).index(k)
-                    if b["Category"] in ["Backcolor (via class)", "class"]:
+                    if rowdict["Category"] in ["Backcolor (via class)", "Forecolor (via class)", "class"]:
                         if k == "Setting":
                             index = 2
                 except ValueError:
                     # field "active" and ugly fix for class styling in Text_in_menu_styling
-                    if b["Category"] in ["Backcolor (via class)", "class"]:
+                    if rowdict["Category"] in ["Backcolor (via class)", "Forecolor (via class)", "class"]:
                         if k == "Text_in_menu_styling":
                             index = 3
                             newitem = QTableWidgetItem(str(v))
-                            widget.setItem(a, index, newitem)
+                            widget.setItem(rowidx, index, newitem)
                 else:
                     newitem = QTableWidgetItem(str(v))
-                    widget.setItem(a, index, newitem)
+                    widget.setItem(rowidx, index, newitem)
 
     def ondoubleclick(self, item):
         row = item.row()
@@ -687,4 +691,9 @@ class ButtonOptions(QDialog):
 
     def accept(self):
         self.updateConfig()
+        saveGeom(self, "class_custom_style_config_gui")
         QDialog.accept(self)
+
+    def reject(self):
+        saveGeom(self, "class_custom_style_config_gui")
+        QDialog.reject(self)

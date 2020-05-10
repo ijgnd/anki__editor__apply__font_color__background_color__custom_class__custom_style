@@ -140,11 +140,18 @@ def autogenerate_config_values_for_menus(config):
     config['maxname'] = 0
     config['maxshortcut'] = 0
     for e in config['v3']:
+        if e['Category'] == "class":
+            if not "Target group in menu" in e:
+                e["Target group in menu"] = ""
         if e['Show_in_menu']:
             if e.get('Text_in_menu', False):
                 config['maxname'] = max(config['maxname'], len(e["Text_in_menu"]))
-                if e['Category'] not in config['context_menu_groups']:
-                    config['context_menu_groups'].append(e['Category'])
+                if e['Category'] == "class" and e["Target group in menu"]:
+                    thisgroup = e["Target group in menu"]
+                else:
+                    thisgroup = e['Category']
+                if thisgroup not in config['context_menu_groups']:
+                    config['context_menu_groups'].append(thisgroup)
             if e.get('Hotkey', False):
                 config['maxshortcut'] = max(config['maxshortcut'], len(e["Hotkey"]))
     return config
