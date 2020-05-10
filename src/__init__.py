@@ -30,6 +30,7 @@ from .vars import (
 from .adjust_config import (
     autogenerate_config_values_for_menus, 
     read_and_update_old_v2_config_from_meta_json,
+    update_config_for_202005,
 )
 from . import editor_set_css_js_for_webview
 
@@ -54,6 +55,7 @@ def load_conf_dict():
     else:
         # tooltip("Settings file not found")
         config = read_and_update_old_v2_config_from_meta_json(config)
+    config = update_config_for_202005(config)
     config = autogenerate_config_values_for_menus(config)
     mw.col.set_config("1899278645_config", config)
     update_style_file_in_media()  # always rewrite the file in case a new profile is used
@@ -117,9 +119,7 @@ def onMySettings():
                    """described on the add-on page on Ankiweb.\n\n"""
                    """If you don't want to modify all your note types there's an option"""
                    """"Write Link to CSS into every Template" at the top right of the add-on """
-                   """config which should add this line into all your templates. Before you """
-                   """use this option make sure to read the section "# Setup" of the add-on """
-                   """description.\n\n"""
+                   """config which should add this line into all your templates.\n\n"""
                    """If you don't know what I mean by """
                    """"Styling" section in the "Card Types for ..." window: """
                    """Watch this video: https://www.youtube.com/watch?v=F1j1Zx0mXME&yt:cc=on """

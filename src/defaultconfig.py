@@ -1,4 +1,5 @@
 defaultconfig = {
+    "update_level": "1589114109",
     "v2_menu_styling": True,
     "v2_key_styling_menu": "F2",
     "v2_show_in_contextmenu": True,

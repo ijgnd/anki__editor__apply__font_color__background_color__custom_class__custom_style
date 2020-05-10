@@ -593,11 +593,26 @@ class ButtonOptions(QDialog):
             self.set_table(self.bo.tw_inactive, self.inactive)
 
     def onClassesToStyling(self):
-        text = ("Only use this option if you have backups and know how to restore them. "
-                "This option modifies all of your note types. If something went wrong "
-                "there would be a lot of damage. But this option has been available for months "
-                "and in this time the add-on had hundreds of downloads and so far I "
-                "haven't seen a problem reported."
+        text = ("This option modifies all of your note types. If something went wrong "
+                "there would be a lot of damage so that most likely only a backup would help. "
+                "The code that automatically updates your templates has been downloaded thousands "
+                "of times and I (the add-on creator) haven't heard a complaint. So it "
+                "probably works.\n\n"
+                "But I wouldn't trust my notes on the quality of some random "
+                "add-on. I would only "
+                "use this option if you have backups and know how to restore them. In general "
+                "having backups and knowing how to restore them is something everyone should know. "
+                "This add-on might be the only one you use that has such a scary warning. I include "
+                "the warning for three reasons:\n\n"
+                "- I have answered many support questions about Anki "
+                "in the Anki subreddit. Some people lost months or years of work because they "
+                "didn't have proper backups.\n"
+                "- A future version of Anki might change so that the code that currently works "
+                "has unintended effects and maybe at that point I no longer "
+                "use Anki or this add-on so that the add-on is not adjusted to this latest version.\n"
+                "- Even though so far I haven't heard a complaint after thousands of downloads "
+                "but maybe there's a bug that only affects only 1 in 10000? Or maybe my most recent "
+                "update introduced a bug?\n\n"
                 )
         showInfo(text)
 
