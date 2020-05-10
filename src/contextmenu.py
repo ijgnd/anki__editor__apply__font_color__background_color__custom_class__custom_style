@@ -1,10 +1,15 @@
 # License: AGPLv3
 
 import os
+from pprint import pprint as pp
+
+from PyQt5.QtWidgets import (
+    QLabel,
+    QWidgetAction,
+)
 
 from aqt.editor import Editor, EditorWebView
-from aqt.qt import *
-from pprint import pprint as pp
+#from aqt.qt import *
 
 
 def co_my_highlight_helper(view, category, setting):
