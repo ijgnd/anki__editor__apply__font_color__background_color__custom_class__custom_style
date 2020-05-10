@@ -1,5 +1,5 @@
 """
-Copyright:  (c) 2019 ignd
+Copyright:  (c) 2019- ignd
             (c) 2014-2018 Stefan van den Akker
             (c) 2017-2018 Damien Elmes
             (c) 2018 Glutanimate
