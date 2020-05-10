@@ -15,7 +15,8 @@ from aqt import editor
 from aqt.editor import Editor
 from aqt.utils import showInfo, tooltip
 
-from .config import ButtonOptions, get_css_for_editor_from_config
+from .config_change_guis import ButtonOptions
+from .config import get_css_for_editor_from_config, getconfig
 from .colors import hex_to_rgb_tuple, html4colors, css3colors
 from .contextmenu import add_to_context
 from .editor_apply_styling_functions import setmycategories
@@ -35,22 +36,23 @@ mw.addonManager.setWebExports(__name__, regex)
 
 
 #### config: on startup load it, then maybe update old version, save on exit
-mw.addon_custom_class_config = defaultconfig.copy()
+
 
 
 def load_conf_dict():
-    conf = mw.addon_custom_class_config
+    config = defaultconfig.copy()
     if os.path.isfile(picklefile):
         with open(picklefile, 'rb') as PO:
             try:
-                conf = pickle.load(PO)
+                config = pickle.load(PO)
             except:
                 showInfo("Error. Settings file not readable")
     else:
         # tooltip("Settings file not found")
-        conf = get_config_from_meta_json(conf)
+        config = get_config_from_meta_json(config)
+    config = update_config(config)
+    mw.col.set_config("1899278645_config", config)
     update_style_file_in_media()  # always rewrite the file in case a new profile is used
-    conf = update_config(conf)
     if not os.path.exists(user_files_folder):
         os.makedirs(user_files_folder)
 
@@ -59,7 +61,7 @@ def save_conf_dict():
     # prevent error after deleting add-on
     if os.path.exists(user_files_folder):
         with open(picklefile, 'wb') as PO:
-            pickle.dump(mw.addon_custom_class_config, PO)
+            pickle.dump(getconfig(), PO)
 
 
 def update_style_file_in_media():
@@ -78,15 +80,14 @@ def update_all_templates():
 
 
 def onMySettings():
-    config = mw.addon_custom_class_config
     # TODO only call settings dialog if Editor or Browser are not active
     # P: User can install "Open the same window multiple times", "Advanced Browser",
     # my "Add and reschedule" so that these are from different classes.
     # tooltip('Close all Browser, Add, Editcurrent windows.')
-    dialog = ButtonOptions(config)
+    dialog = ButtonOptions(getconfig())
     if dialog.exec_():
-        config = dialog.config
-        config = update_config(config)
+        new = update_config(dialog.config)
+        mw.col.set_config("1899278645_config", new)
         update_style_file_in_media()
         if dialog.update_all_templates:
             update_all_templates()
@@ -128,8 +129,7 @@ mw.addonManager.setConfigAction(__name__, onMySettings)
 
 
 def contextmenu():
-    config = mw.addon_custom_class_config
-    if config.get("v2_show_in_contextmenu", False):
+    if getconfig().get("v2_show_in_contextmenu", False):
         addHook("EditorWebView.contextMenuEvent", add_to_context)
 
 

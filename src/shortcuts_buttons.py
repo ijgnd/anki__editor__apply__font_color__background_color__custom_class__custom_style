@@ -15,6 +15,7 @@ from aqt import mw
 from aqt.editor import Editor
 from aqt.utils import showInfo
 
+from .config import getconfig
 from .menu import additional_menu_basic, additional_menu_styled
 from .vars import iconfolder
 
@@ -42,7 +43,7 @@ def makethisbutton(editor, e, func):
 
 
 def SetupShortcuts(cuts, editor):
-    config = mw.addon_custom_class_config
+    config = getconfig()
     for e in config['v3']:
         if e.get("Hotkey", False):  # and not config["v2_show_in_contextmenu"]:
             func = editor.mycategories[e['Category']]
@@ -50,7 +51,7 @@ def SetupShortcuts(cuts, editor):
 
 
 def setupButtons(buttons, editor):
-    config = mw.addon_custom_class_config
+    config = getconfig()
     for e in config['v3']:
         # check if extrabutton_show is set and if True:
         if e.get('extrabutton_show', False):

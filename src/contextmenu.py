@@ -10,7 +10,8 @@ from PyQt5.QtWidgets import (
 
 from aqt import mw
 from aqt.editor import Editor, EditorWebView
-#from aqt.qt import *
+
+from .config import getconfig
 
 
 def co_my_highlight_helper(view, category, setting):
@@ -55,7 +56,7 @@ def co_return_stylesheet(e):
 
 
 def co_my_label_text(_dict, fmt):
-    config = mw.addon_custom_class_config
+    config = getconfig()
     totallength = config['maxname'] + config['maxshortcut'] + 3
     remaining = totallength - len(_dict.get("Hotkey", 0))
     t1 = _dict.get("Text_in_menu", "Variable Text_in_menu missing")
@@ -100,7 +101,7 @@ def co_create_menu_entry(view, e, parentmenu):
 
 
 def add_to_context_styled(view, menu):
-    config = mw.addon_custom_class_config
+    config = getconfig()
     menu.addSeparator()
 
     cmbg, cmbgc, cmfc, cmst, cmcl = "", "", "", "", ""
@@ -122,7 +123,7 @@ def add_to_context_styled(view, menu):
 
 
 def add_to_context_unstyled(view, menu):
-    config = mw.addon_custom_class_config
+    config = getconfig()
     menu.addSeparator()
 
     cmbg, cmbgc, cmfc, cmst, cmcl = "", "", "", "", ""
@@ -148,7 +149,7 @@ def add_to_context_unstyled(view, menu):
 
 
 def add_to_context(view, menu):
-    config = mw.addon_custom_class_config
+    config = getconfig()
     if config["v2_menu_styling"]:
         add_to_context_styled(view, menu)
     else:
