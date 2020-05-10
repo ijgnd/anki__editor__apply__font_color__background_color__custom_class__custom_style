@@ -20,8 +20,7 @@ from .vars import iconfolder
 
 
 
-def makethisbutton21(editor, e, func):
-    config = mw.addon_custom_class_config
+def makethisbutton(editor, e, func):
     try:
         name = e["Text_in_menu"]
         tooltip = e["extrabutton_tooltip"] + ' ' + e["Setting"]
@@ -42,7 +41,7 @@ def makethisbutton21(editor, e, func):
     return b
 
 
-def SetupShortcuts21(cuts, editor):
+def SetupShortcuts(cuts, editor):
     config = mw.addon_custom_class_config
     for e in config['v3']:
         if e.get("Hotkey", False):  # and not config["v2_show_in_contextmenu"]:
@@ -50,13 +49,13 @@ def SetupShortcuts21(cuts, editor):
             cuts.append((e["Hotkey"], lambda s=e["Setting"], f=func: f(editor, s)))
 
 
-def setupButtons21(buttons, editor):
+def setupButtons(buttons, editor):
     config = mw.addon_custom_class_config
     for e in config['v3']:
         # check if extrabutton_show is set and if True:
         if e.get('extrabutton_show', False):
             func = editor.mycategories[e['Category']]
-            buttons.append(makethisbutton21(editor, e, func))
+            buttons.append(makethisbutton(editor, e, func))
 
     # collapsible menu
     show_style_selector_button = False

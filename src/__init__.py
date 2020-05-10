@@ -19,7 +19,7 @@ from .config import ButtonOptions
 from .colors import hex_to_rgb_tuple, html4colors, css3colors
 from .contextmenu import add_to_context
 from .editor_apply_styling_functions import setmycategories
-from .shortcuts_buttons import setupButtons21, SetupShortcuts21
+from .shortcuts_buttons import setupButtons, SetupShortcuts
 from .defaultconfig import defaultconfig
 from .vars import (
     css_path,
@@ -150,7 +150,7 @@ addHook("profileLoaded", load_conf_dict)
 addHook('unloadProfile', save_conf_dict)
 
 addHook("profileLoaded", contextmenu)
-addHook("setupEditorButtons", setupButtons21)
-addHook("setupEditorShortcuts", SetupShortcuts21)
+addHook("setupEditorButtons", setupButtons)
+addHook("setupEditorShortcuts", SetupShortcuts)
 addHook("profileLoaded", lambda: setmycategories(Editor))
 addHook("profileLoaded", prepareEditorStylesheet)
