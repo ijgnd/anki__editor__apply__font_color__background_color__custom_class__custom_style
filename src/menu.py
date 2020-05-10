@@ -69,7 +69,7 @@ Editor.return_stylesheet = return_stylesheet
 
 
 def my_label_text(editor, _dict, fmt):
-    from .color_style_class_buttons import config
+    config = mw.addon_custom_class_config
     totallength = config['maxname'] + config['maxshortcut'] + 3
     remaining = totallength - len(_dict.get("Hotkey", 0))
     t1 = _dict.get("Text_in_menu", "Variable Text_in_menu missing")
@@ -123,7 +123,7 @@ Editor.create_menu_entry = create_menu_entry
 
 def additional_menu_styled(editor):
     # mod of onAdvanced from editor.py
-    from .color_style_class_buttons import config
+    config = mw.addon_custom_class_config
     m = QMenu(editor.mw)
     for e in config['v3']:
         if e.get('Show_in_menu', False):
@@ -148,7 +148,7 @@ QMenu::item:selected {
 
 
 def additional_menu_basic(editor):
-    from .color_style_class_buttons import config
+    config = mw.addon_custom_class_config
     # mod of onAdvanced from editor.py
     m = QMenu(editor.mw)
     # m.setStyleSheet(basic_stylesheet)
