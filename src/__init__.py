@@ -60,7 +60,11 @@ from anki.utils import json
 from aqt import mw
 from aqt import editor
 from aqt.editor import Editor
+from aqt.qt import (
+    QAction,
+)
 from aqt.utils import showInfo, tooltip
+
 
 from .config_change_guis import ButtonOptions
 from .config import get_css_for_editor_from_config, getconfig
@@ -70,6 +74,7 @@ from .editor_apply_styling_functions import setmycategories
 from .shortcuts_buttons import setupButtons, SetupShortcuts
 from .defaultconfig import defaultconfig
 from .vars import (
+    addonname,
     css_path,
     picklefile,
     user_files_folder
@@ -106,6 +111,7 @@ def load_conf_dict():
     config = autogenerate_config_values_for_menus(config)
     mw.col.set_config("1899278645_config", config)
     update_style_file_in_media()  # always rewrite the file in case a new profile is used
+    pp(config)
     if not os.path.exists(user_files_folder):
         os.makedirs(user_files_folder)
 
@@ -182,6 +188,13 @@ mw.addonManager.setConfigAction(__name__, onMySettings)
 def contextmenu():
     if getconfig().get("v2_show_in_contextmenu", False):
         addHook("EditorWebView.contextMenuEvent", add_to_context)
+
+
+action = QAction(mw)
+action.setText(f"Configure {addonname}")
+mw.form.menuTools.addAction(action)
+action.triggered.connect(onMySettings)
+
 
 
 addHook("profileLoaded", load_conf_dict)
