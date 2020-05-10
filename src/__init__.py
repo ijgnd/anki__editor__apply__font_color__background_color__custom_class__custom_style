@@ -26,7 +26,7 @@ from .vars import (
     picklefile,
     user_files_folder
 )
-from .oldconfigs import update_config, get_config_from_meta_json
+from .check_config import update_config, get_config_from_meta_json
 from .editor_set_css_js_for_webview import set_css_js_for_editor
 
 
