@@ -1,10 +1,8 @@
 import os
 
-from anki import version as anki_version
-
 from aqt import mw
 
-old_anki = tuple(int(i) for i in anki_version.split(".")) < (2, 1, 20)
+
 addon_path = os.path.dirname(__file__)
 addon_folder_name = os.path.basename(addon_path)
 web_absolute = os.path.join(addon_path, "web")
