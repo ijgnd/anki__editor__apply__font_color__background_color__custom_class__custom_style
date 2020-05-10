@@ -27,7 +27,6 @@ def setmycategories(editor):
     }
 
 
-
 def setBackcolor(editor, color):
     # from miniformat pack _wrapWithBgColour
     """

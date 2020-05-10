@@ -18,7 +18,7 @@ from aqt.utils import showInfo, tooltip
 from .config import ButtonOptions
 from .colors import hex_to_rgb_tuple, html4colors, css3colors
 from .contextmenu import add_to_context
-from .functions import setmycategories
+from .editor_apply_styling_functions import setmycategories
 from .shortcuts_buttons_21 import setupButtons21, SetupShortcuts21
 from .defaultconfig import defaultconfig
 from .vars import (
