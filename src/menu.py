@@ -1,5 +1,5 @@
 """
-Copyright:  (c) 2019 ignd
+Copyright:  (c) 2019- ignd
             (c) Glutanimate 2015-2017
 License: GNU AGPL, version 3 or later; http://www.gnu.org/licenses/agpl.html
 Use this at your own risk
@@ -7,9 +7,20 @@ Use this at your own risk
 
 import os
 
-from aqt.editor import Editor
-from aqt.qt import *
+from PyQt5.QtGui import (
+    QCursor,
+    QFont,
+    QPixmap,
+) 
+from PyQt5.QtWidgets import (
+    QMenu,
+    QLabel,
+    QWidgetAction
+)
+
 from anki.hooks import addHook
+from aqt.editor import Editor
+#from aqt.qt import *
 
 from .colors import hex_to_rgb_string
 from .contextmenu import co_hex_to_rgb

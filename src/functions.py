@@ -8,11 +8,11 @@ Use this at your own risk
 """
 
 import json
+
 from anki.utils import (
     isMac,
     isWin,
 )
-
 from aqt.editor import Editor
 
 
