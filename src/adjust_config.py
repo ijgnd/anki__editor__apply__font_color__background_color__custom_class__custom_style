@@ -173,8 +173,9 @@ updatetext_202005 = (f"A new version of the add-on '{addonname}' was installed.\
                       "most recent add-on version. The parts that no longer work have been "
                       "disabled. You can still see them at the bottom of the add-on config.\n\n"
                       "To see the add-on config dialog: In the main window click on the menu "
-                      '"Tools", then select "Add-ons". In the window that opens select this add-on '
-                      'and click the button "Config".\n\n'
+                     f'"Tools", then select "Configure {addonname}".\n\n'
+                      'You can reenable these deprecated options and they might work but use this '
+                      'at your own risk.\n\n'
                       'The option "Backcolor (inline)" and "style" have been disabled '
                       'because when you later copy text from one field to another Anki '
                       'will remove the background color and styles. I had multiple '
@@ -233,7 +234,7 @@ def update_config_for_202005(config):
                 if row["Category"] == "class":
                     row["Category"] = "class (other)"
                 config['v3'].append(row)
-        config["update_level"] = 1589114109
+        config["update_level"] = 1589114110
         if showwarning:
             showInfo(updatetext_202005)
     return config
