@@ -19,7 +19,7 @@ from aqt.editor import Editor
 
 def setmycategories(editor):
     editor.mycategories = {
-        'class': editor.my_apply_span_class,
+        'class (other)': editor.my_apply_span_class,
         'style': editor.my_apply_style,
         'Backcolor (inline)': editor.setBackcolor,
         'Backcolor (via class)': editor.my_apply_span_class,

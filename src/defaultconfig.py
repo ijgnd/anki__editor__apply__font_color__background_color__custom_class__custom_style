@@ -92,7 +92,7 @@ defaultconfig = {
             "extrabutton_tooltip": "font-color red"
         },
         {
-            "Category": "class",
+            "Category": "class (other)",
             "Hotkey": "Alt+shift+s",
             "Setting": "bigger_font",
             "Show_in_menu": True,
@@ -105,7 +105,7 @@ defaultconfig = {
             "extrabutton_tooltip": "apply class 'bigger font'"
         },
         {
-            "Category": "class",
+            "Category": "class (other)",
             "Hotkey": "Alt+shift+b",
             "Setting": "bold_bigger",
             "Show_in_menu": True,
@@ -118,7 +118,7 @@ defaultconfig = {
             "extrabutton_tooltip": "apply class 'bold,bigger'"
         },
         {
-            "Category": "class",
+            "Category": "class (other)",
             "Hotkey": "Alt+shift+f",
             "Setting": "bold_underlined",
             "Show_in_menu": True,
@@ -131,7 +131,7 @@ defaultconfig = {
             "extrabutton_tooltip": "apply class 'bold,bigger'"
         },
         {
-            "Category": "class",
+            "Category": "class (other)",
             "Hotkey": "Alt+shift+g",
             "Setting": "bold_red",
             "Show_in_menu": True,

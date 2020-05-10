@@ -372,7 +372,7 @@ def gui_dialog(inst, sel=None, config=None):
         return SettingsForFgBgColorClass(inst, sel, config)
     elif sel == "style":
         return SettingsForStyle(inst, config)
-    elif sel == "class":
+    elif sel == "class (other)":
         return SettingsForClass(inst, config)
     else:
         text = ("Error in config of add-on 'editor: apply font "
@@ -394,7 +394,7 @@ class AddEntry(QDialog):
         QDialog.__init__(self, parent, Qt.Window)
         self.dialog = settings_select_category.Ui_Dialog()
         self.dialog.setupUi(self)
-        l = ["Backcolor (via class)", "Forecolor", "class"]
+        l = ["Backcolor (via class)", "Forecolor", "class (other)"]
         self.dialog.list_categories.addItems(l)
         self.dialog.list_categories.itemDoubleClicked.connect(self.accept)
 
@@ -585,7 +585,7 @@ class ButtonOptions(QDialog):
     def init_tables(self):
         headers = [("Category", "Category"),
                    ("Hotkey", "Hotkey"),
-                   ("Setting", "Class"),
+                   ("Setting", "class (other)"),
                    ("Text_in_menu_styling", "Styling"),
                    ("Text_in_menu_styling_nightmode", "Styling\n(night mode)"),
                    ("Show_in_menu", "Show in\nmenu"),
@@ -637,12 +637,12 @@ class ButtonOptions(QDialog):
             for k, v in rowdict.items():
                 try:
                     index = list(self.tableHeaders.keys()).index(k)
-                    if rowdict["Category"] in ["Backcolor (via class)", "Forecolor (via class)", "class"]:
+                    if rowdict["Category"] in ["Backcolor (via class)", "Forecolor (via class)", "class (other)"]:
                         if k == "Setting":
                             index = 2
                 except ValueError:
                     # field "active" and ugly fix for class styling in Text_in_menu_styling
-                    if rowdict["Category"] in ["Backcolor (via class)", "Forecolor (via class)", "class"]:
+                    if rowdict["Category"] in ["Backcolor (via class)", "Forecolor (via class)", "class (other)"]:
                         if k == "Text_in_menu_styling":
                             index = 3
                             newitem = QTableWidgetItem(str(v))

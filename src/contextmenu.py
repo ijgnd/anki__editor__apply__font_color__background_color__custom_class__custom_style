@@ -112,7 +112,7 @@ def add_to_context_styled(view, menu):
         groups[i] = menu.addMenu(i)
     for row in config['v3']:
         if row.get('Show_in_menu', True):
-            if row['Category'] == "class":
+            if row['Category'] == "class (other)":
                 if row["Target group in menu"]:
                     submenu = groups[row['Target group in menu']]
                 else:

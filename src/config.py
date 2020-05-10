@@ -20,7 +20,7 @@ def rangy_js_str_for_class(classname):
 def highlighter_js_code():
     js_str = "rangy.init();"
     for e in getconfig()["v3"]:
-        if e["Category"] in  ["class", "Backcolor (via class)"]:
+        if e["Category"] in  ["class (other)", "Backcolor (via class)"]:
             # class name is e["Setting"]
             js_str += rangy_js_str_for_class(e["Setting"])
     return js_str
@@ -33,7 +33,7 @@ def highlighter_js_code():
 
     js_str = ""
     for e in getconfig()["v3"]:
-        if e["Category"] in  ["class", "Backcolor (via class)", "Forecolor (via class)"]:
+        if e["Category"] in  ["class (other)", "Backcolor (via class)", "Forecolor (via class)"]:
             js_str += f"""var {e["Setting"]}highlighter;\n"""
 
     js_str += """
@@ -43,7 +43,7 @@ if ($('body').length) {
 """
 
     for e in getconfig()["v3"]:
-        if e["Category"] in  ["class", "Backcolor (via class)", "Forecolor (via class)"]:
+        if e["Category"] in  ["class (other)", "Backcolor (via class)", "Forecolor (via class)"]:
             classname = e["Setting"]
             js_str += f"""
 {classname}highlighter = rangy.createHighlighter();
@@ -61,7 +61,7 @@ if ($('body').length) {
 def get_css_for_editor_from_config():
     classes_str = ""
     for e in getconfig()["v3"]:
-        if e["Category"] in ["class"]:
+        if e["Category"] in ["class (other)"]:
             classes_str += ("." + str(e["Setting"]) +
                             "{\n" + str(e['Text_in_menu_styling']) +
                             "\n}\n\n"
