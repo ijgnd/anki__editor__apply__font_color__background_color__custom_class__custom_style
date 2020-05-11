@@ -67,7 +67,11 @@ from aqt.utils import showInfo, tooltip
 
 
 from .config_change_guis import ButtonOptions
-from .config import get_css_for_editor_from_config, getconfig
+from .config import (
+    extend_editor_html_variable_with_js_and_css,
+    get_css_for_editor_from_config,
+    getconfig,
+)
 from . import config_var
 from .colors import hex_to_rgb_tuple, html4colors, css3colors
 from .contextmenu import add_to_context
@@ -115,6 +119,7 @@ def load_conf_dict():
     update_style_file_in_media()  # always rewrite the file in case a new profile is used
     if not os.path.exists(user_files_folder):
         os.makedirs(user_files_folder)
+    extend_editor_html_variable_with_js_and_css()
 
 
 def save_conf_dict():
