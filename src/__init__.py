@@ -66,7 +66,7 @@ from aqt.qt import (
 from aqt.utils import showInfo, tooltip
 
 
-from .config_change_guis import ButtonOptions
+from .confdialog_MAIN import MainConfDialog
 from .config import (
     extend_editor_html_variable_with_js_and_css,
     get_css_for_editor_from_config,
@@ -149,11 +149,11 @@ def onMySettings():
     # P: User can install "Open the same window multiple times", "Advanced Browser",
     # my "Add and reschedule" so that these are from different classes.
     # tooltip('Close all Browser, Add, Editcurrent windows.')
-    dialog = ButtonOptions(getconfig())
+    dialog = MainConfDialog(getconfig())
     if dialog.exec_():
         new = autogenerate_config_values_for_menus(dialog.config)
         # mw.col.set_config("1899278645_config", new)
-        config_var.myconfig
+        config_var.myconfig = new
         update_style_file_in_media()
         if dialog.update_all_templates:
             update_all_templates()
