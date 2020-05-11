@@ -263,6 +263,9 @@ class SettingsForTextWrapper(QDialog):
         # originally "Setting" was used for the foreground or background color. The value for 
         # "Setting" is used when clicking a menu/button or shortcut. So before/after must be
         # in "Setting"
+        # But only set this when closing the dialog so that the unique string is not shown
+        # to the user. That workaround is a consequence of reading the config from the 
+        # QTableWidget directly ....
         bef = self.dialog.pte_before.toPlainText()
         aft = self.dialog.pte_after.toPlainText()
         self.newsetting = {
@@ -790,6 +793,9 @@ class ButtonOptions(QDialog):
                 widget.setItem(j, i, newitem)
 
         for rowidx, rowdict in enumerate(li):
+            if rowdict["Category"] == "text wrapper":
+                rowdict["Setting"] = ""  # this will be fixed when closing the main gui 
+                                         # with text_wrapper_workaround
             for k, v in rowdict.items():
                 try:
                     index = list(self.tableHeaders.keys()).index(k)
@@ -820,7 +826,17 @@ class ButtonOptions(QDialog):
             li[row] = a.newsetting
             self.set_table(w, li)
 
+    def text_wrapper_workaround(self, list_):
+        for row in list_:
+            if row["Category"] == "text wrapper":
+                before = row["Text_in_menu_styling"]
+                after = row["Text_in_menu_styling_nightmode"]
+                row["Setting"] = before + unique_string + after
+        return list_
+
     def updateConfig(self):
+        self.active = self.text_wrapper_workaround(self.active)
+        self.inactive = self.text_wrapper_workaround(self.inactive)
         self.config["v3"] = self.active
         self.config["v3_inactive"] = self.inactive
 
