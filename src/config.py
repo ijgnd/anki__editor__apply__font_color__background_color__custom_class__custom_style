@@ -70,15 +70,27 @@ if ($('body').length) {
     return js_str
 
 
+
+def get_nm_style(configkey):
+    e = configkey
+    nmsetting = e['Text_in_menu_styling_nightmode']
+    if nmsetting:
+        nmstyle = str(nmsetting)
+    else:
+        nmstyle = str(e['Text_in_menu_styling'])
+    return nmstyle
+
+
 def get_css_for_editor_from_config():
     classes_str = ""
     for e in getconfig()["v3"]:
+        nmstyle = get_nm_style(e)
         if e["Category"] in ["class (other)"]:
             classes_str += ("." + str(e["Setting"]) +
                             "{\n" + str(e['Text_in_menu_styling']) +
                             "\n}\n\n"
                             ".nightMode ." + str(e["Setting"]) +
-                            "{\n" + str(e['Text_in_menu_styling_nightmode']) +
+                            "{\n" + nmstyle +
                             "\n}\n\n"
                             )
         if e["Category"] in ["Backcolor (via class)"]:
@@ -86,7 +98,7 @@ def get_css_for_editor_from_config():
                             "{\nbackground-color: " + str(e['Text_in_menu_styling']) + " !important;" +
                             "\n}\n\n"
                             ".nightMode ." + str(e["Setting"]) +
-                            "{\nbackground-color: " + str(e['Text_in_menu_styling_nightmode']) + " !important;" +
+                            "{\nbackground-color: " + nmstyle + " !important;" +
                             "\n}\n\n"
                             )
         if e["Category"] in ["Forecolor (via class)"]:
@@ -94,7 +106,7 @@ def get_css_for_editor_from_config():
                             "{\ncolor: " + str(e['Text_in_menu_styling']) + " !important;" +
                             "\n}\n\n"
                             ".nightMode ." + str(e["Setting"]) +
-                            "{\ncolor: " + str(e['Text_in_menu_styling_nightmode']) + " !important;" +
+                            "{\ncolor: " + nmstyle + " !important;" +
                             "\n}\n\n"
                             )
         if e["Category"] in ["font size (via class)"]:
