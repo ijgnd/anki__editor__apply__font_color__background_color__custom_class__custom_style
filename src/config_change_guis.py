@@ -529,7 +529,13 @@ class AddEntry(QDialog):
         QDialog.__init__(self, parent, Qt.Window)
         self.dialog = settings_select_category.Ui_Dialog()
         self.dialog.setupUi(self)
-        l = ["Backcolor (via class)", "Forecolor", "class (other)"]
+        l = [
+            "Backcolor (via class)",
+            "Forecolor (via class)",
+            "font size (via class)",
+            "text wrapper",
+            "class (other)",        
+        ]
         self.dialog.list_categories.addItems(l)
         self.dialog.list_categories.itemDoubleClicked.connect(self.accept)
 
