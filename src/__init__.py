@@ -70,7 +70,7 @@ from .confdialog_MAIN import MainConfDialog
 from .config import (
     getconfig,
 )
-from .css_for_webviews import get_css_for_editor_from_config
+from .css_for_webviews import create_css_for_webviews_from_config
 from . import config_var
 from .colors import hex_to_rgb_tuple, html4colors, css3colors
 from .contextmenu import add_to_context
@@ -128,7 +128,7 @@ def save_conf_dict():
 
 
 def update_style_file_in_media():
-    classes_str = get_css_for_editor_from_config()
+    classes_str = create_css_for_webviews_from_config()
     with open(css_path(), "w") as f:
         f.write(classes_str)
 

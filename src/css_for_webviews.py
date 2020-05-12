@@ -11,7 +11,7 @@ def get_nm_style(configkey):
     return nmstyle
 
 
-def get_css_for_editor_from_config():
+def create_css_for_webviews_from_config():
     classes_str = ""
     for e in getconfig()["v3"]:
         nmstyle = get_nm_style(e)

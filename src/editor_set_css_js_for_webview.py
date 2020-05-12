@@ -17,7 +17,7 @@ from .vars import (
 from .config import (
     getconfig,
 )
-from .css_for_webviews import get_css_for_editor_from_config
+from .css_for_webviews import create_css_for_webviews_from_config
 
 def rangy__create_global_variables_for_later_use():
     jsstring = ""
@@ -47,7 +47,7 @@ gui_hooks.webview_will_set_content.append(append_js_to_Editor)
 
 def append_css_to_Editor(web_content, context):
     if isinstance(context, Editor):
-        web_content.head += f"""\n<style>\n{get_css_for_editor_from_config()}\n</style>\n"""
+        web_content.head += f"""\n<style>\n{create_css_for_webviews_from_config()}\n</style>\n"""
 gui_hooks.webview_will_set_content.append(append_css_to_Editor)
 
 
