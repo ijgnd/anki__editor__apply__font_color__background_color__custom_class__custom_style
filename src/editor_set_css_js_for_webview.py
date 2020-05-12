@@ -14,9 +14,7 @@ from .vars import (
     js_to_append,
     uses_classes,
 )
-from .config import (
-    getconfig,
-)
+from .config_var import getconfig
 from .css_for_webviews import create_css_for_webviews_from_config
 
 def rangy__create_global_variables_for_later_use():

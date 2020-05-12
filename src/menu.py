@@ -25,7 +25,7 @@ from aqt.editor import Editor
 #from aqt.qt import *
 
 from .colors import hex_to_rgb_string
-from .config import getconfig
+from .config_var import getconfig
 from .contextmenu import co_hex_to_rgb
 
 

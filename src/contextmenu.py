@@ -12,7 +12,7 @@ from PyQt5.QtWidgets import (
 from aqt import mw
 from aqt.editor import Editor, EditorWebView
 
-from .config import getconfig
+from .config_var import getconfig
 
 
 def co_my_highlight_helper(view, category, setting):

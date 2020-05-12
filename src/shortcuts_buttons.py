@@ -15,7 +15,7 @@ from aqt import mw
 from aqt.editor import Editor
 from aqt.utils import showInfo
 
-from .config import getconfig
+from .config_var import getconfig
 from .menu import additional_menu_basic, additional_menu_styled
 from .vars import iconfolder
 

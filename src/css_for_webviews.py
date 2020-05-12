@@ -1,4 +1,4 @@
-from .config import getconfig
+from .config_var import getconfig
 
 
 def get_nm_style(configkey):
