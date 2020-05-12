@@ -68,9 +68,9 @@ from aqt.utils import showInfo, tooltip
 
 from .confdialog_MAIN import MainConfDialog
 from .config import (
-    get_css_for_editor_from_config,
     getconfig,
 )
+from .css_for_webviews import get_css_for_editor_from_config
 from . import config_var
 from .colors import hex_to_rgb_tuple, html4colors, css3colors
 from .contextmenu import add_to_context

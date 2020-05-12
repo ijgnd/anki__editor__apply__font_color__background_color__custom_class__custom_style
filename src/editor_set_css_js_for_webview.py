@@ -15,10 +15,9 @@ from .vars import (
     uses_classes,
 )
 from .config import (
-    get_css_for_editor_from_config,
     getconfig,
 )
-
+from .css_for_webviews import get_css_for_editor_from_config
 
 def rangy__create_global_variables_for_later_use():
     jsstring = ""
