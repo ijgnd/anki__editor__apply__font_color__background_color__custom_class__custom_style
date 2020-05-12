@@ -68,7 +68,6 @@ from aqt.utils import showInfo, tooltip
 
 from .confdialog_MAIN import MainConfDialog
 from .config import (
-    extend_editor_html_variable_with_js_and_css,
     get_css_for_editor_from_config,
     getconfig,
 )
@@ -119,7 +118,6 @@ def load_conf_dict():
     update_style_file_in_media()  # always rewrite the file in case a new profile is used
     if not os.path.exists(user_files_folder):
         os.makedirs(user_files_folder)
-    extend_editor_html_variable_with_js_and_css()
 
 
 def save_conf_dict():

@@ -18,6 +18,14 @@ ankiwebpage = "https://ankiweb.net/shared/info/1899278645"
 unique_string = "91cb101665994f66a728db9aa0a4294a"
 
 
+uses_classes = [
+    "class (other)",
+    "Backcolor (via class)",
+    "Forecolor (via class)",
+    "font size (via class)",
+]
+
+
 # I use a function because mw.col.media.dir() only works after the profile is loaded
 def css_path():
     return os.path.join(mw.col.media.dir(), "_editor_button_styles.css")
