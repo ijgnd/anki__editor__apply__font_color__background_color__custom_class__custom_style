@@ -26,6 +26,17 @@ uses_classes = [
 ]
 
 
+addable_options = [
+        "Backcolor (via class)",
+        "Forecolor (via class)",
+        "font size (via class)",
+        "text wrapper",
+        "class (other)",
+        "style (inline)",
+        "Forecolor (inline)"
+        "Backcolor (inline)"
+    ]
+
 # I use a function because mw.col.media.dir() only works after the profile is loaded
 def css_path():
     return os.path.join(mw.col.media.dir(), "_editor_button_styles.css")

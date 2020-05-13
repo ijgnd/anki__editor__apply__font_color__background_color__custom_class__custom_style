@@ -51,6 +51,7 @@ class SettingsForStyle(QDialog):
             "Show_in_menu": self.dialog.cb_contextmenu_show.isChecked(),
             "Text_in_menu":  self.dialog.le_contextmenu_text.text(),
             "Text_in_menu_styling": self.dialog.pte_style.toPlainText(),
+            "Text_in_menu_styling_nightmode": "",
             "extrabutton_show": self.dialog.cb_extrabutton_show.isChecked(),
             "extrabutton_text":  self.dialog.le_extrabutton_text.text(),
             "extrabutton_tooltip":  self.dialog.le_tooltip_text.text(),

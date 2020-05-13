@@ -24,10 +24,10 @@ from .vars import unique_string
 def setmycategories(editor):
     editor.mycategories = {
         "class (other)": editor.my_apply_span_class,
-        "style": editor.my_apply_style,
+        "style (inline)": editor.my_apply_style,
         "Backcolor (inline)": editor.setBackcolor,
         "Backcolor (via class)": editor.my_apply_span_class,
-        "Forecolor": editor.setForecolor,
+        "Forecolor (inline)": editor.setForecolor,
         "Forecolor (via class)": editor.my_apply_span_class,
         "font size (via class)": editor.my_apply_span_class,
         "text wrapper": editor.my_wrap_helper,
@@ -73,12 +73,25 @@ Editor.setForecolor = setForecolor
 
 
 def my_apply_style(editor, style):
+    """
     # TODO editor.web.selectedText() is text without styling
     selected = editor.web.selectedText()
     styled = "".join(['<span style="{}">'.format(style), selected, '</span>'])
     # TODO use setFormat from editor.js from Anki ?
     editor.web.eval("document.execCommand('inserthtml', false, %s);"
                     % json.dumps(styled))
+    """
+    editor.web.eval(f"""dict["temporary_highlighter_for_styles"].highlightSelection('temp_styles_helper');""")
+    js = """
+        var matches = document.querySelectorAll(".temp_styles_helper");
+        for (var i = 0; i < matches.length; i++) {
+            matches[i].classList.remove("temp_styles_helper");
+            matches[i].removeAttribute("style (inline)");  // delete old styling, https://stackoverflow.com/a/18691728
+            matches[i].style.cssText = "NEWSTYLE"; // set new style, https://stackoverflow.com/a/3968772
+                                                    // might only work if all other styling is removed
+            }
+    """.replace("NEWSTYLE", style)
+    editor.web.eval(js)
 Editor.my_apply_style = my_apply_style
 
 

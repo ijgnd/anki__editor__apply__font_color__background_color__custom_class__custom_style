@@ -63,7 +63,7 @@ from aqt.editor import Editor
 from aqt.qt import (
     QAction,
 )
-from aqt.utils import showInfo, tooltip
+from aqt.utils import askUser, showInfo, tooltip
 
 
 from .confdialog_MAIN import MainConfDialog
@@ -77,6 +77,7 @@ from .shortcuts_buttons import setupButtons, SetupShortcuts
 from .defaultconfig import defaultconfig
 from .vars import (
     addonname,
+    ankiwebpage,
     css_path,
     picklefile,
     user_files_folder
@@ -94,6 +95,52 @@ regex = r"(web.*)"
 mw.addonManager.setWebExports(__name__, regex)
 
 
+
+msg_restart_required = """
+Restart Anki (or at leat close all Add, Browser, or EditCurrent windows) so that all changes 
+take effect.
+""".replace("\n", "")
+
+
+def warning_message_about_templates(tmpl_list):
+    fmted_list = "SINGLE- ".join(tmpl_list)
+    return f"""
+You have the add-on "{addonname}" installed. This add-on will NOT work with these note types:
+SINGLE- {fmted_list}SINGLE
+Before you continue read the section about "Updating Templates" on ankiweb at {ankiwebpage}.SINGLE
+Auto update these note types?
+""".replace("\n", "").replace("SINGLE","\n")
+
+
+first_start = f"""
+This is an infobox from the add-on "{addonname}". It's shown one time because you either 
+installed it for the first time or just upgraded.
+DOUBLE
+This add-on has some quirks/limitations for technical reasons: You either know some 
+background about the anki editor and how to work around these or you will run into some problems 
+like disappearing markup or not being able to clear the formatting. If you can't live with 
+these limitations don't use this add-on. Just uninstall it. For details see the description 
+on ankiweb, {ankiwebpage}.
+DOUBLE
+This add-on only works if "@import url("_editor_button_styles.css");" is ontop (!) 
+the styling section of all your note types. I (addon-creator) have had many "bug" reports because 
+people didn't do this. So this add-on offers to automatically add this line to all your note types.
+DOUBLE
+If something went wrong there would be a lot of damage so that most likely only a backup would help. 
+The code that automatically updates your templates has been downloaded thousands of times and I 
+haven't heard a complaint. But better safe than sorry: So make sure to have backups and know 
+how to restore them. Read the section "Setup" on ankiweb, {ankiwebpage}.
+DOUBLE
+If you don't update the templates now this add-on offers to auto-update your note types whenever 
+you change the add-on config.
+DOUBLE
+DOUBLE
+I have read the description on ankiweb and confirm to have a backup that I know how to restore.
+DOUBLE
+I want to auto-adjust the styling section of my note types if necessary now.
+""".replace("\n", "").replace("DOUBLE", "\n\n")
+
+
 #### config: on startup load it, then maybe update old version, save on exit
 config_var.init()
 
@@ -109,14 +156,22 @@ def load_conf_dict():
     else:
         # tooltip("Settings file not found")
         config = read_and_update_old_v2_config_from_meta_json(config)
-    config = update_config_for_202005(config)
+    first_after_update_install, config = update_config_for_202005(config)
     config = autogenerate_config_values_for_menus(config)
     # mw.col.set_config("1899278645_config", config)
     config_var.myconfig = config
     update_style_file_in_media()  # always rewrite the file in case a new profile is used
     if not os.path.exists(user_files_folder):
         os.makedirs(user_files_folder)
-
+    if first_after_update_install:
+        if askUser(first_start):
+            update_all_templates()
+    else:
+        missing = templates_that_miss_the_import_of_the_styling_file()
+        if missing:
+            if askUser(warning_message_about_templates(missing)):
+                update_all_templates()
+        
 
 def save_conf_dict():
     # prevent error after deleting add-on
@@ -138,6 +193,16 @@ def update_all_templates():
             model = mw.col.models.get(m['id'])
             model['css'] = l + "\n\n" + model['css']
             mw.col.models.save(model, templates=True)
+    tooltip("Finished updating styling sections")
+
+
+def templates_that_miss_the_import_of_the_styling_file():
+    l = """@import url("_editor_button_styles.css");"""
+    mim = []
+    for m in mw.col.models.all():
+        if l not in m['css']:
+            mim.append(m['name'])
+    return mim
 
 
 def onMySettings():
@@ -151,40 +216,13 @@ def onMySettings():
         # mw.col.set_config("1899278645_config", new)
         config_var.myconfig = new
         update_style_file_in_media()
-        if dialog.update_all_templates:
-            update_all_templates()
-        l = """@import url("_editor_button_styles.css");"""
-        mim = []
-        for m in mw.col.models.all():
-            if l not in m['css']:
-                mim.append(m['name'])
-        if not mim:
-            msg = ('Restart Anki so that all changes take effect.')
+        missing = templates_that_miss_the_import_of_the_styling_file()
+        if not missing:
+            showInfo(msg_restart_required)
         else:
-            msg = ("""Restart Anki so that all changes take effect.\n\n\n"""
-                   """Each note type must have the text\n\n"""
-                   """  @import url("_editor_button_styles.css");\n\n"""
-                   """at the top(!) of """
-                   """the "Styling" section in the "Card Types for ..." window.\n\n"""
-                   """At the moment the following note types of yours miss this text:"""
-                   """\n- %s\nWhen you apply styling with this add-on to notes of these """
-                   """types it will show up in the note editor. But it won't be shown """
-                   """when you later review cards that belong to these notes.\n\n"""
-                   """In other words: There's a good chance that you encounter problems """
-                   """in the future because you didn't setup the add-on properly as """
-                   """described on the add-on page on Ankiweb.\n\n"""
-                   """If you don't want to modify all your note types there's an option"""
-                   """"Write Link to CSS into every Template" at the top right of the add-on """
-                   """config which should add this line into all your templates.\n\n"""
-                   """If you don't know what I mean by """
-                   """"Styling" section in the "Card Types for ..." window: """
-                   """Watch this video: https://www.youtube.com/watch?v=F1j1Zx0mXME&yt:cc=on """
-                   """and see this section of the manual: """
-                   """https://apps.ankiweb.net/docs/manual.html#cards-and-templates'""" % 
-                   "\n- ".join(mim))
-        showInfo(msg, textFormat='plain')  # 'rich')
-
-
+            msg = msg_restart_required + "\n\n" + warning_message_about_templates(missing)
+            if askUser(msg):
+                update_all_templates()
 mw.addonManager.setConfigAction(__name__, onMySettings)
 
 

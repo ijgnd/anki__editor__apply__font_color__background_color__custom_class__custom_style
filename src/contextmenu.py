@@ -13,6 +13,7 @@ from aqt import mw
 from aqt.editor import Editor, EditorWebView
 
 from .config_var import getconfig
+from .editor_apply_styling_functions import classes_addon_rangy_remove_all
 
 
 def co_my_highlight_helper(view, category, setting):
@@ -120,7 +121,9 @@ def co_create_menu_entry(view, e, parentmenu):
 def add_to_context_styled(view, menu):
     config = getconfig()
     menu.addSeparator()
-
+    a = menu.addAction("Clear more formatting (Classes, etc.)")
+    a.triggered.connect(lambda _: classes_addon_rangy_remove_all(view.editor))
+    menu.addSeparator()
     groups = {}
     for i in config['context_menu_groups']:
         groups[i] = menu.addMenu(i)

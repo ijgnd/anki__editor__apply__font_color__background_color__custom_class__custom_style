@@ -34,7 +34,7 @@ from aqt.utils import (
 )
 
 from .defaultconfig import defaultconfig
-from .vars import unique_string
+from .vars import addonname, addable_options, unique_string
 
 from .confdialog_Class import SettingsForClass
 from .confdialog_FgBgColorClass import SettingsForFgBgColorClass
@@ -51,46 +51,54 @@ from .forms import settings_select_category
 def gui_dialog(inst, sel=None, config=None):
     if not sel:
         sel = config['Category']
-    if sel in ["Backcolor (inline)", "Forecolor"]:
+    if sel in ["Backcolor (inline)", "Forecolor (inline)"]:
         return SettingsForForeBgColor(inst, sel, config)
     if sel in ["Backcolor (via class)", "Forecolor (via class)"]:
         return SettingsForFgBgColorClass(inst, sel, config)
     if sel == "font size (via class)":
         return SettingsForFont(inst, sel, config)
-    if sel == "style":
+    if sel == "style (inline)":
         return SettingsForStyle(inst, config)
     if sel == "class (other)":
         return SettingsForClass(inst, config)
     if sel == "text wrapper":
         return SettingsForTextWrapper(inst, config)
     else:
-        text = ("Error in config of add-on 'editor: apply font "
-                "color, background color, custom class, custom style'"
-                "\n\nThe following part of the config contains an error in"
-                "the setting 'Category': "
-                "\n\n%s"
-                "\n\nClick Abort/Cancel and maybe delete this entry."
-                "\n\nYou might encounter some error messages after this window."
-                % str(config)
+        text = (f"Error in config of add-on {addonname}\n\n"
+                 "The following part of the config contains an error in"
+                 "the setting 'Category': "
+                f"\n\n{str(config)}"
+                 "\n\nClick Abort/Cancel and maybe delete this entry."
+                 "\n\nYou might encounter some error messages after this window."
                 )
         showInfo(text)
         return
 
 
+inlinewarning = """
+In Anki 2.1 when you copy text from one field to another Anki will remove the background color 
+and styles.DOUBLEThis is not just a limitation of this add-on. The same applies e.g. to the 
+background color function of the add-on 'Mini Format Pack'.DOUBLEContinue?
+""".replace("\n", "").replace("DOUBLE","\n")
+
+
+classeswarning = """
+Applying a class can't be undone with Ctrl/Cmd+Z and the regular Ctrl/Cmd+R doesn't remove the 
+classes. Instead this add-on offers a custom shortcut for removing all formatting from selected 
+text.DOUBLENote: If you insert unformatted text into a html paragraph that already has some 
+formatting the inserted text will also show this formatting. So the remove all formatting" options 
+only works as expected if you have unformatted text before your selection.
+DOUBLEContinue?
+""".replace("\n", " ").replace("DOUBLE","\n")
+
+        
 class AddEntry(QDialog):
     def __init__(self, parent=None):
         self.parent = parent
         QDialog.__init__(self, parent, Qt.Window)
         self.dialog = settings_select_category.Ui_Dialog()
         self.dialog.setupUi(self)
-        l = [
-            "Backcolor (via class)",
-            "Forecolor (via class)",
-            "font size (via class)",
-            "text wrapper",
-            "class (other)",        
-        ]
-        self.dialog.list_categories.addItems(l)
+        self.dialog.list_categories.addItems(addable_options)
         self.dialog.list_categories.itemDoubleClicked.connect(self.accept)
 
     def reject(self):
@@ -98,15 +106,11 @@ class AddEntry(QDialog):
 
     def accept(self):
         sel = self.dialog.list_categories.currentItem().text()
-        if sel in ["Backcolor (inline)", "style"]:  # this can no longer be True in 2020-05
-            text = ("In Anki 2.1 when you copy text from one field to another "
-                    "Anki will remove the background color and styles. "
-                    "\n\nThis is not just a limitation of this add-on. The same "
-                    "applies e.g. to the background color function of the "
-                    "add-on 'Mini Format Pack'. "
-                    "\n\nContinue?"
-                    )
-            if not askUser(text):
+        if sel in ["Backcolor (inline)", "style (inline)"]:
+            if not askUser(inlinewarning):
+                return
+        if sel in ["class (other)", "Backcolor (via class)", "Forecolor (via class)", "font size (via class)"]:
+            if not askUser(classeswarning):
                 return
         a = gui_dialog(self, sel=sel, config=None)
         if a.exec_():
@@ -232,27 +236,7 @@ class MainConfDialog(QDialog):
             self.set_table(self.bo.tw_inactive, self.inactive)
 
     def onClassesToStyling(self):
-        text = ("This option modifies all of your note types. If something went wrong "
-                "there would be a lot of damage so that most likely only a backup would help. "
-                "The code that automatically updates your templates has been downloaded thousands "
-                "of times and I (the add-on creator) haven't heard a complaint. So it "
-                "probably works.\n\n"
-                "But I wouldn't trust my notes on the quality of some random "
-                "add-on. I would only "
-                "use this option if you have backups and know how to restore them. In general "
-                "having backups and knowing how to restore them is something everyone should know. "
-                "This add-on might be the only one you use that has such a scary warning. I include "
-                "the warning for three reasons:\n\n"
-                "- I have answered many support questions about Anki "
-                "in the Anki subreddit. Some people lost months or years of work because they "
-                "didn't have proper backups.\n"
-                "- A future version of Anki might change so that the code that currently works "
-                "has unintended effects and maybe at that point I no longer "
-                "use Anki or this add-on so that the add-on is not adjusted to this latest version.\n"
-                "- Even though so far I haven't heard a complaint after thousands of downloads "
-                "but maybe there's a bug that only affects only 1 in 10000? Or maybe my most recent "
-                "update introduced a bug?\n\n"
-                )
+        text = ""
         showInfo(text)
 
     def onAdd(self):

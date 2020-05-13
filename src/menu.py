@@ -27,6 +27,7 @@ from aqt.editor import Editor
 from .colors import hex_to_rgb_string
 from .config_var import getconfig
 from .contextmenu import co_hex_to_rgb
+from .editor_apply_styling_functions import classes_addon_rangy_remove_all
 
 
 def my_highlight_helper(editor, category, setting):
@@ -131,6 +132,9 @@ def additional_menu_styled(editor):
     # mod of onAdvanced from editor.py
     config = getconfig()
     m = QMenu(editor.mw)
+    a = m.addAction("Clear more formatting (Classes, etc.)")
+    a.triggered.connect(lambda _: classes_addon_rangy_remove_all(editor))
+    m.addSeparator()
     for e in config['v3']:
         if e.get('Show_in_menu', False):
             m.addAction(editor.create_menu_entry(e, m))
@@ -159,6 +163,9 @@ def additional_menu_basic(editor):
     m = QMenu(editor.mw)
     # m.setStyleSheet(basic_stylesheet)
     m.setFont(QFont('Courier New', 11))
+    a = m.addAction("Clear more formatting (Classes, etc.)")
+    a.triggered.connect(lambda _: classes_addon_rangy_remove_all(editor))
+    m.addSeparator()
     for e in config['v3']:
         if e.get('Show_in_menu', False):
             text = editor.my_label_text(e, False)

@@ -26,7 +26,10 @@ def rangy__create_global_variables_for_later_use():
 
 
 def rangy_higlighters_for_each_class():
-    js_str = ""
+    js_str = """
+    dict["temporary_highlighter_for_styles"] = rangy.createHighlighter();
+    dict["temporary_highlighter_for_styles"].addClassApplier(rangy.createClassApplier('temp_styles_helper'));
+"""
     for e in getconfig()["v3"]:
         if e["Category"] in uses_classes:
             classname = e["Setting"]

@@ -1,49 +1,51 @@
-- <b>You must adjust the styling section of your templates. Otherwise your markup won't be shown while reviewing. Check the section "# Setup" below.</b>
+This add-on offers more styling options for the Anki editor: You can quickly set different font colors, background colors, font sizes or apply custom classes or styles. You can use shortcuts, buttons from the top of the editor or the context menu. 
 
+<b>Before you use this add-on make sure to read sections "Setup/Updating Templates" and "Quirks" and "updating the styling on Mobile" below</b>.
 
+<b>This add-on has some limitations for technical reasons: You either know some background about the anki editor and how to work around these or you will run into some problems like disappearing markup. If you can't live with these limitations don't use this add-on. Stop reading here.</b>
 
-This add-on allows you to quickly set a font color, the background color or a a custom class or custom style. You can use shortcuts, buttons from the top of the editor or the context menu. 
-
-<b>Don't download this add-on for 2.0:</b> The latest version of this add-on and this description only refers to Anki 2.1. An old version for 2.0 is still available under this ID since I can't remove the old version. I have stopped using Anki 2.0 so there's no support. 
-
-The configuration of this add-on was changed with the release 0.3 from August 2019. Now you can use a configuration menu. This new version tries to read your old config. This new version also brings better defaults.
+Use this add-on at your own risk.
 
 If you want to use a custom style but don't know css there are online sites that make creating styles easier. A google search lead to sites like <a href="https://html-css-js.com/css/generator/font/" rel="nofollow">this one</a> or <a href="https://webdesign-assistant.com/font-editor/css-font-generator.php" rel="nofollow">this one</a>.
 
+<img src="https://raw.githubusercontent.com/ijgnd/anki__editor__apply__font_color__background_color__custom_class__custom_style/master/screenshots/style2.gif"> 
 
-You can also download the followingscreencast (gif) by right-clicking it. Then select "save image as" from the context menu (tested in Chrome and Firefox). Then open this gif with a program that supports slowing down gifs. On Windows I use the popular image viewer IrfanView that can also display gifs. IrfanView has "Options-&gt;Start/Stop Animation" and you can adjust the speed with [SHIFT][CTRL][+] or [SHIFT][CTRL][-]. On Linux I use mpv. 
+<b># Functions</b>
+This add-on offers the following options:
+<ul>
+<li>1. directly changing the <b>font color by changing the html color attribute</b>. This is also built into Anki but switching between different colors is time consuming. You can set different font colors with the "Quick Colour Changing" add-on. This add-on additionally gives you the option to have multiple dedicated buttons or menu entries for font colors you often use. But my add-on  might be easier to use.</li>
+<li>2. you can set the <b>background color directly using the html background-color attribute</b>. The option to change the background color is also available in the add-on "Mini Format Pack". But switching between different colors is time consuming.</li>
+<li>3. you can <b>style text with the html style attribute</b>.</li>
+<li>4. you can set <b>css</b> for custom <b>classes<b> and apply these classes to the text selected.</li>
+<li>5. There's are easy to use dialogs/options to change the font color, the background color, and the font size by using css and html classes. This has some advantages and some drawabacks: html classes are roughly similar to "styles" that you can apply in Word or LibreOffice. When you use html classes you can later change the color for all the fonts you've highlighted at the same time and you can also set different colors for night mode.</li>
+<li>6. You can wrap the text selected with custom text snippets.</li>
+</ul>
 
-<img src="https://raw.githubusercontent.com/ijgnd/anki__editor__apply__font_color__background_color__custom_class__custom_style/master/screenshots/style.gif"> 
+<b># Quirks</b>
+Background: The Anki editor you see in the Add window and at the bottom of the browser is not meant to be a fully featured word processing software like Word or LibreOffice. Anki is meant to be used with short flashcards that don't require a lot of styling. The Anki manual repeatedly suggests to follow a "minimum information principle" when creating notes/cards.
 
+All functions mentioned in section above apart from "1/html color attribute" have quirks/drawbacks:
+<ul>
+<li>In all versions of Anki that I've used so far (the most recent when the add-on was released was 2.1.26) remove the background color (option 2) and styling (option 3) when you copy and paste the text into a different field in Anki. This is not a limitation of this add-on but also applies to background color you set with the add-on "Mini Format Pack".</li>
+<li>The options that use classes (options 4, 5) cannot be undone with Ctrl/Cmd+Z and the regular Ctrl/Cmd+R doesn't remove the classes. Instead this add-on offers a custom shortcut for removing all formatting from selected text. Note: If you insert unformatted text into a html paragraph that already has some formatting the inserted text will also show this formatting. So the "remove all formatting" options only works as expected if you have unformatted text before your selection.</li>
+
+I use classes because I don't mind using a custom clear shortcut.
+
+Another problem: In some cases an underlying component of Anki (the js command "inserthtml" in chromium) changes from inline to css styling and vice versa. As long as you don't change your css or rely on different styling for night mode you should't notice this ...
 
 <b># Setup</b>
-Each note type must have the string <code>@import url("_editor_button_styles.css");</code> at the top(!) of the "Styling" section in the "Card Types for ..." window. If you don't want to modify all your note types there's an option "Write Link to CSS into every Template" at the top right of the add-on config which should add this line into all your templates. 
-
-Before you can use this you'll get a warning that if the function fails your collection might be damaged. This function should work reliably but it has not been widely used. For Anki there are over 400 different add-ons and I can't know if there are some interactions.
-
-"Key for multi-button" is the button that opens a custom context menu that just contains the styling options from this add-on (see the last screenshot below).
-
-This add-on allows you to add individual buttons for each option to the button bar on top of the fields. I don't do this because the buttons are quite small and this bar gets crowded if you use many add-ons and you can't set the order of buttons from different add-ons. Using the context menu is much faster for me (third screenshot below). There's also a dedicated context menu that only includes styling options (see the last screenshot below). 
-
-If you use the dedicated buttons you can adjust their styling, see <a href="https://www.reddit.com/r/Anki/comments/ce9wk7/bigger_edit_icons/" rel="nofollow">here</a>.
-
-<b># Incompatible addons</b>
-<a href="https://ankiweb.net/shared/info/1215991469" rel="nofollow">Customize Editor Stylesheet</a> because my add-on reuses its main function so that you can use classes for styling and see the styling in the editor without any additional setup. Prior versions of my add-on just linked to this add-on. This resulted in multiple bug reports so I included the function of said add-on into this one.
-
-<b># notes</b>
-styling with a class doesn't work if the text selected spans different tags. This is something I don't use ...
-
-<b># known limitations</b>
-In some cases an underlying component of Anki  (the js command inserthtml from chromium) changes from inline to css styling and vice versa. As long as you don't change your css or rely on different styling for night mdoe you should't notice this ... The only solution seems to use a different command.
-
-<b># remove the styling</b>
-If the regular way to clear formatting doesn't work try the add-on <a href="https://ankiweb.net/shared/info/333221628" rel="nofollow">editor - remove more formatting for selection (headings, hyperlinks, ...)</a> which adds an option "Full Clear" to the context menu of the editor.
+Each note type <i>MUST</i> have the string <code>@import url("_editor_button_styles.css");</code> at the top(!) of the "Styling" section in the "Card Types for ..." window. I've had many "bug" reports where people didn't do this. So this add-on offers to automatically adjust all notes types. This function has been in the add-on for about 10 months and so far I haven't heard a complaint. But if for some reason it failed you would have a major problem. You would have to manually fix the styling of maybe all note types or restore from a backup. So you must have backups before you use this add-on. When it comes to backups a common mistake is that users never check if they can actually restore their backups. A lot of people have learned that their backup didn't work only when they needed it ... In general having backups and knowing how to restore them is something everyone should know. This add-on might be the only one you use that has such a scary warning. I include the warning for various reasons here:
+<ul>
+<li>I have answered many support questions about Anki  in the Anki subreddit. Some people lost months or years of work because they didn't have proper backups (and they didn't use mobile or ... ).</li>
+<li>A future version of Anki might change so that the code that currently works has unintended effects and maybe at that point I no longer use Anki or this add-on so that the add-on is not adjusted to this latest version.</li>
+<li>Even though so far I haven't heard a complaint after thousands of downloads but maybe there's a bug that only affects only 1 in 10000? Or maybe my most recent update introduced a bug?</li>
+</ul>
 
 <b># updating the styling on AnkiMobile</b>
 Changes to your config are only applied in AnkiMobile on my iphone after I force close and reopen Ankimobile. With "force close" I mean: double click the home button, then swipe up on the app's preview.
 
 <b># bugs, errors, feedback</b>
-Please do not use reviews for bug reports or support requests. I don't get notified of your reviews, and properly troubleshooting an issue through them is nearly impossible (formatting is limited and I can't reply multiple times). If you find a bug let me know <a href="https://anki.tenderapp.com/discussions/add-ons/40702-editor-apply-font-color-background-color-custom-class-custom-style-official-thread?unresolve=true" rel="nofollow">in the official anki support forum</a>, on <a href="https://github.com/ijgnd/anki__editor__apply__font_color__background_color__custom_class__custom_style/issues" rel="nofollow">github</a> or via reddit (/u/ijgnord). As always: Use it at your own risk
+Please do not use reviews for bug reports or support requests. I don't get notified of your reviews, and properly troubleshooting an issue through them is nearly impossible (formatting is limited and I can't reply multiple times). If you find a bug let me know <a href="https://anki.tenderapp.com/discussions/add-ons/40702-editor-apply-font-color-background-color-custom-class-custom-style-official-thread?unresolve=true" rel="nofollow">in the official anki support forum</a>, on <a href="https://github.com/ijgnd/anki__editor__apply__font_color__background_color__custom_class__custom_style/issues" rel="nofollow">github</a> or via reddit (/u/ijgnord).
 
 <img src="https://raw.githubusercontent.com/ijgnd/anki__editor__apply__font_color__background_color__custom_class__custom_style/master/screenshots/screenshot_v3_main.png"> 
 
@@ -58,13 +60,15 @@ If you just want to sometimes change the text color or background color this add
 - The option to change the background color is available in the <a href="https://ankiweb.net/shared/info/295889520" rel="nofollow">Mini Format Pack</a>. But switching between different colors is time consuming.
 - Anki has a function to change the font color. But switching between different colors is time consuming.
 - There's the add-on <a href="https://ankiweb.net/shared/info/2491935955" rel="nofollow">Quick Colour Changing</a> that allows to set shortcuts for different font colors.
+- the <a href="https://ankiweb.net/shared/info/805891399" rel="nofollow">extended (table) editor</a> allows to edit <i>one</i> field in a powerful WYYIWYG editor (TinyMCE)
 
 <b># other authors / code reused from</b>
 - Glutanimate
 - Stefan van den Akker
 - Damien Elmes
 
-<b># Versions </b>
+<b># Versions</b>
+- 2020-05-15 v0.4 2.1.22+ only: for classes there's a night mode option, quick config dialogs for classes that only change the font color, the background color, or the font size. Classes and the html-style tag are more reliably applied. Added text wrapper option. Major changes under the hood. Now it works with the add-on <a href="https://ankiweb.net/shared/info/1215991469" rel="nofollow">Customize Editor Stylesheet</a>
 - 2020-01-22 update templates on mobile, misc
 - 2019-11-21       bgcolor fix
 - 2019-08-29 v0.31 extended info boxes for the user (2.1), replaced the add-on for 2.0 with a message
