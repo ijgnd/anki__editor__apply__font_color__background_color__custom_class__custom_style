@@ -80,6 +80,7 @@ $(document).ready(function(){
 
         rangy.init();
         HIGHLIGHTERS
+        focusField(0);
     })();
 });
 """.replace("PORTPORT", str(mw.mediaServer.getPort()))\
