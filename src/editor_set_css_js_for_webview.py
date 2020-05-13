@@ -18,10 +18,10 @@ from .config_var import getconfig
 from .css_for_webviews import create_css_for_webviews_from_config
 
 def rangy__create_global_variables_for_later_use():
-    jsstring = ""
-    for e in getconfig()["v3"]:
-        if e["Category"] in uses_classes:
-            jsstring += f"""\nvar {e["Setting"]}highlighter;"""
+    jsstring = "var dict = new Object();"
+    # for e in getconfig()["v3"]:
+    #     if e["Category"] in uses_classes:
+    #         jsstring += f"""\nvar {e["Setting"]}highlighter;"""
     return jsstring
 
 
@@ -31,8 +31,8 @@ def rangy_higlighters_for_each_class():
         if e["Category"] in uses_classes:
             classname = e["Setting"]
             js_str += f"""
-    {classname}highlighter = rangy.createHighlighter();
-    {classname}highlighter.addClassApplier(rangy.createClassApplier('{classname}'));
+    dict["{classname}highlighter"] = rangy.createHighlighter();
+    dict["{classname}highlighter"].addClassApplier(rangy.createClassApplier('{classname}'));
 """
     return js_str
 

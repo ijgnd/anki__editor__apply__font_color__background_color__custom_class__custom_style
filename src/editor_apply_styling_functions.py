@@ -83,7 +83,14 @@ Editor.my_apply_style = my_apply_style
 
 
 def my_apply_span_class(editor, _class):
-    editor.web.eval(f"""{_class}highlighter.highlightSelection('{_class}');""")
+    # TODO there's no undo for this with ctrl+z
+    # for undo you apparently should use document.execCommand(insertHTML), see
+    # https://stackoverflow.com/questions/28217539/allowing-contenteditable-to-undo-after-dom-modification
+    # But insertHTML doesn't help, because rangy by default directly modifies the page and not
+    # some variable that I insert. So I'd have to look into rangy. Sounds complicated, very quick
+    # search didn't render results.
+    # WORKAROUND: use rangy.removeAllHighlights(), see  https://github.com/timdown/rangy/wiki/Highlighter-Module
+    editor.web.eval(f"""dict["{_class}highlighter"].highlightSelection('{_class}');""")
     for e in getconfig()['v3']:
         if e["Category"] == "class (other)" and e["Setting"] == _class and e["surround_with_div_tag"]:
             editor.web.eval("classes_addon_wrap_helper();")
