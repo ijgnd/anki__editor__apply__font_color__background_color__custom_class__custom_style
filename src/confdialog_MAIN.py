@@ -124,6 +124,7 @@ class MainConfDialog(QDialog):
         self.config = c
         self.bo = settings_main_widgets.Ui_Dialog()
         self.bo.setupUi(self)
+        self.bo.cb_classes_to_styling.setParent(None)  # maybe ask user more prominently
         self.bo.cb_global_contextmenu_with_styling.setParent(None)  # To make the add-on less complex I removed the option for an unstyled context menu.
         restoreGeom(self, "class_custom_style_config_gui")
         self.setWindowTitle("Anki: Change Options for Add-on 'Buttons for Color and Style'")
