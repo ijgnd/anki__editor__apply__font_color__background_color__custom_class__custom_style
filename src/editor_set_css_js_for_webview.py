@@ -58,6 +58,17 @@ def js_inserter(self):
         # JS error :41 Uncaught TypeError: rangy.createHighlighter is not a function
 
     jsstring = """
+function classes_addon_wrap_helper(){
+    const s = window.getSelection();
+    let r = s.getRangeAt(0);
+    const content = r.cloneContents();
+    r.deleteContents();
+    const div = document.createElement("div");
+    div.appendChild(content);
+    r.insertNode(div);
+    saveField('key');
+}
+
 var injectScript = (src) => {
     return new Promise((resolve, reject) => {
         const script = document.createElement('script');

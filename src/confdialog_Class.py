@@ -43,6 +43,8 @@ class SettingsForClass(QDialog):
                 self.dialog.le_extrabutton_text.setText(config["extrabutton_text"])
             if config["extrabutton_tooltip"]:
                 self.dialog.le_tooltip_text.setText(config["extrabutton_tooltip"])
+            if config["surround_with_div_tag"]:
+                self.dialog.cb_surround_with_div.setChecked(config["extrabutton_tooltip"])
 
     def onHotkey(self):
         h = HotkeySelect(self, self.hotkey)
@@ -74,6 +76,7 @@ class SettingsForClass(QDialog):
             "Text_in_menu":  self.dialog.le_contextmenu_text.text(),
             "Text_in_menu_styling": self.dialog.pte_style.toPlainText(),
             "Text_in_menu_styling_nightmode": self.dialog.pte_style_nm.toPlainText(),
+            "surround_with_div_tag": self.dialog.cb_surround_with_div.isChecked(),            
             "extrabutton_show": self.dialog.cb_extrabutton_show.isChecked(),
             "extrabutton_text":  self.dialog.le_extrabutton_text.text(),
             "extrabutton_tooltip":  self.dialog.le_tooltip_text.text(),

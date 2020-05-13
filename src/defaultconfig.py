@@ -103,7 +103,8 @@ defaultconfig = {
             "Text_in_menu_styling_nightmode": "",
             "extrabutton_show": False,
             "extrabutton_text": "bb",
-            "extrabutton_tooltip": "apply class 'bigger font'"
+            "extrabutton_tooltip": "apply class 'bigger font'",
+            "surround_with_div_tag": False,
         },
         {
             "Category": "class (other)",
@@ -116,7 +117,8 @@ defaultconfig = {
             "Text_in_menu_styling_nightmode": "",
             "extrabutton_show": False,
             "extrabutton_text": "bb",
-            "extrabutton_tooltip": "apply class 'bold,bigger'"
+            "extrabutton_tooltip": "apply class 'bold,bigger'",
+            "surround_with_div_tag": False,
         },
         {
             "Category": "class (other)",
@@ -129,7 +131,8 @@ defaultconfig = {
             "Text_in_menu_styling_nightmode": "",
             "extrabutton_show": False,
             "extrabutton_text": "bb",
-            "extrabutton_tooltip": "apply class 'bold,bigger'"
+            "extrabutton_tooltip": "apply class 'bold,bigger'",
+            "surround_with_div_tag": False,
         },
         {
             "Category": "class (other)",
@@ -142,7 +145,8 @@ defaultconfig = {
             "Text_in_menu_styling_nightmode": "font-weight: bold; color: #da0000;",
             "extrabutton_show": False,
             "extrabutton_text": "br",
-            "extrabutton_tooltip": "apply class 'bold_red'"
+            "extrabutton_tooltip": "apply class 'bold_red'",
+            "surround_with_div_tag": False,
         },
         {
             "Category": "font size (via class)",
