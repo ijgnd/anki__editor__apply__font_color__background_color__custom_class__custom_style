@@ -65,12 +65,15 @@ function classes_addon__remove_classes_from_selection(){
 // TODO
 }
 
-function classes_addon_wrap_helper(){
+function classes_addon_wrap_helper(surrounding_div_tag_class){
     const s = window.getSelection();
     let r = s.getRangeAt(0);
     const content = r.cloneContents();
     r.deleteContents();
     const div = document.createElement("div");
+    if (surrounding_div_tag_class){
+        div.className = surrounding_div_tag_class;
+    }
     div.appendChild(content);
     r.insertNode(div);
     saveField('key');

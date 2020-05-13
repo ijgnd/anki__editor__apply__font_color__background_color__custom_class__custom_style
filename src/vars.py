@@ -32,6 +32,7 @@ addable_options = [
         "font size (via class)",
         "text wrapper",
         "class (other)",
+        "class (other), wrapped in div"
         "style (inline)",
         "Forecolor (inline)"
         "Backcolor (inline)"

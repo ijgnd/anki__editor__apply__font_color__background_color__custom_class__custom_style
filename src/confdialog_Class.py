@@ -12,7 +12,7 @@ from .forms import settings_class
 
 
 class SettingsForClass(QDialog):
-    def __init__(self, parent=None, config=None):
+    def __init__(self, parent=None, config=None, inspan=True):
         self.parent = parent
         self.config = config
         QDialog.__init__(self, parent, Qt.Window)
@@ -45,6 +45,8 @@ class SettingsForClass(QDialog):
                 self.dialog.le_tooltip_text.setText(config["extrabutton_tooltip"])
             if config["surround_with_div_tag"]:
                 self.dialog.cb_surround_with_div.setChecked(config["extrabutton_tooltip"])
+        if not inspan:
+            self.dialog.cb_surround_with_div.setParent(None)
 
     def onHotkey(self):
         h = HotkeySelect(self, self.hotkey)

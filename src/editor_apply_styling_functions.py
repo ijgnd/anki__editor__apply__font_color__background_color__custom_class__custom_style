@@ -24,6 +24,7 @@ from .vars import unique_string
 def setmycategories(editor):
     editor.mycategories = {
         "class (other)": editor.my_apply_span_class,
+        "class (other), wrapped in div": editor.my_wrap_in_class,
         "style (inline)": editor.my_apply_style,
         "Backcolor (inline)": editor.setBackcolor,
         "Backcolor (via class)": editor.my_apply_span_class,
@@ -93,6 +94,12 @@ def my_apply_style(editor, style):
     """.replace("NEWSTYLE", style)
     editor.web.eval(js)
 Editor.my_apply_style = my_apply_style
+
+
+def my_wrap_in_class(editor, _class):
+    js = f"classes_addon_wrap_helper('{_class}');"
+    editor.web.eval(js)
+Editor.my_wrap_in_class = my_wrap_in_class
 
 
 def my_apply_span_class(editor, _class):

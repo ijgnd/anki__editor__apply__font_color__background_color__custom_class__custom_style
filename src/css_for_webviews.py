@@ -15,7 +15,7 @@ def create_css_for_webviews_from_config():
     classes_str = ""
     for e in getconfig()["v3"]:
         nmstyle = get_nm_style(e)
-        if e["Category"] in ["class (other)"]:
+        if e["Category"] in ["class (other)", "class (other), wrapped in div"]:
             classes_str += ("." + str(e["Setting"]) +
                             "{\n" + str(e['Text_in_menu_styling']) +
                             "\n}\n\n"

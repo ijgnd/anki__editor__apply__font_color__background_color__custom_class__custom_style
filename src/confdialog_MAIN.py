@@ -59,8 +59,10 @@ def gui_dialog(inst, sel=None, config=None):
         return SettingsForFont(inst, sel, config)
     if sel == "style (inline)":
         return SettingsForStyle(inst, config)
-    if sel == "class (other)":
+    if sel in ["class (other)"]:
         return SettingsForClass(inst, config)
+    if sel in ["class (other), wrapped in div"]:
+        return SettingsForClass(inst, config, inspan=False)
     if sel == "text wrapper":
         return SettingsForTextWrapper(inst, config)
     else:
@@ -109,7 +111,7 @@ class AddEntry(QDialog):
         if sel in ["Backcolor (inline)", "style (inline)"]:
             if not askUser(inlinewarning):
                 return
-        if sel in ["class (other)", "Backcolor (via class)", "Forecolor (via class)", "font size (via class)"]:
+        if sel in ["class (other)", "Backcolor (via class)", "Forecolor (via class)", "font size (via class)", "class (other), wrapped in div"]:
             if not askUser(classeswarning):
                 return
         a = gui_dialog(self, sel=sel, config=None)
