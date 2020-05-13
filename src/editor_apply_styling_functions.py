@@ -73,8 +73,10 @@ Editor.setForecolor = setForecolor
 
 
 def my_apply_style(editor, style):
+    # TODO editor.web.selectedText() is text without styling
     selected = editor.web.selectedText()
     styled = "".join(['<span style="{}">'.format(style), selected, '</span>'])
+    # TODO use setFormat from editor.js from Anki ?
     editor.web.eval("document.execCommand('inserthtml', false, %s);"
                     % json.dumps(styled))
 Editor.my_apply_style = my_apply_style

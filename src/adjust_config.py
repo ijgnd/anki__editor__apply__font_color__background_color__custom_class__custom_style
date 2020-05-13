@@ -216,9 +216,9 @@ def update_config_for_202005(config):
         - added separate config values for night mode
         - added font size (via class)
         - added Forecolor (via class)
-        - removed Backcolor (inline)
-        - removed Forecolor
-        - removed style
+        - removed from default config/no longer add-able: Backcolor (inline)
+        - removed from default config/no longer add-able: Forecolor
+        - removed from default config/no longer add-able: style
     """
     for e in config['v3']:
         if not "Text_in_menu_styling_nightmode" in e:

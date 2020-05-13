@@ -15,7 +15,7 @@ defaultconfig = {
             "Text_in_menu_styling_nightmode": "",
             "extrabutton_show": False,
             "extrabutton_text": "bYe",
-            "extrabutton_tooltip": "class background yellow"
+            "extrabutton_tooltip": "class background yellow",
         },
         {
             "active": True,
@@ -28,7 +28,7 @@ defaultconfig = {
             "Text_in_menu_styling_nightmode": "",
             "extrabutton_show": False,
             "extrabutton_text": "bGr",
-            "extrabutton_tooltip": "class background green"
+            "extrabutton_tooltip": "class background green",
         },
         {
             "active": True,
@@ -41,7 +41,7 @@ defaultconfig = {
             "Text_in_menu_styling_nightmode": "",
             "extrabutton_show": False,
             "extrabutton_text": "bBl",
-            "extrabutton_tooltip": "class background blue"
+            "extrabutton_tooltip": "class background blue",
         },
         {
             "active": True,
@@ -54,7 +54,7 @@ defaultconfig = {
             "Text_in_menu_styling_nightmode": "",
             "extrabutton_show": False,
             "extrabutton_text": "bRe",
-            "extrabutton_tooltip": "class background red"
+            "extrabutton_tooltip": "class background red",
         },
         {
             "Category": "Forecolor (via class)",
@@ -66,7 +66,7 @@ defaultconfig = {
             "Text_in_menu_styling_nightmode": "",
             "extrabutton_show": False,
             "extrabutton_text": "fG",
-            "extrabutton_tooltip": "font-color green"
+            "extrabutton_tooltip": "font-color green",
         },
         {
             "Category": "Forecolor (via class)",
@@ -78,7 +78,7 @@ defaultconfig = {
             "Text_in_menu_styling_nightmode": "",
             "extrabutton_show": False,
             "extrabutton_text": "fB",
-            "extrabutton_tooltip": "font-color blue"
+            "extrabutton_tooltip": "font-color blue",
         },
         {
             "Category": "Forecolor (via class)",
@@ -90,7 +90,7 @@ defaultconfig = {
             "Text_in_menu_styling_nightmode": "",
             "extrabutton_show": False,
             "extrabutton_text": "fR",
-            "extrabutton_tooltip": "font-color red"
+            "extrabutton_tooltip": "font-color red",
         },
         {
             "Category": "class (other)",
@@ -159,7 +159,7 @@ defaultconfig = {
             "Text_in_menu_styling_nightmode": "",
             "extrabutton_show": False,
             "extrabutton_text": "80",
-            "extrabutton_tooltip": "set font size to 80%"
+            "extrabutton_tooltip": "set font size to 80%",
         },
         {
             "Category": "font size (via class)",
@@ -172,7 +172,7 @@ defaultconfig = {
             "Text_in_menu_styling_nightmode": "",
             "extrabutton_show": False,
             "extrabutton_text": "130",
-            "extrabutton_tooltip": "set font size to 130%"
+            "extrabutton_tooltip": "set font size to 130%",
         },
         {
             "Category": "text wrapper",
@@ -185,7 +185,7 @@ defaultconfig = {
             "Text_in_menu_styling_nightmode": "]]",
             "extrabutton_show": False,
             "extrabutton_text": "[]",
-            "extrabutton_tooltip": "Surround with double square brackets"
+            "extrabutton_tooltip": "Surround with double square brackets",
         },
         {
             "Category": "text wrapper",
@@ -198,7 +198,7 @@ defaultconfig = {
             "Text_in_menu_styling_nightmode": ")]]",
             "extrabutton_show": False,
             "extrabutton_text": "rtb",
-            "extrabutton_tooltip": "sr: pick"
+            "extrabutton_tooltip": "sr: pick",
         }
     ]
 } 
