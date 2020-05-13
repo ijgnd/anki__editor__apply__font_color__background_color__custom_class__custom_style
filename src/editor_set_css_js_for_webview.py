@@ -18,7 +18,7 @@ from .config_var import getconfig
 from .css_for_webviews import create_css_for_webviews_from_config
 
 def rangy__create_global_variables_for_later_use():
-    jsstring = "var dict = new Object();"
+    jsstring = """var dict = new Object();"""
     # for e in getconfig()["v3"]:
     #     if e["Category"] in uses_classes:
     #         jsstring += f"""\nvar {e["Setting"]}highlighter;"""
@@ -58,6 +58,10 @@ def js_inserter(self):
         # JS error :41 Uncaught TypeError: rangy.createHighlighter is not a function
 
     jsstring = """
+function classes_addon__remove_classes_from_selection(){
+// TODO
+}
+
 function classes_addon_wrap_helper(){
     const s = window.getSelection();
     let r = s.getRangeAt(0);

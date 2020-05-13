@@ -18,7 +18,7 @@ from aqt.utils import showInfo
 from .config_var import getconfig
 from .menu import additional_menu_basic, additional_menu_styled
 from .vars import iconfolder
-
+from .editor_apply_styling_functions import classes_addon_rangy_remove_all
 
 
 def makethisbutton(editor, e, func):
@@ -48,6 +48,9 @@ def SetupShortcuts(cuts, editor):
         if e.get("Hotkey", False):  # and not config["v2_show_in_contextmenu"]:
             func = editor.mycategories[e['Category']]
             cuts.append((e["Hotkey"], lambda s=e["Setting"], f=func: f(editor, s)))
+    scut = config.get("v2_key_styling_undo")
+    if scut:
+        cuts.append((scut, lambda e=editor: classes_addon_rangy_remove_all(e)))
 
 
 def setupButtons(buttons, editor):

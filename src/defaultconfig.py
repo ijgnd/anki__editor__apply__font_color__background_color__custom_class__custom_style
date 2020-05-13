@@ -2,6 +2,7 @@ defaultconfig = {
     "update_level": "1589114109",
     "v2_menu_styling": True,
     "v2_key_styling_menu": "F2",
+    "v2_key_styling_undo": "Alt+r",
     "v2_show_in_contextmenu": True,
     "v3": [
         {
@@ -46,7 +47,7 @@ defaultconfig = {
         {
             "active": True,
             "Category": "Backcolor (via class)",
-            "Hotkey": "Alt+r",
+            "Hotkey": "Alt+t",
             "Setting": "bg_red",
             "Show_in_menu": True,
             "Text_in_menu": "red",

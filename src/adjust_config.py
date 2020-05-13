@@ -226,6 +226,8 @@ def update_config_for_202005(config):
     if not "v3_inactive" in config:
         config["v3_inactive"] = []
     if not uses_most_recent_config(config, 1589114109):
+        if not "v2_key_styling_menu" in config:
+            config["v2_key_styling_menu"] = "" 
         oldv3 = config['v3'][:]
         config['v3'] = []
         showwarning = False

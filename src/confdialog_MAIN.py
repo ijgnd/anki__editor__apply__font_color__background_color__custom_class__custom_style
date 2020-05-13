@@ -147,6 +147,7 @@ class MainConfDialog(QDialog):
             lambda _, w=self.bo.tw_inactive: self.process_row(w, "del"))
         self.bo.cb_classes_to_styling.toggled.connect(self.onClassesToStyling)
         self.bo.pb_global_multibutton_show.clicked.connect(self.onHotkey)
+        self.bo.pb_class_undo.clicked.connect(self.onUndoHotkey)
         self.bo.pb_more.clicked.connect(self.onMore)
 
     def set_check_state_buttons(self):
@@ -159,12 +160,20 @@ class MainConfDialog(QDialog):
                 self.bo.cb_classes_to_styling.setChecked(True)
         if self.config["v2_key_styling_menu"]:
             self.bo.pb_global_multibutton_show.setText(self.config["v2_key_styling_menu"])
+        if self.config.get("v2_key_styling_undo"): 
+            self.bo.pb_class_undo.setText(self.config["v2_key_styling_undo"])
 
     def onHotkey(self):
         h = HotkeySelect(self, self.config["v2_key_styling_menu"])
         if h.exec_():
             self.config["v2_key_styling_menu"] = h.hotkey
             self.bo.pb_global_multibutton_show.setText(self.config["v2_key_styling_menu"])
+
+    def onUndoHotkey(self):
+        h = HotkeySelect(self, self.config["v2_key_styling_undo"])
+        if h.exec_():
+            self.config["v2_key_styling_undo"] = h.hotkey
+            self.bo.pb_global_multibutton_show.setText(self.config["v2_key_styling_undo"])
 
     def onMore(self):
         m = QMenu(mw)
