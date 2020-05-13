@@ -85,7 +85,7 @@ Editor.my_apply_style = my_apply_style
 def my_apply_span_class(editor, _class):
     editor.web.eval(f"""{_class}highlighter.highlightSelection('{_class}');""")
     for e in getconfig()['v3']:
-        if e["Setting"] == _class and e["surround_with_div_tag"]:
+        if e["Category"] == "class (other)" and e["Setting"] == _class and e["surround_with_div_tag"]:
             editor.web.eval("classes_addon_wrap_helper();")
             break
 Editor.my_apply_span_class = my_apply_span_class
