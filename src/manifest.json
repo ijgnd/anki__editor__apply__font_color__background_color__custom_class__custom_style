@@ -1,6 +1,5 @@
 {
     "name": "editor: apply font color, background color, custom class, custom style",
     "package": "1899278645",
-    "mod": "",
-    "conflicts": ["1215991469"]
+    "mod": ""
 } 
