@@ -70,7 +70,6 @@ from .confdialog_MAIN import MainConfDialog
 from .config_var import getconfig
 from .css_for_webviews import create_css_for_webviews_from_config
 from . import config_var
-from .colors import hex_to_rgb_tuple, html4colors, css3colors
 from .contextmenu import add_to_context
 from .editor_apply_styling_functions import setmycategories
 from .shortcuts_buttons import setupButtons, SetupShortcuts
@@ -87,8 +86,6 @@ from .adjust_config import (
     read_and_update_old_v2_config_from_meta_json,
     update_config_for_202005,
 )
-from . import editor_set_css_js_for_webview
-
 
 
 regex = r"(web.*)"
