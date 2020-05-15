@@ -20,6 +20,7 @@ unique_string = "91cb101665994f66a728db9aa0a4294a"
 
 uses_classes = [
     "class (other)",
+    "class (other), wrapped in div",
     "Backcolor (via class)",
     "Forecolor (via class)",
     "font size (via class)",

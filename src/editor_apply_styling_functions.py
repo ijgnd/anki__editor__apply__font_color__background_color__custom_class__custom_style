@@ -112,7 +112,7 @@ def my_apply_span_class(editor, _class):
     # WORKAROUND: use rangy.removeAllHighlights(), see  https://github.com/timdown/rangy/wiki/Highlighter-Module
     editor.web.eval(f"""dict["{_class}highlighter"].highlightSelection('{_class}');""")
     for e in getconfig()['v3']:
-        if e["Category"] == "class (other)" and e["Setting"] == _class and e["surround_with_div_tag"]:
+        if e["Category"] == "class (other)" and e["Setting"] == _class and e.get("surround_with_div_tag"):
             editor.web.eval("classes_addon_wrap_helper();")
             break
 Editor.my_apply_span_class = my_apply_span_class

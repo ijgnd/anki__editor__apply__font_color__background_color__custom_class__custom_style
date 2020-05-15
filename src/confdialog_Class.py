@@ -43,7 +43,7 @@ class SettingsForClass(QDialog):
                 self.dialog.le_extrabutton_text.setText(config["extrabutton_text"])
             if config["extrabutton_tooltip"]:
                 self.dialog.le_tooltip_text.setText(config["extrabutton_tooltip"])
-            if config["surround_with_div_tag"]:
+            if config.get("surround_with_div_tag"):
                 self.dialog.cb_surround_with_div.setChecked(config["extrabutton_tooltip"])
         if not inspan:
             self.dialog.cb_surround_with_div.setParent(None)
