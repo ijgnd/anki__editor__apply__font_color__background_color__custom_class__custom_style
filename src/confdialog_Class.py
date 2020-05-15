@@ -59,13 +59,12 @@ class SettingsForClass(QDialog):
 
     def accept(self):
         classname = self.dialog.le_classname.text()
-        o = re.match("""-?[_a-zA-Z]+[_a-zA-Z0-9-]*""", classname)
+        o = re.match(r"""^(?!-\d)[a-zA-Z-_][a-zA-Z0-9_][a-zA-Z0-9-_]*$""", classname)
         if not o:
-            t = ("Illegal character in classname. "
-                 "the name must begin with an underscore (_), a hyphen (-), or a letter(a–z), "
-                 "followed by any number of hyphens, underscores, letters, or numbers. "
-                 "If the first character is a hyphen, the second character must be a letter"
-                 "or underscore, and the name must be at least 2 characters long."
+            t = ("Illegal character in classname.\n"
+                 "the name can contain only the characters [a-zA-Z0-9], the hyphen (-), the "
+                 "underscore (_); it may not start with a digit, two hyphens, or a "
+                 "hyphen followed by a digit. It must be at least 2 characters long."
                 )
             showInfo(t)
             return
