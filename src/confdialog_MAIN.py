@@ -91,7 +91,7 @@ text.DOUBLENote: If you insert unformatted text into a html paragraph that alrea
 formatting the inserted text will also show this formatting. So the remove all formatting" options 
 only works as expected if you have unformatted text before your selection.
 DOUBLEContinue?
-""".replace("\n", " ").replace("DOUBLE","\n")
+""".replace("\n", "").replace("DOUBLE","\n")
 
         
 class AddEntry(QDialog):
