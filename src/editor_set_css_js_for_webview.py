@@ -86,8 +86,11 @@ var injectScript = (src) => {
     });
 };
 
+
 $(document).ready(function(){
     (async () => {
+        console.log('rangy loaded by classes_addon');
+
         await injectScript("http://127.0.0.1:PORTPORT/_addons/1899278645/web/rangy-core.js");
         await injectScript("http://127.0.0.1:PORTPORT/_addons/1899278645/web/rangy-classapplier.js");
         await injectScript("http://127.0.0.1:PORTPORT/_addons/1899278645/web/rangy-serializer.js");
@@ -97,10 +100,41 @@ $(document).ready(function(){
 
         rangy.init();
         HIGHLIGHTERS
+        hbir_init(); // half-baked incremental reading addon
         focusField(0);
     })();
 });
+
+
 """.replace("PORTPORT", str(mw.mediaServer.getPort()))\
    .replace("HIGHLIGHTERS", rangy_higlighters_for_each_class())
     self.web.eval(jsstring)
 gui_hooks.editor_did_init.append(js_inserter)
+
+
+
+"""
+if (typeof rangy === 'undefined') {
+    $(document).ready(function(){
+        (async () => {
+            console.log('rangy loaded by classes_addon');            
+
+            await injectScript("http://127.0.0.1:PORTPORT/_addons/1899278645/web/rangy-core.js");
+            await injectScript("http://127.0.0.1:PORTPORT/_addons/1899278645/web/rangy-classapplier.js");
+            await injectScript("http://127.0.0.1:PORTPORT/_addons/1899278645/web/rangy-serializer.js");
+            await injectScript("http://127.0.0.1:PORTPORT/_addons/1899278645/web/rangy-textrange.js");
+            await injectScript("http://127.0.0.1:PORTPORT/_addons/1899278645/web/rangy-selectionsaverestore.js");
+            await injectScript("http://127.0.0.1:PORTPORT/_addons/1899278645/web/rangy-highlighter.js");
+
+            rangy.init();
+            HIGHLIGHTERS
+            hbir_init(); // half-baked incremental reading addon
+            focusField(0);
+        })();
+    });
+}
+else {
+            HIGHLIGHTERS
+            focusField(0); 
+}
+"""
