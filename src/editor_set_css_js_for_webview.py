@@ -61,10 +61,6 @@ def js_inserter(self):
         # JS error :41 Uncaught TypeError: rangy.createHighlighter is not a function
 
     jsstring = """
-function classes_addon__remove_classes_from_selection(){
-// TODO
-}
-
 function classes_addon_wrap_helper(surrounding_div_tag_class){
     const s = window.getSelection();
     let r = s.getRangeAt(0);
