@@ -12,7 +12,7 @@ iconfolder = os.path.join(addon_path, "icons")
 user_files_folder = os.path.join(addon_path, "user_files")
 picklefile = os.path.join(user_files_folder, "settings.pypickle")
 mjfile = os.path.join(addon_path, "meta.json")
-addonname = "editor: apply font color, background color custom class, custom style"
+addonname = mw.addonManager.addonName(addon_folder_name)
 ankiwebpage = "https://ankiweb.net/shared/info/1899278645"
 
 unique_string = "91cb101665994f66a728db9aa0a4294a"
