@@ -49,7 +49,7 @@ class SettingsForFont(QDialog):
         QDialog.reject(self)
 
     def return_font_size(self):
-        font = self.dialog.le_fontsize.text(),  #"font-size:" + self.dialog.le_fontsize.text() + ";",
+        font = self.dialog.le_fontsize.text()  #"font-size:" + self.dialog.le_fontsize.text() + ";",
         return font.rstrip(";").lstrip("font-size:")
 
     def accept(self):
