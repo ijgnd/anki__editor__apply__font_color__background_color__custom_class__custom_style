@@ -88,7 +88,7 @@ from .vars import (
 )
 
 
-regex = r"(web.*)"
+regex = r"(web/.*)"
 mw.addonManager.setWebExports(__name__, regex)
 
 
