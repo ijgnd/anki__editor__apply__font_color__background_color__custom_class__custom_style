@@ -1,3 +1,8 @@
+<b>This description only refers to the latest version for Anki 2.1.26.</b>
+
+<b>In 2020-06-08 a major update of this add-on was released that might contain some bugs. If you find a bug let me know <a href="https://anki.tenderapp.com/discussions/add-ons/40702-editor-apply-font-color-background-color-custom-class-custom-style-official-thread?unresolve=true" rel="nofollow">in the official anki support forum</a>, on <a href="https://github.com/ijgnd/anki__editor__apply__font_color__background_color__custom_class__custom_style/issues" rel="nofollow">github</a> or via reddit (/u/ijgnord).</b>
+
+
 This add-on offers more styling options for the Anki editor: You can quickly set different font colors, background colors, font sizes or apply custom classes or styles. You can use shortcuts, buttons from the top of the editor or the context menu. 
 
 <b>Before you use this add-on make sure to read sections "Setup/Updating Templates" and "Quirks" and "updating the styling on Mobile" below</b>.
@@ -8,7 +13,7 @@ Use this add-on at your own risk.
 
 If you want to use a custom style but don't know css there are online sites that make creating styles easier. A google search lead to sites like <a href="https://html-css-js.com/css/generator/font/" rel="nofollow">this one</a> or <a href="https://webdesign-assistant.com/font-editor/css-font-generator.php" rel="nofollow">this one</a>.
 
-<img src="https://raw.githubusercontent.com/ijgnd/anki__editor__apply__font_color__background_color__custom_class__custom_style/master/screenshots/style2.gif"> 
+<img src="https://raw.githubusercontent.com/ijgnd/anki__editor__apply__font_color__background_color__custom_class__custom_style/master/screenshots/style.gif"> 
 
 <b># Functions</b>
 This add-on offers the following options:
@@ -16,18 +21,20 @@ This add-on offers the following options:
 <li>1. directly changing the <b>font color by changing the html color attribute</b>. This is also built into Anki but switching between different colors is time consuming. You can set different font colors with the "Quick Colour Changing" add-on. This add-on additionally gives you the option to have multiple dedicated buttons or menu entries for font colors you often use. But my add-on  might be easier to use.</li>
 <li>2. you can set the <b>background color directly using the html background-color attribute</b>. The option to change the background color is also available in the add-on "Mini Format Pack". But switching between different colors is time consuming.</li>
 <li>3. you can <b>style text with the html style attribute</b>.</li>
-<li>4. you can set <b>css</b> for custom <b>classes<b> and apply these classes to the text selected.</li>
+<li>4. you can set <b>css</b> for custom <b>classes</b> and apply these classes to the text selected using the inline "span" tag.</li>
+<li>5. you can set <b>css</b> for custom <b>classes</b> and apply these classes to the text selected using the "div" tag which is a block element which means you'll have a line-break before and after it. Some styling only makes sense when it's applied to a div.</li>
 <li>5. There's are easy to use dialogs/options to change the font color, the background color, and the font size by using css and html classes. This has some advantages and some drawabacks: html classes are roughly similar to "styles" that you can apply in Word or LibreOffice. When you use html classes you can later change the color for all the fonts you've highlighted at the same time and you can also set different colors for night mode.</li>
 <li>6. You can wrap the text selected with custom text snippets.</li>
 </ul>
 
 <b># Quirks</b>
-Background: The Anki editor you see in the Add window and at the bottom of the browser is not meant to be a fully featured word processing software like Word or LibreOffice. Anki is meant to be used with short flashcards that don't require a lot of styling. The Anki manual repeatedly suggests to follow a "minimum information principle" when creating notes/cards.
+Background: The Anki editor you see in the Add window and at the bottom of the browser is not meant to be a fully featured word processing software like Word or LibreOffice. Anki is meant to be used with short flashcards that don't require a lot of styling. The Anki manual repeatedly suggests to follow a "minimum information principle" when creating notes/cards. And there's only so much an add-on can do ...
 
 All functions mentioned in section above apart from "1/html color attribute" have quirks/drawbacks:
 <ul>
 <li>In all versions of Anki that I've used so far (the most recent when the add-on was released was 2.1.26) remove the background color (option 2) and styling (option 3) when you copy and paste the text into a different field in Anki. This is not a limitation of this add-on but also applies to background color you set with the add-on "Mini Format Pack".</li>
 <li>The options that use classes (options 4, 5) cannot be undone with Ctrl/Cmd+Z and the regular Ctrl/Cmd+R doesn't remove the classes. Instead this add-on offers a custom shortcut for removing all formatting from selected text. Note: If you insert unformatted text into a html paragraph that already has some formatting the inserted text will also show this formatting. So the "remove all formatting" options only works as expected if you have unformatted text before your selection.</li>
+</ul>
 
 I use classes because I don't mind using a custom clear shortcut.
 
@@ -68,7 +75,7 @@ If you just want to sometimes change the text color or background color this add
 - Damien Elmes
 
 <b># Versions</b>
-- 2020-05-15 v0.4 2.1.22+ only: for classes there's a night mode option, quick config dialogs for classes that only change the font color, the background color, or the font size. Classes and the html-style tag are more reliably applied. Added text wrapper option. Major changes under the hood. Now it works with the add-on <a href="https://ankiweb.net/shared/info/1215991469" rel="nofollow">Customize Editor Stylesheet</a>
+- 2020-06-08 v0.4 2.1.22+ only: for classes there's a night mode option, quick config dialogs for classes that only change the font color, the background color, or the font size. Classes and the html-style tag are more reliably applied. Added text wrapper option. Added the wrap with div option. Major changes under the hood. Now it works with the add-on <a href="https://ankiweb.net/shared/info/1215991469" rel="nofollow">Customize Editor Stylesheet</a>
 - 2020-01-22 update templates on mobile, misc
 - 2019-11-21       bgcolor fix
 - 2019-08-29 v0.31 extended info boxes for the user (2.1), replaced the add-on for 2.0 with a message
