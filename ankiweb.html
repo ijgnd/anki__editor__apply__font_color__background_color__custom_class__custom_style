@@ -17,24 +17,22 @@ If you want to use a custom style but don't know css there are online sites that
 
 <b># Functions</b>
 This add-on offers the following options:
-<ul>
-<li>1. directly changing the <b>font color by changing the html color attribute</b>. This is also built into Anki but switching between different colors is time consuming. You can set different font colors with the "Quick Colour Changing" add-on. This add-on additionally gives you the option to have multiple dedicated buttons or menu entries for font colors you often use. But my add-on  might be easier to use.</li>
-<li>2. you can set the <b>background color directly using the html background-color attribute</b>. The option to change the background color is also available in the add-on "Mini Format Pack". But switching between different colors is time consuming.</li>
-<li>3. you can <b>style text with the html style attribute</b>.</li>
-<li>4. you can set <b>css</b> for custom <b>classes</b> and apply these classes to the text selected using the inline "span" tag.</li>
-<li>5. you can set <b>css</b> for custom <b>classes</b> and apply these classes to the text selected using the "div" tag which is a block element which means you'll have a line-break before and after it. Some styling only makes sense when it's applied to a div.</li>
-<li>5. There's are easy to use dialogs/options to change the font color, the background color, and the font size by using css and html classes. This has some advantages and some drawabacks: html classes are roughly similar to "styles" that you can apply in Word or LibreOffice. When you use html classes you can later change the color for all the fonts you've highlighted at the same time and you can also set different colors for night mode.</li>
-<li>6. You can wrap the text selected with custom text snippets.</li>
-</ul>
+1. directly changing the <b>font color by changing the html color attribute</b>. This is also built into Anki but switching between different colors is time consuming. You can set different font colors with the "Quick Colour Changing" add-on. This add-on additionally gives you the option to have multiple dedicated buttons or menu entries for font colors you often use. But my add-on  might be easier to use.
+2. you can set the <b>background color directly using the html background-color attribute</b>. The option to change the background color is also available in the add-on "Mini Format Pack". But switching between different colors is time consuming.
+3. you can <b>style text with the html style attribute</b>.
+4. you can set <b>css</b> for custom <b>classes</b> and apply these classes to the text selected using the inline "span" tag.
+5. you can set <b>css</b> for custom <b>classes</b> and apply these classes to the text selected using the "div" tag which is a block element which means you'll have a line-break before and after it. Some styling only makes sense when it's applied to a div.
+6. There's are easy to use dialogs/options to change the font color, the background color, and the font size by using css and html classes. This has some advantages and some drawabacks: html classes are roughly similar to "styles" that you can apply in Word or LibreOffice. When you use html classes you can later change the color for all the fonts you've highlighted at the same time and you can also set different colors for night mode.
+7. You can wrap the text selected with custom text snippets.
 
 <b># Quirks</b>
 Background: The Anki editor you see in the Add window and at the bottom of the browser is not meant to be a fully featured word processing software like Word or LibreOffice. Anki is meant to be used with short flashcards that don't require a lot of styling. The Anki manual repeatedly suggests to follow a "minimum information principle" when creating notes/cards. And there's only so much an add-on can do ...
 
 All functions mentioned in section above apart from "1/html color attribute" have quirks/drawbacks:
-<ul>
-<li>In all versions of Anki that I've used so far (the most recent when the add-on was released was 2.1.26) remove the background color (option 2) and styling (option 3) when you copy and paste the text into a different field in Anki. This is not a limitation of this add-on but also applies to background color you set with the add-on "Mini Format Pack".</li>
-<li>The options that use classes (options 4, 5) cannot be undone with Ctrl/Cmd+Z and the regular Ctrl/Cmd+R doesn't remove the classes. Instead this add-on offers a custom shortcut for removing all formatting from selected text. Note: If you insert unformatted text into a html paragraph that already has some formatting the inserted text will also show this formatting. So the "remove all formatting" options only works as expected if you have unformatted text before your selection.</li>
-</ul>
+
+- In all versions of Anki that I've used so far (the most recent when the add-on was released was 2.1.26) remove the background color (option 2) and styling (option 3) when you copy and paste the text into a different field in Anki. This is not a limitation of this add-on but also applies to background color you set with the add-on "Mini Format Pack".
+- The options that use classes (options 4, 5) cannot be undone with Ctrl/Cmd+Z and the regular Ctrl/Cmd+R doesn't remove the classes. Instead this add-on offers a custom shortcut for removing all formatting from selected text. Note: If you insert unformatted text into a html paragraph that already has some formatting the inserted text will also show this formatting. So the "remove all formatting" options only works as expected if you have unformatted text before your selection.
+
 
 I use classes because I don't mind using a custom clear shortcut.
 
@@ -42,11 +40,11 @@ Another problem: In some cases an underlying component of Anki (the js command "
 
 <b># Setup</b>
 Each note type <i>MUST</i> have the string <code>@import url("_editor_button_styles.css");</code> at the top(!) of the "Styling" section in the "Card Types for ..." window. I've had many "bug" reports where people didn't do this. So this add-on offers to automatically adjust all notes types. This function has been in the add-on for about 10 months and so far I haven't heard a complaint. But if for some reason it failed you would have a major problem. You would have to manually fix the styling of maybe all note types or restore from a backup. So you must have backups before you use this add-on. When it comes to backups a common mistake is that users never check if they can actually restore their backups. A lot of people have learned that their backup didn't work only when they needed it ... In general having backups and knowing how to restore them is something everyone should know. This add-on might be the only one you use that has such a scary warning. I include the warning for various reasons here:
-<ul>
-<li>I have answered many support questions about Anki  in the Anki subreddit. Some people lost months or years of work because they didn't have proper backups (and they didn't use mobile or ... ).</li>
-<li>A future version of Anki might change so that the code that currently works has unintended effects and maybe at that point I no longer use Anki or this add-on so that the add-on is not adjusted to this latest version.</li>
-<li>Even though so far I haven't heard a complaint after thousands of downloads but maybe there's a bug that only affects only 1 in 10000? Or maybe my most recent update introduced a bug?</li>
-</ul>
+
+- I have answered many support questions about Anki  in the Anki subreddit. Some people lost months or years of work because they didn't have proper backups (and they didn't use mobile or ... ).
+- A future version of Anki might change so that the code that currently works has unintended effects and maybe at that point I no longer use Anki or this add-on so that the add-on is not adjusted to this latest version.
+- Even though so far I haven't heard a complaint after thousands of downloads but maybe there's a bug that only affects only 1 in 10000? Or maybe my most recent update introduced a bug?
+
 
 <b># updating the styling on AnkiMobile</b>
 Changes to your config are only applied in AnkiMobile on my iphone after I force close and reopen Ankimobile. With "force close" I mean: double click the home button, then swipe up on the app's preview.
