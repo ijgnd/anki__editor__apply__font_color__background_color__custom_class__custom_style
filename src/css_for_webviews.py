@@ -3,7 +3,7 @@ from .config_var import getconfig
 
 def get_nm_style(configkey):
     e = configkey
-    nmsetting = e['Text_in_menu_styling_nightmode']
+    nmsetting = e.get('Text_in_menu_styling_nightmode')
     if nmsetting:
         nmstyle = str(nmsetting)
     else:
