@@ -110,7 +110,10 @@ Auto update these note types?
 
 first_start = f"""
 This is an infobox from the add-on "{addonname}". It's shown one time because you either 
-installed it for the first time or just upgraded.
+installed it for the first time or just upgraded. 
+The most recent version of this add-on contains a better default config. If you don't use a 
+custom config you should consider resetting the config of this add-on to it's default so that 
+you get the new config: It's in the upper right corner of the config dialog behind the "more" button. 
 DOUBLE
 This add-on has some quirks/limitations for technical reasons: You either know some 
 background about the anki editor and how to work around these or you will run into some problems 
