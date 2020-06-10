@@ -35,8 +35,8 @@ addable_options = [
         "class (other)",
         "class (other), wrapped in div",
         "style (inline)",
-        "Forecolor (inline)"
-        "Backcolor (inline)"
+        "Forecolor (inline)",
+        "Backcolor (inline)",
     ]
 
 # I use a function because mw.col.media.dir() only works after the profile is loaded
