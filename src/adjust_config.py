@@ -12,6 +12,7 @@ from aqt.utils import (
 )
 
 from .colors import html4colors, css3colors
+from .defaultconfig import defaultconfig
 from .vars import addonname, mjfile, uses_classes
 
 
@@ -183,19 +184,22 @@ def uses_most_recent_config(config, level):
 
 
 def update_config_for_202005(config):
-    if "v3" in config:
-        for e in config['v3']:
-            if not "Text_in_menu_styling" in e:
-                e["Text_in_menu_styling"] = ""    
-            if not "Text_in_menu_styling_nightmode" in e:
-                e["Text_in_menu_styling_nightmode"] = ""
+    if "v3" not in config:
+        # something's broken in the config??
+        # just rest it?
+        config['v3'] = defaultconfig.copy()['v3']
+    for e in config['v3']:
+        if not "Text_in_menu_styling" in e:
+            e["Text_in_menu_styling"] = ""
+        if not "Text_in_menu_styling_nightmode" in e:
+            e["Text_in_menu_styling_nightmode"] = ""
     if not "v3_inactive" in config:
         config["v3_inactive"] = []
     first_after_update_install = False
     if not uses_most_recent_config(config, 1589114109):
         first_after_update_install = True
         if not "v2_key_styling_undo" in config:
-            config["v2_key_styling_undo"] = "" 
+            config["v2_key_styling_undo"] = ""
         oldv3 = config['v3'][:]
         config['v3'] = []
         for row in oldv3:
