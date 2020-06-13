@@ -176,6 +176,9 @@ def save_conf_dict():
     # prevent error after deleting add-on
     if os.path.exists(user_files_folder):
         with open(picklefile, 'wb') as PO:
+            cnf = getconfig()
+            if "v3" not in cnf:  # sanity check
+                return
             pickle.dump(getconfig(), PO)
 
 
