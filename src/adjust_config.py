@@ -183,11 +183,12 @@ def uses_most_recent_config(config, level):
 
 
 def update_config_for_202005(config):
-    for e in config['v3']:
-        if not "Text_in_menu_styling" in e:
-            e["Text_in_menu_styling"] = ""    
-        if not "Text_in_menu_styling_nightmode" in e:
-            e["Text_in_menu_styling_nightmode"] = ""
+    if "v3" in config:
+        for e in config['v3']:
+            if not "Text_in_menu_styling" in e:
+                e["Text_in_menu_styling"] = ""    
+            if not "Text_in_menu_styling_nightmode" in e:
+                e["Text_in_menu_styling_nightmode"] = ""
     if not "v3_inactive" in config:
         config["v3_inactive"] = []
     first_after_update_install = False
