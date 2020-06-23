@@ -47,7 +47,7 @@
      <item row="3" column="1">
       <widget class="QCheckBox" name="cb_metasuper">
        <property name="text">
-        <string>Meta (Win, Super)</string>
+        <string>Meta (Win, Super, Ctrl on macOS)</string>
        </property>
       </widget>
      </item>
