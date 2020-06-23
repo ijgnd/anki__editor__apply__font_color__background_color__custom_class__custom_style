@@ -42,7 +42,7 @@ def my_wrap_helper(editor, beforeAfter):
     # editor.web.eval(f"wrap('{before}', '{after}');")
 
     def find_escape_seq(match):
-        return escape_seqs[match.group(1)](editor, match.group(0)) if match.group(1) in escape_seqs else match.group(0)
+        return escape_seqs[match.group(1)](editor, match) if match.group(1) in escape_seqs else match.group(0)
 
     before_expanded = re.sub(r'%(.)', find_escape_seq, before)
     after_expanded = re.sub(r'%(.)', find_escape_seq, after)
