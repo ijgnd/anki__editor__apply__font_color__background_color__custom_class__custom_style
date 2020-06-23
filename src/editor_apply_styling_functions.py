@@ -9,6 +9,7 @@ Use this at your own risk
 
 
 import json
+import re
 
 from anki.hooks import addHook
 from anki.utils import (
@@ -20,6 +21,7 @@ from aqt.editor import Editor
 from .config_var import getconfig
 from .vars import unique_string
 
+from .text_wrap_escape_sequences import escape_seqs
 
 def setmycategories(editor):
     editor.mycategories = {
@@ -38,7 +40,14 @@ def setmycategories(editor):
 def my_wrap_helper(editor, beforeAfter):
     before, after = beforeAfter.split(unique_string)
     # editor.web.eval(f"wrap('{before}', '{after}');")
-    editor.web.eval(f"wrap({json.dumps(before)}, {json.dumps(after)});")
+
+    def find_escape_seq(match):
+        return escape_seqs[match.group(1)](editor, match.group(0)) if match.group(1) in escape_seqs else match.group(0)
+
+    before_expanded = re.sub(r'%(.)', find_escape_seq, before)
+    after_expanded = re.sub(r'%(.)', find_escape_seq, after)
+
+    editor.web.eval(f"wrap({json.dumps(before_expanded)}, {json.dumps(after_expanded)});")
 Editor.my_wrap_helper = my_wrap_helper
 
 
