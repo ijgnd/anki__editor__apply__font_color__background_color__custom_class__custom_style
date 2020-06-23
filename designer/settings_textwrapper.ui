@@ -33,7 +33,7 @@
      <item row="1" column="0">
       <widget class="QLabel" name="label_10">
        <property name="text">
-        <string>before</string>
+        <string>Before</string>
        </property>
       </widget>
      </item>
@@ -43,7 +43,7 @@
      <item row="2" column="0">
       <widget class="QLabel" name="label_8">
        <property name="text">
-        <string>afer</string>
+        <string>After</string>
        </property>
       </widget>
      </item>
