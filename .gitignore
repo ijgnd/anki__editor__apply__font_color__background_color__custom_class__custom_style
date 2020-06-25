@@ -1,1 +1,22 @@
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
 src/forms/*
+
+*~
+*.zip
+*.ankiaddon
+__pycache__
+meta.json
+
+checksums.csv
+*___bak_*
+*___note*
+
+ideas,discarded/*
