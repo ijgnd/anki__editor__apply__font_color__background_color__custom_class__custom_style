@@ -234,7 +234,7 @@ def contextmenu():
 
 
 action = QAction(mw)
-action.setText(f"Configure {addonname}")
+action.setText(f"Adjust config for {addonname}")
 mw.form.menuTools.addAction(action)
 action.triggered.connect(onMySettings)
 
