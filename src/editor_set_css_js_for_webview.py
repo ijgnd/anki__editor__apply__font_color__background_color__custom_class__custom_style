@@ -61,6 +61,47 @@ def js_inserter(self):
         # JS error :41 Uncaught TypeError: rangy.createHighlighter is not a function
 
     jsstring = """
+
+// https://stackoverflow.com/questions/5222814/window-getselection-return-html
+function selectionAsHtml() {
+    var out = "";
+    if (typeof window.getSelection != "undefined") {
+        var sel = window.getSelection();
+        if (sel.rangeCount) {
+            var helper_span = document.createElement("span");
+            for (var i = 0, l = sel.rangeCount; i < l; ++i) {
+                helper_span.appendChild(sel.getRangeAt(i).cloneContents());
+            }
+            out = helper_span.innerHTML;
+        }
+    } 
+    else if (typeof document.selection != "undefined") {
+        if (document.selection.type == "Text") {
+            out = document.selection.createRange().htmlText;
+        }
+    }
+    return out;
+}
+
+
+function classes_addon_wrap_span_helper(surrounding_span_tag_class){
+    const s = window.getSelection();
+    let r = s.getRangeAt(0);
+    const content = r.cloneContents();
+    r.deleteContents();
+    const span = document.createElement("span");
+    if (surrounding_span_tag_class){
+        span.className = surrounding_span_tag_class;
+    }
+    span.appendChild(content);
+    r.insertNode(span);
+    saveField('key');
+}
+
+
+
+
+
 function classes_addon_wrap_helper(surrounding_div_tag_class){
     const s = window.getSelection();
     let r = s.getRangeAt(0);

@@ -119,7 +119,30 @@ def my_apply_span_class(editor, _class):
     # some variable that I insert. So I'd have to look into rangy. Sounds complicated, very quick
     # search didn't render results.
     # WORKAROUND: use rangy.removeAllHighlights(), see  https://github.com/timdown/rangy/wiki/Highlighter-Module
-    js = f"""    dict["{_class}highlighter"].highlightSelection('{_class}');   """
+
+
+
+    # workaround for issue18 "formatting is applied to more than selection"
+    js_workaround= """
+var cla_sel_str = window.getSelection().toString();
+var cla_sel_html = selectionAsHtml();
+
+if (cla_sel_str == cla_sel_html){
+    classes_addon_wrap_span_helper('%(CLASS)s');
+}
+else {
+    var action = dict["%(CLASS)shighlighter"];
+    action.highlightSelection('%(CLASS)s');
+}
+
+"""  % { 
+"CLASS": _class,
+}
+    editor.web.eval(js_workaround)
+
+
+
+
     
     
     '''
@@ -139,8 +162,8 @@ P: I'm losing focus when loading rangy: I use  focusField(0); in my "$(document)
    maybe pycmd so that I can use self.editor.web.setFocus() from QWebEngine ...?
     js =   f"""    highlight_helper('{_class}');   """
 '''
-    
-    editor.web.eval(js)
+    # js = f"""    dict["{_class}highlighter"].highlightSelection('{_class}');   """
+    # editor.web.eval(js)
     for e in getconfig()['v3']:
         if e["Category"] == "class (other)" and e["Setting"] == _class and e.get("surround_with_div_tag"):
             editor.web.eval("classes_addon_wrap_helper();")
