@@ -1,5 +1,7 @@
 {
     "name": "editor: apply font color, background color, custom class, custom style",
     "package": "1899278645",
+    "min_point_version": 24,
+    "branch_index": 1,
     "mod": ""
-} 
+}
