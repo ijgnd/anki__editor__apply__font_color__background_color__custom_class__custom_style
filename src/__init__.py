@@ -48,7 +48,7 @@ permission notice:
 
 """
 
-
+import io
 import os
 import re
 import pickle
@@ -184,7 +184,7 @@ def save_conf_dict():
 
 def update_style_file_in_media():
     classes_str = create_css_for_webviews_from_config()
-    with open(css_path(), "w") as f:
+    with io.open(css_path(), 'w', encoding='utf-8') as f:
         f.write(classes_str)
 
 
