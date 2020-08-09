@@ -131,7 +131,9 @@ Editor.create_menu_entry = create_menu_entry
 def additional_menu_styled(editor):
     # mod of onAdvanced from editor.py
     config = getconfig()
-    m = QMenu(editor.mw)
+    # QMenu(editor.mw) conflict with persistent editor, 1686259334 I get
+    # RuntimeError: super-class __init__() of type AnkiQt was never called
+    m = QMenu()
     a = m.addAction("Clear more formatting (Classes, etc.)")
     a.triggered.connect(lambda _: classes_addon_rangy_remove_all(editor))
     m.addSeparator()

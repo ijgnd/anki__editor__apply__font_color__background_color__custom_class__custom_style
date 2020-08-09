@@ -48,7 +48,7 @@ permission notice:
 
 """
 
-
+import io
 import os
 import re
 import pickle
@@ -184,17 +184,24 @@ def save_conf_dict():
 
 def update_style_file_in_media():
     classes_str = create_css_for_webviews_from_config()
-    with open(css_path(), "w") as f:
+    with io.open(css_path(), 'w', encoding='utf-8') as f:
         f.write(classes_str)
 
 
 def update_all_templates():
-    l = """@import url("_editor_button_styles.css");"""
-    for m in mw.col.models.all():
-        if l not in m['css']:
-            model = mw.col.models.get(m['id'])
-            model['css'] = l + "\n\n" + model['css']
+    mw.progress.start(immediate=True)
+    line = """@import url("_editor_button_styles.css");"""
+    # in the additional card fields add-on I use:
+    # for mid in mw.col.models.ids():  # but in 2.1.28 method "ids" is labelled as "legacy"
+    #     model = mw.col.models.get(mid)
+    for model in mw.col.models.all():
+        if line not in model['css']:
+            model['css'] = line + "\n\n" + model['css']
+            # templates=True no longer used in 2.1.28 or later; maybe not needed anyway since
+            # the the css/styling section shouldn't affect card generation? But it shouldn't hurt.
             mw.col.models.save(model, templates=True)
+    mw.col.models.flush()  # no longer used in 2.1.28 or later
+    mw.progress.finish()
     tooltip("Finished updating styling sections")
 
 
@@ -234,7 +241,7 @@ def contextmenu():
 
 
 action = QAction(mw)
-action.setText(f"Configure {addonname}")
+action.setText(f"Adjust config for {addonname}")
 mw.form.menuTools.addAction(action)
 action.triggered.connect(onMySettings)
 

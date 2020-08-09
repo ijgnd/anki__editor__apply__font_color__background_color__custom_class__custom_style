@@ -1,2 +1,26 @@
 src/forms/*
 settings.pypickle
+
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+
+*~
+*.zip
+*.ankiaddon
+__pycache__
+meta.json
+
+.vscode
+
+checksums.csv
+*___bak_*
+*___note*
+ideas,discarded/*
