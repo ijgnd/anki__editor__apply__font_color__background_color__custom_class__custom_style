@@ -52,12 +52,12 @@ class HotkeySelect(QDialog):
     def accept(self):
         self.hotkey = ""
         if self.dialog.cb_ctrl.isChecked():
-            self.hotkey += "ctrl+"
+            self.hotkey += "Ctrl+"
         if self.dialog.cb_shift.isChecked():
-            self.hotkey += "shift+"
+            self.hotkey += "Shift+"
         if self.dialog.cb_alt.isChecked():
-            self.hotkey += "alt+"
+            self.hotkey += "Alt+"
         if self.dialog.cb_metasuper.isChecked():
-            self.hotkey += "meta+"
-        self.hotkey += self.dialog.le_key.text()
+            self.hotkey += "Meta+"
+        self.hotkey += self.dialog.le_key.text().upper()
         QDialog.accept(self)
