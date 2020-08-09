@@ -8,7 +8,7 @@ defaultconfig = {
         {
             "active": True,
             "Category": "Backcolor (via class)",
-            "Hotkey": "Alt+q",
+            "Hotkey": "Alt+Q",
             "Setting": "bg_yellow",
             "Show_in_menu": True,
             "Text_in_menu": "yellow",
@@ -21,7 +21,7 @@ defaultconfig = {
         {
             "active": True,
             "Category": "Backcolor (via class)",
-            "Hotkey": "Alt+w",
+            "Hotkey": "Alt+W",
             "Setting": "bg_green",
             "Show_in_menu": True,
             "Text_in_menu": "green",
@@ -34,7 +34,7 @@ defaultconfig = {
         {
             "active": True,
             "Category": "Backcolor (via class)",
-            "Hotkey": "Alt+e",
+            "Hotkey": "Alt+E",
             "Setting": "bg_blue",
             "Show_in_menu": True,
             "Text_in_menu": "blue",
@@ -47,7 +47,7 @@ defaultconfig = {
         {
             "active": True,
             "Category": "Backcolor (via class)",
-            "Hotkey": "Alt+t",
+            "Hotkey": "Alt+T",
             "Setting": "bg_red",
             "Show_in_menu": True,
             "Text_in_menu": "red",
@@ -59,7 +59,7 @@ defaultconfig = {
         },
         {
             "Category": "Forecolor (via class)",
-            "Hotkey": "Alt+shift+w",
+            "Hotkey": "Shift+Alt+W",
             "Setting": "fg_green",
             "Show_in_menu": True,
             "Text_in_menu": "font-color green",
@@ -71,7 +71,7 @@ defaultconfig = {
         },
         {
             "Category": "Forecolor (via class)",
-            "Hotkey": "Alt+shift+e",
+            "Hotkey": "Shift+Alt+E",
             "Setting": "fg_blue",
             "Show_in_menu": True,
             "Text_in_menu": "font-color blue",
@@ -83,7 +83,7 @@ defaultconfig = {
         },
         {
             "Category": "Forecolor (via class)",
-            "Hotkey": "Alt+shift+r",
+            "Hotkey": "Shift+Alt+R",
             "Setting": "fg_red",
             "Show_in_menu": True,
             "Text_in_menu": "font-color red",
@@ -95,7 +95,7 @@ defaultconfig = {
         },
         {
             "Category": "class (other)",
-            "Hotkey": "Alt+shift+b",
+            "Hotkey": "Shift+Alt+B",
             "Setting": "bold_bigger",
             "Show_in_menu": True,
             "Target group in menu": "",
@@ -109,7 +109,7 @@ defaultconfig = {
         },
         {
             "Category": "class (other)",
-            "Hotkey": "Alt+shift+f",
+            "Hotkey": "Shift+Alt+F",
             "Setting": "bold_underlined",
             "Show_in_menu": True,
             "Target group in menu": "",
@@ -123,7 +123,7 @@ defaultconfig = {
         },
         {
             "Category": "class (other)",
-            "Hotkey": "Alt+shift+g",
+            "Hotkey": "Shift+Alt+G",
             "Setting": "bold_red",
             "Show_in_menu": True,
             "Target group in menu": "",
@@ -137,7 +137,7 @@ defaultconfig = {
         },
         {
             "Category": "class (other), wrapped in div",
-            "Hotkey": "Alt+shift+h",
+            "Hotkey": "Shift+Alt+H",
             "Setting": "red_box",
             "Show_in_menu": True,
             "Target group in menu": "",
@@ -151,7 +151,7 @@ defaultconfig = {
         },
         {
             "Category": "class (other), wrapped in div",
-            "Hotkey": "Alt+shift+s",
+            "Hotkey": "Shift+Alt+S",
             "Setting": "small_and_narrow",
             "Show_in_menu": True,
             "Target group in menu": "",
@@ -165,7 +165,7 @@ defaultconfig = {
         },
         {
             "Category": "font size (via class)",
-            "Hotkey": "Alt+shift+4",
+            "Hotkey": "Shift+Alt+4",
             "Setting": "font_size_80",
             "Show_in_menu": True,
             "Target group in menu": "",
@@ -178,7 +178,7 @@ defaultconfig = {
         },
         {
             "Category": "font size (via class)",
-            "Hotkey": "Alt+shift+5",
+            "Hotkey": "Shift+Alt+5",
             "Setting": "font_size_130",
             "Show_in_menu": True,
             "Target group in menu": "",
