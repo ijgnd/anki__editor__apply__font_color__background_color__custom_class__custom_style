@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 declare DIR="$(cd "$(dirname "$0")/" && pwd -P)"
 
-mkdir -p "${DIR}/src/forms"
-rm -f "${DIR}/src/forms/"*.py
+rm -f "${DIR}/src/confdialog/forms/"*.py
 
 for filename in "${DIR}/designer/"*'.ui'; do
-  pyuic5 "$filename" > "${DIR}/src/forms/$(basename ${filename%.*}).py"
+  pyuic5 "$filename" > "${DIR}/src/confdialog/forms/$(basename ${filename%.*}).py"
 done
