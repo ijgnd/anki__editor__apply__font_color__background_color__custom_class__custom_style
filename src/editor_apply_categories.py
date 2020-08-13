@@ -19,22 +19,7 @@ from aqt.editor import Editor
 
 from .config_var import getconfig
 from .vars import unique_string
-
 from .text_wrap_escape_sequences import escape_seqs
-
-def setmycategories(editor):
-    editor.mycategories = {
-        "class (other)": editor.my_apply_span_class,
-        "class (other), wrapped in div": editor.my_wrap_in_class,
-        "style (inline)": editor.my_apply_style,
-        "Backcolor (inline)": editor.setBackcolor,
-        "Backcolor (via class)": editor.my_apply_span_class,
-        "Forecolor (inline)": editor.setForecolor,
-        "Forecolor (via class)": editor.my_apply_span_class,
-        "font size (via class)": editor.my_apply_span_class,
-        "text wrapper": editor.my_wrap_helper,
-    }
-
 
 def my_wrap_helper(editor, beforeAfter):
     before, after = beforeAfter.split(unique_string)
@@ -47,7 +32,6 @@ def my_wrap_helper(editor, beforeAfter):
     after_expanded = re.sub(r'%(.)', find_escape_seq, after)
 
     editor.web.eval(f"wrap({json.dumps(before_expanded)}, {json.dumps(after_expanded)});")
-Editor.my_wrap_helper = my_wrap_helper
 
 
 def setBackcolor(editor, color):
@@ -73,12 +57,10 @@ def setBackcolor(editor, color):
                 matches[i].removeAttribute("class");
             }
         """)
-Editor.setBackcolor = setBackcolor
 
 
 def setForecolor(editor, color):
     editor.web.eval("setFormat('forecolor', '%s')" % color)
-Editor.setForecolor = setForecolor
 
 
 def my_apply_style(editor, style):
@@ -101,13 +83,11 @@ def my_apply_style(editor, style):
             }
     """.replace("NEWSTYLE", style)
     editor.web.eval(js)
-Editor.my_apply_style = my_apply_style
 
 
 def my_wrap_in_class(editor, _class):
     js = f"classes_addon_wrap_helper('{_class}');"
     editor.web.eval(js)
-Editor.my_wrap_in_class = my_wrap_in_class
 
 
 def my_apply_span_class(editor, _class):
@@ -142,8 +122,6 @@ else {
 
 
 
-    
-    
     '''
     TODO: maybe only load rangy when command is called the first time?
 some js 
@@ -167,4 +145,16 @@ P: I'm losing focus when loading rangy: I use  focusField(0); in my "$(document)
         if e["Category"] == "class (other)" and e["Setting"] == _class and e.get("surround_with_div_tag"):
             editor.web.eval("classes_addon_wrap_helper();")
             break
-Editor.my_apply_span_class = my_apply_span_class
+
+
+apply_categories = {
+    "class (other)": my_apply_span_class,
+    "class (other), wrapped in div": my_wrap_in_class,
+    "style (inline)": my_apply_style,
+    "Backcolor (inline)": setBackcolor,
+    "Backcolor (via class)": my_apply_span_class,
+    "Forecolor (inline)": setForecolor,
+    "Forecolor (via class)": my_apply_span_class,
+    "font size (via class)": my_apply_span_class,
+    "text wrapper": my_wrap_helper,
+}

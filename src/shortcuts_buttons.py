@@ -19,6 +19,7 @@ from .config_var import getconfig
 from .menu import additional_menu_basic, additional_menu_styled
 from .vars import iconfolder
 from .editor_rangy_helpers import classes_addon_rangy_remove_all
+from .editor_apply_categories import apply_categories
 
 
 def makethisbutton(editor, e, func):
@@ -46,7 +47,7 @@ def SetupShortcuts(cuts, editor):
     config = getconfig()
     for e in config['v3']:
         if e.get("Hotkey", False):  # and not config["v2_show_in_contextmenu"]:
-            func = editor.mycategories[e['Category']]
+            func = apply_categories[e['Category']]
 
             # remove already existing shortcuts first
             for match in filter(lambda v: v[0] == e['Hotkey'], cuts):
@@ -64,7 +65,7 @@ def setupButtons(buttons, editor):
     for e in config['v3']:
         # check if extrabutton_show is set and if True:
         if e.get('extrabutton_show', False):
-            func = editor.mycategories[e['Category']]
+            func = apply_categories[e['Category']]
             buttons.append(makethisbutton(editor, e, func))
 
     # collapsible menu
