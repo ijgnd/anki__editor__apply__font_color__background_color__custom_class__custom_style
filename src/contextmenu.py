@@ -13,11 +13,12 @@ from aqt import mw
 from aqt.editor import Editor, EditorWebView
 
 from .config_var import getconfig
-from .editor_apply_styling_functions import classes_addon_rangy_remove_all
+from .editor_rangy_helpers import classes_addon_rangy_remove_all
+from .editor_apply_categories import apply_categories
 
 
 def co_my_highlight_helper(view, category, setting):
-    func = view.editor.mycategories[category]
+    func = apply_categories[category]
     func(view.editor, setting)
 
 

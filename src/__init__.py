@@ -84,7 +84,6 @@ from .config_var import getconfig
 from .css_for_webviews import create_css_for_webviews_from_config
 from .contextmenu import add_to_context
 from .defaultconfig import defaultconfig
-from .editor_apply_styling_functions import setmycategories
 from . import editor_set_css_js_for_webview
 from .shortcuts_buttons import setupButtons, SetupShortcuts
 from .vars import (
@@ -256,7 +255,6 @@ action.triggered.connect(onMySettings)
 
 profile_did_open.append(load_conf_dict)
 profile_did_open.append(contextmenu)
-profile_did_open.append(lambda: setmycategories(Editor))
 profile_will_close.append(save_conf_dict)
 
 editor_did_init_buttons.append(setupButtons)
