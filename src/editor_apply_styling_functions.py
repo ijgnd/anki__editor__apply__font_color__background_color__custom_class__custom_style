@@ -11,7 +11,6 @@ Use this at your own risk
 import json
 import re
 
-from anki.hooks import addHook
 from anki.utils import (
     isMac,
     isWin,

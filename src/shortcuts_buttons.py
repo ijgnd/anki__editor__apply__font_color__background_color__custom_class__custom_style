@@ -83,5 +83,3 @@ def setupButtons(buttons, editor):
                              tip="apply styles",
                              keys=config['v2_key_styling_menu'])
         buttons.append(b)
-
-    return buttons

@@ -20,7 +20,6 @@ from PyQt5.QtWidgets import (
 )
 
 from aqt import mw
-from anki.hooks import addHook
 from aqt.editor import Editor
 #from aqt.qt import *
 
