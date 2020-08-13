@@ -55,8 +55,8 @@ import pickle
 import json
 from pprint import pprint as pp
 
-from anki.hooks import wrap, addHook
 from anki.utils import json
+
 from aqt import mw
 from aqt import editor
 from aqt.editor import Editor
@@ -64,6 +64,14 @@ from aqt.qt import (
     QAction,
 )
 from aqt.utils import askUser, showInfo, tooltip
+from aqt.gui_hooks import (
+    profile_did_open,
+    profile_will_close,
+
+    editor_did_init_shortcuts,
+    editor_did_init_buttons,
+    editor_will_show_context_menu,
+)
 
 from .adjust_config import (
     autogenerate_config_values_for_menus, 
@@ -237,7 +245,7 @@ mw.addonManager.setConfigAction(__name__, onMySettings)
 
 def contextmenu():
     if getconfig().get("v2_show_in_contextmenu", False):
-        addHook("EditorWebView.contextMenuEvent", add_to_context)
+        editor_will_show_context_menu.append(add_to_context)
 
 
 action = QAction(mw)
@@ -246,11 +254,10 @@ mw.form.menuTools.addAction(action)
 action.triggered.connect(onMySettings)
 
 
+profile_did_open.append(load_conf_dict)
+profile_did_open.append(contextmenu)
+profile_did_open.append(lambda: setmycategories(Editor))
+profile_will_close.append(save_conf_dict)
 
-addHook("profileLoaded", load_conf_dict)
-addHook('unloadProfile', save_conf_dict)
-
-addHook("profileLoaded", contextmenu)
-addHook("setupEditorButtons", setupButtons)
-addHook("setupEditorShortcuts", SetupShortcuts)
-addHook("profileLoaded", lambda: setmycategories(Editor))
+editor_did_init_buttons.append(setupButtons)
+editor_did_init_shortcuts.append(SetupShortcuts)
