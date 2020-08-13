@@ -84,7 +84,7 @@ from .config_var import getconfig
 from .css_for_webviews import create_css_for_webviews_from_config
 from .contextmenu import add_to_context
 from .defaultconfig import defaultconfig
-from . import editor_set_css_js_for_webview
+from .editor_set_css_js_for_webview import set_css_js_for_webview
 from .shortcuts_buttons import setupButtons, SetupShortcuts
 from .vars import (
     addonname,
@@ -252,6 +252,7 @@ action.setText(f"Adjust config for {addonname}")
 mw.form.menuTools.addAction(action)
 action.triggered.connect(onMySettings)
 
+set_css_js_for_webview()
 
 profile_did_open.append(load_conf_dict)
 profile_did_open.append(contextmenu)

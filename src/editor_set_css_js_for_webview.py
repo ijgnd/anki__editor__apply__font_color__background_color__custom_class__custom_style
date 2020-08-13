@@ -3,9 +3,12 @@
 
 import os
 
-from aqt import gui_hooks
 from aqt import mw
 from aqt.editor import Editor
+from aqt.gui_hooks import (
+    webview_will_set_content,
+    editor_did_init,
+)
 
 from .vars import (
     addon_folder_name,
@@ -43,13 +46,11 @@ def rangy_higlighters_for_each_class():
 def append_js_to_Editor(web_content, context):
     if isinstance(context, Editor):
         web_content.head += f"""\n<script>\n{rangy__create_global_variables_for_later_use()}\n</script>\n"""
-gui_hooks.webview_will_set_content.append(append_js_to_Editor)
 
 
 def append_css_to_Editor(web_content, context):
     if isinstance(context, Editor):
         web_content.head += f"""\n<style>\n{create_css_for_webviews_from_config()}\n</style>\n"""
-gui_hooks.webview_will_set_content.append(append_css_to_Editor)
 
 
 def js_inserter(self):
@@ -132,12 +133,12 @@ $(document).ready(function(){
     (async () => {
         console.log('rangy loaded by classes_addon');
 
-        await injectScript("http://127.0.0.1:PORTPORT/_addons/1899278645/web/rangy-core.js");
-        await injectScript("http://127.0.0.1:PORTPORT/_addons/1899278645/web/rangy-classapplier.js");
-        await injectScript("http://127.0.0.1:PORTPORT/_addons/1899278645/web/rangy-serializer.js");
-        await injectScript("http://127.0.0.1:PORTPORT/_addons/1899278645/web/rangy-textrange.js");
-        await injectScript("http://127.0.0.1:PORTPORT/_addons/1899278645/web/rangy-selectionsaverestore.js");
-        await injectScript("http://127.0.0.1:PORTPORT/_addons/1899278645/web/rangy-highlighter.js");
+        await injectScript("http://127.0.0.1:PORTPORT/_addons/NAMENAME/web/rangy-core.js");
+        await injectScript("http://127.0.0.1:PORTPORT/_addons/NAMENAME/web/rangy-classapplier.js");
+        await injectScript("http://127.0.0.1:PORTPORT/_addons/NAMENAME/web/rangy-serializer.js");
+        await injectScript("http://127.0.0.1:PORTPORT/_addons/NAMENAME/web/rangy-textrange.js");
+        await injectScript("http://127.0.0.1:PORTPORT/_addons/NAMENAME/web/rangy-selectionsaverestore.js");
+        await injectScript("http://127.0.0.1:PORTPORT/_addons/NAMENAME/web/rangy-highlighter.js");
 
         rangy.init();
         HIGHLIGHTERS
@@ -148,34 +149,12 @@ $(document).ready(function(){
 
 
 """.replace("PORTPORT", str(mw.mediaServer.getPort()))\
+   .replace("NAMENAME", __name__.split('.', 1)[0])\
    .replace("HIGHLIGHTERS", rangy_higlighters_for_each_class())
     self.web.eval(jsstring)
-gui_hooks.editor_did_init.append(js_inserter)
 
 
-
-"""
-if (typeof rangy === 'undefined') {
-    $(document).ready(function(){
-        (async () => {
-            console.log('rangy loaded by classes_addon');            
-
-            await injectScript("http://127.0.0.1:PORTPORT/_addons/1899278645/web/rangy-core.js");
-            await injectScript("http://127.0.0.1:PORTPORT/_addons/1899278645/web/rangy-classapplier.js");
-            await injectScript("http://127.0.0.1:PORTPORT/_addons/1899278645/web/rangy-serializer.js");
-            await injectScript("http://127.0.0.1:PORTPORT/_addons/1899278645/web/rangy-textrange.js");
-            await injectScript("http://127.0.0.1:PORTPORT/_addons/1899278645/web/rangy-selectionsaverestore.js");
-            await injectScript("http://127.0.0.1:PORTPORT/_addons/1899278645/web/rangy-highlighter.js");
-
-            rangy.init();
-            HIGHLIGHTERS
-            hbir_init(); // half-baked incremental reading addon
-            focusField(0);
-        })();
-    });
-}
-else {
-            HIGHLIGHTERS
-            focusField(0); 
-}
-"""
+def set_css_js_for_webview():
+    webview_will_set_content.append(append_js_to_Editor)
+    webview_will_set_content.append(append_css_to_Editor)
+    editor_did_init.append(js_inserter)
