@@ -18,7 +18,7 @@ from aqt.utils import showInfo
 from .config_var import getconfig
 from .menu import additional_menu_basic, additional_menu_styled
 from .vars import iconfolder
-from .editor_apply_styling_functions import classes_addon_rangy_remove_all
+from .editor_rangy_helpers import classes_addon_rangy_remove_all
 
 
 def makethisbutton(editor, e, func):

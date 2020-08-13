@@ -26,7 +26,7 @@ from aqt.editor import Editor
 from .colors import hex_to_rgb_string
 from .config_var import getconfig
 from .contextmenu import co_hex_to_rgb
-from .editor_apply_styling_functions import classes_addon_rangy_remove_all
+from .editor_rangy_helpers import classes_addon_rangy_remove_all
 
 
 def my_highlight_helper(editor, category, setting):
