@@ -78,7 +78,7 @@ from .adjust_config import (
     read_and_update_old_v2_config_from_meta_json,
     update_config_for_202005,
 )
-from .confdialog_MAIN import MainConfDialog
+from .confdialog import MainConfDialog
 from . import config_var
 from .config_var import getconfig
 from .css_for_webviews import create_css_for_webviews_from_config

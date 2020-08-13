@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import (
     QDialog,
 )
 
-from .confdialog_Helpers import HotkeySelect, bg_classname
+from .helpers import HotkeySelect, bg_classname
 from .forms import settings_fontsize
 
 

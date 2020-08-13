@@ -33,16 +33,16 @@ from aqt.utils import (
     tooltip,
 )
 
-from .defaultconfig import defaultconfig
-from .vars import addonname, addable_options, unique_string
+from ..defaultconfig import defaultconfig
+from ..vars import addonname, addable_options, unique_string
 
-from .confdialog_Class import SettingsForClass
-from .confdialog_FgBgColorClass import SettingsForFgBgColorClass
-from .confdialog_Fontsize import SettingsForFont
-from .confdialog_ForeBgColor import SettingsForForeBgColor
-from .confdialog_Helpers import HotkeySelect
-from .confdialog_Style import SettingsForStyle
-from .confdialog_Textwrapper import SettingsForTextWrapper
+from .cssClass import SettingsForClass
+from .fgBgColorClass import SettingsForFgBgColorClass
+from .fontsize import SettingsForFont
+from .foreBgColor import SettingsForForeBgColor
+from .helpers import HotkeySelect
+from .style import SettingsForStyle
+from .textwrapper import SettingsForTextWrapper
 
 from .forms import settings_main_widgets
 from .forms import settings_select_category

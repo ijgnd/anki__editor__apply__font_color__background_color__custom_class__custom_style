@@ -1,6 +1,4 @@
-src/forms/*
 settings.pypickle
-
 
 # Environments
 .env
