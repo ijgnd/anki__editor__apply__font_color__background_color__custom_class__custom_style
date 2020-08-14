@@ -142,7 +142,7 @@ $(document).ready(function(){
 
         rangy.init();
         HIGHLIGHTERS
-        hbir_init(); // half-baked incremental reading addon
+        MAYBE_HBIR
         focusField(0);
     })();
 });
@@ -150,7 +150,10 @@ $(document).ready(function(){
 
 """.replace("PORTPORT", str(mw.mediaServer.getPort()))\
    .replace("NAMENAME", __name__.split('.', 1)[0])\
-   .replace("HIGHLIGHTERS", rangy_higlighters_for_each_class())
+   .replace("HIGHLIGHTERS", rangy_higlighters_for_each_class())\
+   .replace("MAYBE_HBIR", "hbir_init();" if "1095648795" in mw.addonManager.allAddons() else "")
+    # the line above is a workaround for half-baked incremental reading, 
+    # https://ankiweb.net/shared/info/1095648795
     self.web.eval(jsstring)
 
 
