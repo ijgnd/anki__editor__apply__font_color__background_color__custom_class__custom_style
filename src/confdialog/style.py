@@ -3,7 +3,6 @@ from PyQt5.QtWidgets import (
     QDialog,
 )
 
-from .helpers import HotkeySelect
 from .forms import settings_style
 
 
@@ -15,12 +14,10 @@ class SettingsForStyle(QDialog):
         self.dialog = settings_style.Ui_Dialog()
         self.dialog.setupUi(self)
         self.dialog.pb_hotkeyset.clicked.connect(self.onHotkey)
-        self.hotkey = ""
         self.color = ""
         if config:
             if config["Hotkey"]:
-                self.hotkey = config["Hotkey"]
-                self.dialog.pb_hotkeyset.setText(self.hotkey)
+                self.dialog.hotkey.setKeySequence(config["Hotkey"])
             if config["Setting"]:
                 self.dialog.pte_style.insertPlainText(config["Setting"])
             if config["Show_in_menu"]:
@@ -34,19 +31,13 @@ class SettingsForStyle(QDialog):
             if config["extrabutton_tooltip"]:
                 self.dialog.le_tooltip_text.setText(config["extrabutton_tooltip"])
 
-    def onHotkey(self):
-        h = HotkeySelect(self, self.hotkey)
-        if h.exec_():
-            self.hotkey = h.hotkey
-            self.dialog.pb_hotkeyset.setText(self.hotkey)
-
     def reject(self):
         QDialog.reject(self)
 
     def accept(self):
         self.newsetting = {
             "Category": "",  # if new I add in the category in the parent
-            "Hotkey": self.hotkey,
+            "Hotkey": self.dialog.hotkey,
             "Setting": self.dialog.pte_style.toPlainText(),
             "Show_in_menu": self.dialog.cb_contextmenu_show.isChecked(),
             "Text_in_menu":  self.dialog.le_contextmenu_text.text(),

@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import (
     QDialog,
 )
 
-from .helpers import HotkeySelect, bg_classname
+from .helpers import bg_classname
 from .forms import settings_forecolor_bgcolor_class
 
 
@@ -19,15 +19,13 @@ class SettingsForFgBgColorClass(QDialog):
         QDialog.__init__(self, parent, Qt.Window)
         self.dialog = settings_forecolor_bgcolor_class.Ui_Dialog()
         self.dialog.setupUi(self)
-        self.dialog.pb_hotkeyset.clicked.connect(self.onHotkey)
-        self.hotkey = ""
+
         self.color = ""
         self.color_nightmode = ""
         self.thisclass = bg_classname()
         if config:
             if "Hotkey" in config:
-                self.hotkey = config["Hotkey"]
-                self.dialog.pb_hotkeyset.setText(self.hotkey)
+                self.dialog.hotkey.setKeySequence(config["Hotkey"])
             if "Setting" in config:
                 if config["Setting"]:
                     self.thisclass = config["Setting"]
@@ -50,12 +48,6 @@ class SettingsForFgBgColorClass(QDialog):
         self.dialog.pb_color.clicked.connect(self.getColor)
         self.dialog.pb_color_nm.clicked.connect(self.getColor_nm)
 
-    def onHotkey(self):
-        h = HotkeySelect(self, self.hotkey)
-        if h.exec_():
-            self.hotkey = h.hotkey
-            self.dialog.pb_hotkeyset.setText(self.hotkey)
-
     def getColor(self):
         new = QColorDialog.getColor(QColor(self.color), None)
         if new.isValid():
@@ -74,7 +66,7 @@ class SettingsForFgBgColorClass(QDialog):
     def accept(self):
         self.newsetting = {
             "Category": self.category if self.category else "",
-            "Hotkey": self.hotkey,
+            "Hotkey": self.dialog.hotkey.keySequence().toString(),
             "Setting": self.thisclass,
             "Show_in_menu": self.dialog.cb_contextmenu_show.isChecked(),
             "Text_in_menu":  self.dialog.le_contextmenu_text.text(),

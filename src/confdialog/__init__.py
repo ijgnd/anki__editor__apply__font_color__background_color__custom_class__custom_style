@@ -40,7 +40,6 @@ from .cssClass import SettingsForClass
 from .fgBgColorClass import SettingsForFgBgColorClass
 from .fontsize import SettingsForFont
 from .foreBgColor import SettingsForForeBgColor
-from .helpers import HotkeySelect
 from .style import SettingsForStyle
 from .textwrapper import SettingsForTextWrapper
 
@@ -153,8 +152,10 @@ class MainConfDialog(QDialog):
         self.bo.pb_delete_from_inactive.clicked.connect(
             lambda _, w=self.bo.tw_inactive: self.process_row(w, "del"))
         self.bo.cb_classes_to_styling.toggled.connect(self.onClassesToStyling)
-        self.bo.pb_global_multibutton_show.clicked.connect(self.onHotkey)
-        self.bo.pb_class_undo.clicked.connect(self.onUndoHotkey)
+
+        self.bo.multi_button_shortcut.setKeySequence(self.config["v2_key_styling_menu"])
+        self.bo.remove_formatting_shortcut.setKeySequence(self.config["v2_key_styling_undo"])
+
         self.bo.pb_more.clicked.connect(self.onMore)
 
     def set_check_state_buttons(self):
@@ -165,22 +166,6 @@ class MainConfDialog(QDialog):
         if "write_classes_to_templates" in self.config:
             if self.config["write_classes_to_templates"]:
                 self.bo.cb_classes_to_styling.setChecked(True)
-        if self.config["v2_key_styling_menu"]:
-            self.bo.pb_global_multibutton_show.setText(self.config["v2_key_styling_menu"])
-        if self.config.get("v2_key_styling_undo"): 
-            self.bo.pb_class_undo.setText(self.config["v2_key_styling_undo"])
-
-    def onHotkey(self):
-        h = HotkeySelect(self, self.config["v2_key_styling_menu"])
-        if h.exec_():
-            self.config["v2_key_styling_menu"] = h.hotkey
-            self.bo.pb_global_multibutton_show.setText(self.config["v2_key_styling_menu"])
-
-    def onUndoHotkey(self):
-        h = HotkeySelect(self, self.config["v2_key_styling_undo"])
-        if h.exec_():
-            self.config["v2_key_styling_undo"] = h.hotkey
-            self.bo.pb_global_multibutton_show.setText(self.config["v2_key_styling_undo"])
 
     def onMore(self):
         m = QMenu(mw)
@@ -385,6 +370,9 @@ class MainConfDialog(QDialog):
         self.config["v3"] = self.active
         self.config["v3_inactive"] = self.inactive
 
+        self.config["v2_key_styling_menu"] = self.bo.multi_button_shortcut.keySequence().toString()
+        self.config["v2_key_styling_undo"] = self.bo.remove_formatting_shortcut.keySequence().toString()
+
         if self.bo.cb_classes_to_styling.isChecked():
             self.update_all_templates = True
         else:
@@ -399,6 +387,7 @@ class MainConfDialog(QDialog):
             self.config["v2_menu_styling"] = True
         else:
             self.config["v2_menu_styling"] = False
+
         media_dir = mw.col.media.dir()
         fpath = os.path.join(media_dir, "syncdummy.txt")
         if not os.path.isfile(fpath):
