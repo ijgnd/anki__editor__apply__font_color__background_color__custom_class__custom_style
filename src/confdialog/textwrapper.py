@@ -3,7 +3,6 @@ from PyQt5.QtWidgets import (
     QDialog,
 )
 
-from .helpers import HotkeySelect
 from .forms import settings_textwrapper
 
 
@@ -13,14 +12,11 @@ class SettingsForTextWrapper(QDialog):
         self.config = config
         QDialog.__init__(self, parent, Qt.Window)
         self.dialog = settings_textwrapper.Ui_Dialog()
-        self.dialog.setupUi(self)
-        self.dialog.pb_hotkeyset.clicked.connect(self.onHotkey)
-        self.hotkey = ""
         self.menuentry = ""
         if config:
             if config["Hotkey"]:
-                self.hotkey = config["Hotkey"]
-                self.dialog.pb_hotkeyset.setText(self.hotkey)
+                self.dialog.hotkey.setKeySequence(config["Hotkey"])
+
             if config["Target group in menu"]:
                 self.dialog.le_menu_group.setText(config["Target group in menu"])
             if config["Text_in_menu_styling"]:
@@ -38,12 +34,6 @@ class SettingsForTextWrapper(QDialog):
             if config["extrabutton_tooltip"]:
                 self.dialog.le_tooltip_text.setText(config["extrabutton_tooltip"])
 
-    def onHotkey(self):
-        h = HotkeySelect(self, self.hotkey)
-        if h.exec_():
-            self.hotkey = h.hotkey
-            self.dialog.pb_hotkeyset.setText(self.hotkey)
-
     def reject(self):
         QDialog.reject(self)
 
@@ -58,7 +48,7 @@ class SettingsForTextWrapper(QDialog):
         aft = self.dialog.pte_after.toPlainText()
         self.newsetting = {
             "Category": "text wrapper",
-            "Hotkey": self.hotkey,
+            "Hotkey": self.dialog.hotkey.keySequence().toString(),
             "Setting": "", # bef + unique_string + aft, 
             "Show_in_menu": self.dialog.cb_contextmenu_show.isChecked(),
             "Target group in menu": self.dialog.le_menu_group.text(),
