@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-declare DIR="$(cd "$(dirname "$0")/" && pwd -P)"
+declare DIR="$(cd "$(dirname "$0")/.." && pwd -P)"
 
 rm -f "${DIR}/src/confdialog/forms/"*.py
 
