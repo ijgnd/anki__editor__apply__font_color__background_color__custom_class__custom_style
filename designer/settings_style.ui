@@ -23,13 +23,6 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QPushButton" name="pb_hotkeyset">
-       <property name="text">
-        <string>... (click to change)</string>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label_10">
        <property name="text">
@@ -97,6 +90,9 @@
      </item>
      <item row="6" column="1">
       <widget class="QLineEdit" name="le_tooltip_text"/>
+     </item>
+     <item row="0" column="1">
+      <widget class="QKeySequenceEdit" name="hotkey"/>
      </item>
     </layout>
    </item>

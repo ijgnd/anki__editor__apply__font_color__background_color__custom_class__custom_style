@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1137</width>
-    <height>606</height>
+    <width>833</width>
+    <height>444</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -23,7 +23,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab_general">
       <attribute name="title">
@@ -56,9 +56,12 @@
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pb_global_multibutton_show">
-             <property name="text">
-              <string>click to set</string>
+            <widget class="QKeySequenceEdit" name="remove_formatting_shortcut">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
             </widget>
            </item>
@@ -82,14 +85,17 @@
            <item>
             <widget class="QLabel" name="label_2">
              <property name="text">
-              <string>Multi-button key</string>
+              <string>Multi-button key           </string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pb_class_undo">
-             <property name="text">
-              <string>click to set</string>
+            <widget class="QKeySequenceEdit" name="multi_button_shortcut">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
             </widget>
            </item>
@@ -158,7 +164,7 @@
      </widget>
      <widget class="QWidget" name="tab_active">
       <attribute name="title">
-       <string>Active Buttons / Entries</string>
+       <string>Active Entries</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
@@ -229,7 +235,7 @@
      </widget>
      <widget class="QWidget" name="tab_inactive">
       <attribute name="title">
-       <string>Inactive Buttons / Entries</string>
+       <string>Inactive Entries</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_6">
        <item>

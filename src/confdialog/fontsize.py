@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import (
     QDialog,
 )
 
-from .helpers import HotkeySelect, bg_classname
+from .helpers import bg_classname
 from .forms import settings_fontsize
 
 
@@ -15,14 +15,12 @@ class SettingsForFont(QDialog):
         QDialog.__init__(self, parent, Qt.Window)
         self.dialog = settings_fontsize.Ui_Dialog()
         self.dialog.setupUi(self)
-        self.dialog.pb_hotkeyset.clicked.connect(self.onHotkey)
-        self.hotkey = ""
+
         self.Text_in_menu_styling_nightmode = ""  # unused
         self.thisclass = bg_classname()
         if config:
             if "Hotkey" in config:
-                self.hotkey = config["Hotkey"]
-                self.dialog.pb_hotkeyset.setText(self.hotkey)
+                self.dialog.hotkey.setKeySequence(config["Hotkey"])
             if "Setting" in config:
                 if config["Setting"]:
                     self.thisclass = config["Setting"]
@@ -39,12 +37,6 @@ class SettingsForFont(QDialog):
             if config["extrabutton_tooltip"]:
                 self.dialog.le_tooltip_text.setText(config["extrabutton_tooltip"])
 
-    def onHotkey(self):
-        h = HotkeySelect(self, self.hotkey)
-        if h.exec_():
-            self.hotkey = h.hotkey
-            self.dialog.pb_hotkeyset.setText(self.hotkey)
-
     def reject(self):
         QDialog.reject(self)
 
@@ -55,7 +47,7 @@ class SettingsForFont(QDialog):
     def accept(self):
         self.newsetting = {
             "Category": self.category if self.category else "",
-            "Hotkey": self.hotkey,
+            "Hotkey": self.dialog.hotkey.keySequence().toString(),
             "Setting": self.thisclass,
             "Show_in_menu": self.dialog.cb_contextmenu_show.isChecked(),
             "Text_in_menu": self.dialog.le_contextmenu_text.text(),
