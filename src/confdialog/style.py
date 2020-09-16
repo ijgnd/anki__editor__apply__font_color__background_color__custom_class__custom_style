@@ -13,7 +13,6 @@ class SettingsForStyle(QDialog):
         QDialog.__init__(self, parent, Qt.Window)
         self.dialog = settings_style.Ui_Dialog()
         self.dialog.setupUi(self)
-        self.dialog.pb_hotkeyset.clicked.connect(self.onHotkey)
         self.color = ""
         if config:
             if config["Hotkey"]:
