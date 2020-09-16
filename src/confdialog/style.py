@@ -36,7 +36,7 @@ class SettingsForStyle(QDialog):
     def accept(self):
         self.newsetting = {
             "Category": "",  # if new I add in the category in the parent
-            "Hotkey": self.dialog.hotkey,
+            "Hotkey": self.dialog.hotkey.keySequence().toString(),
             "Setting": self.dialog.pte_style.toPlainText(),
             "Show_in_menu": self.dialog.cb_contextmenu_show.isChecked(),
             "Text_in_menu":  self.dialog.le_contextmenu_text.text(),
