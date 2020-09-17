@@ -81,7 +81,7 @@ def my_apply_style(editor, style):
             matches[i].style.cssText = "NEWSTYLE"; // set new style, https://stackoverflow.com/a/3968772
                                                     // might only work if all other styling is removed
             }
-    """.replace("NEWSTYLE", style)
+    """.replace("NEWSTYLE", style.replace("\n", " "))
     editor.web.eval(js)
 
 
