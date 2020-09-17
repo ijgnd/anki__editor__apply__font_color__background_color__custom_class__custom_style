@@ -202,8 +202,13 @@ class MainConfDialog(QDialog):
                 json.dump(self.config, fp)
 
     def onImport(self):
-        o = getFile(self, "Anki - Select file for import ", None, "json",
-                            key="json", multi=False)
+        o = getFile(self, 
+                    title="Anki - Select file for import ", 
+                    cb=None, 
+                    filter="*.json", 
+                    dir=None,
+                    key=".json",
+                    multi=False)
         if o:
             try:
                 with open(o, 'r') as fp:
