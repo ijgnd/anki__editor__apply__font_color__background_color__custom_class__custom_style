@@ -10,15 +10,15 @@ from aqt.gui_hooks import (
     editor_did_init,
 )
 
-from .vars import (
+from ..vars import (
     addon_folder_name,
     css_path,
     css_path_Customize_Editor_Stylesheet,
     js_to_append,
     uses_classes,
 )
-from .config_var import getconfig
-from .css_for_webviews import create_css_for_webviews_from_config
+from ..config_var import getconfig
+from ..utils import create_css_for_webviews_from_config
 
 def rangy__create_global_variables_for_later_use():
     jsstring = """var dict = new Object();"""
@@ -155,9 +155,3 @@ $(document).ready(function(){
     # the line above is a workaround for half-baked incremental reading, 
     # https://ankiweb.net/shared/info/1095648795
     self.web.eval(jsstring)
-
-
-def set_css_js_for_webview():
-    webview_will_set_content.append(append_js_to_Editor)
-    webview_will_set_content.append(append_css_to_Editor)
-    editor_did_init.append(js_inserter)

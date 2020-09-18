@@ -65,7 +65,6 @@ from . import config_var
 
 from .config_var import getconfig
 from .defaultconfig import defaultconfig
-from .editor_set_css_js_for_webview import set_css_js_for_webview
 from .vars import (
     addonname,
     ankiwebpage,
@@ -75,6 +74,7 @@ from .vars import (
 
 from .main_window import init_main_window
 from .editor import init_editor
+from .webview import init_webview
 
 from .utils import (
     update_style_file_in_media,
@@ -161,10 +161,9 @@ def save_conf_dict():
             pickle.dump(getconfig(), PO)
 
 
-set_css_js_for_webview()
-
 init_main_window()
 init_editor()
+init_webview()
 
 profile_did_open.append(load_conf_dict)
 profile_will_close.append(save_conf_dict)
