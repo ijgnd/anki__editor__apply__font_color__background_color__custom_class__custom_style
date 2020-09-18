@@ -1,4 +1,4 @@
-def init():
+def init_config_var():
     global myconfig
     myconfig = {}
 
