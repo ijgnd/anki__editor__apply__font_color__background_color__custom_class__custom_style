@@ -1,7 +1,4 @@
 {
     "name": "Custom Styles (font color, background colour, classes)",
-    "package": "1899278645",
-    "min_point_version": 24,
-    "branch_index": 1,
-    "mod": ""
+    "package": "custom_styles"
 }
