@@ -1,7 +1,4 @@
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (
-    QDialog,
-)
+from aqt.qt import Qt, QDialog
 
 from .forms import settings_textwrapper
 
@@ -12,6 +9,8 @@ class SettingsForTextWrapper(QDialog):
         self.config = config
         QDialog.__init__(self, parent, Qt.Window)
         self.dialog = settings_textwrapper.Ui_Dialog()
+        self.dialog.setupUi(self)
+
         self.menuentry = ""
         if config:
             if config["Hotkey"]:
