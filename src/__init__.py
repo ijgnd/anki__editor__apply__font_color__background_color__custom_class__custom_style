@@ -65,6 +65,8 @@ from aqt.qt import (
 )
 from aqt.utils import askUser, showInfo, tooltip
 from aqt.gui_hooks import (
+    main_window_did_init,
+
     profile_did_open,
     profile_will_close,
 
@@ -99,10 +101,6 @@ mw.addonManager.setWebExports(__name__, regex)
 
 
 
-msg_restart_required = """
-Restart Anki (or at leat close all Add, Browser, or EditCurrent windows) so that all changes 
-take effect.
-""".replace("\n", "")
 
 
 def warning_message_about_templates(tmpl_list):
@@ -220,8 +218,12 @@ def templates_that_miss_the_import_of_the_styling_file():
             mim.append(m['name'])
     return mim
 
+msg_restart_required = """
+Restart Anki (or at leat close all Add, Browser, or EditCurrent windows) so that all changes 
+take effect.
+""".replace("\n", "")
 
-def onMySettings():
+def on_settings():
     # TODO only call settings dialog if Editor or Browser are not active
     # P: User can install "Open the same window multiple times", "Advanced Browser",
     # my "Add and reschedule" so that these are from different classes.
@@ -239,20 +241,25 @@ def onMySettings():
             msg = msg_restart_required + "\n\n" + warning_message_about_templates(missing)
             if askUser(msg):
                 update_all_templates()
-mw.addonManager.setConfigAction(__name__, onMySettings)
+
+def init_menu_option():
+    action = QAction(mw)
+    action.setText("Custom Styles Options...")
+
+    mw.form.menuTools.addAction(action)
+    action.triggered.connect(on_settings)
+
+mw.addonManager.setConfigAction(__name__, on_settings)
+main_window_did_init.append(init_menu_option)
+
 
 
 def contextmenu():
     if getconfig().get("v2_show_in_contextmenu", False):
         editor_will_show_context_menu.append(add_to_context)
 
-
-action = QAction(mw)
-action.setText("Custom Styles Options...")
-mw.form.menuTools.addAction(action)
-action.triggered.connect(onMySettings)
-
 set_css_js_for_webview()
+
 
 profile_did_open.append(load_conf_dict)
 profile_did_open.append(contextmenu)
