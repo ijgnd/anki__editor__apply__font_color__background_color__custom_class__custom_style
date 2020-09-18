@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 declare DIR="$(cd "$(dirname "$0")/../src" && pwd -P)"
-declare addon_name="EditorApplyDev"
+declare addon_name="CustomStylesDev"
 declare customdir=''
 
 if [[ "$1" =~ ^-?d$ ]]; then
