@@ -21,10 +21,10 @@ from PyQt5.QtWidgets import (
 
 from aqt import mw
 from aqt.editor import Editor
-#from aqt.qt import *
 
-from .colors import hex_to_rgb_string
-from .config_var import getconfig
+from ..config_var import getconfig
+from ..colors import hex_to_rgb_string
+
 from .contextmenu import co_hex_to_rgb
 from .editor_rangy_helpers import classes_addon_rangy_remove_all
 from .editor_apply_categories import apply_categories

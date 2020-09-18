@@ -17,9 +17,11 @@ from anki.utils import (
 )
 from aqt.editor import Editor
 
-from .config_var import getconfig
-from .vars import unique_string
+from ..config_var import getconfig
+from ..vars import unique_string
+
 from .text_wrap_escape_sequences import escape_seqs
+
 
 def my_wrap_helper(editor, beforeAfter):
     before, after = beforeAfter.split(unique_string)

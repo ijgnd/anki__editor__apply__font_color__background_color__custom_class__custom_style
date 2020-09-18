@@ -48,22 +48,12 @@ permission notice:
 import os
 import re
 import pickle
-import json
-from pprint import pprint as pp
-
-from anki.utils import json
 
 from aqt import mw
-from aqt import editor
-from aqt.editor import Editor
-from aqt.utils import askUser, showInfo, tooltip
+from aqt.utils import askUser, showInfo
 from aqt.gui_hooks import (
     profile_did_open,
     profile_will_close,
-
-    editor_did_init_shortcuts,
-    editor_did_init_buttons,
-    editor_will_show_context_menu,
 )
 
 from .adjust_config import (
@@ -74,10 +64,8 @@ from .adjust_config import (
 from . import config_var
 
 from .config_var import getconfig
-from .contextmenu import add_to_context
 from .defaultconfig import defaultconfig
 from .editor_set_css_js_for_webview import set_css_js_for_webview
-from .shortcuts_buttons import setupButtons, SetupShortcuts
 from .vars import (
     addonname,
     ankiwebpage,
@@ -86,6 +74,7 @@ from .vars import (
 )
 
 from .main_window import init_main_window
+from .editor import init_editor
 
 from .utils import (
     update_style_file_in_media,
@@ -144,7 +133,6 @@ def load_conf_dict():
             except:
                 showInfo("Error. Settings file not readable")
     else:
-        # tooltip("Settings file not found")
         config = read_and_update_old_v2_config_from_meta_json(config)
     first_after_update_install, config = update_config_for_202005(config)
     config = autogenerate_config_values_for_menus(config)
@@ -173,17 +161,10 @@ def save_conf_dict():
             pickle.dump(getconfig(), PO)
 
 
-def contextmenu():
-    if getconfig().get("v2_show_in_contextmenu", False):
-        editor_will_show_context_menu.append(add_to_context)
-
 set_css_js_for_webview()
 
 init_main_window()
+init_editor()
 
 profile_did_open.append(load_conf_dict)
-profile_did_open.append(contextmenu)
 profile_will_close.append(save_conf_dict)
-
-editor_did_init_buttons.append(setupButtons)
-editor_did_init_shortcuts.append(SetupShortcuts)

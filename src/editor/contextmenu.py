@@ -12,7 +12,8 @@ from PyQt5.QtWidgets import (
 from aqt import mw
 from aqt.editor import Editor, EditorWebView
 
-from .config_var import getconfig
+from ..config_var import getconfig
+
 from .editor_rangy_helpers import classes_addon_rangy_remove_all
 from .editor_apply_categories import apply_categories
 
