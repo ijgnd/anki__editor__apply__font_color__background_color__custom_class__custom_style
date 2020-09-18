@@ -43,12 +43,8 @@ permission notice:
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE. 
-
-
-
 """
 
-import io
 import os
 import re
 import pickle
@@ -60,13 +56,8 @@ from anki.utils import json
 from aqt import mw
 from aqt import editor
 from aqt.editor import Editor
-from aqt.qt import (
-    QAction,
-)
 from aqt.utils import askUser, showInfo, tooltip
 from aqt.gui_hooks import (
-    main_window_did_init,
-
     profile_did_open,
     profile_will_close,
 
@@ -80,10 +71,9 @@ from .adjust_config import (
     read_and_update_old_v2_config_from_meta_json,
     update_config_for_202005,
 )
-from .confdialog import MainConfDialog
 from . import config_var
+
 from .config_var import getconfig
-from .css_for_webviews import create_css_for_webviews_from_config
 from .contextmenu import add_to_context
 from .defaultconfig import defaultconfig
 from .editor_set_css_js_for_webview import set_css_js_for_webview
@@ -91,26 +81,23 @@ from .shortcuts_buttons import setupButtons, SetupShortcuts
 from .vars import (
     addonname,
     ankiwebpage,
-    css_path,
     picklefile,
     user_files_folder
+)
+
+from .main_window import init_main_window
+
+from .utils import (
+    update_style_file_in_media,
+    update_all_templates,
+    templates_that_miss_the_import_of_the_styling_file,
+    warning_message_about_templates,
 )
 
 regex = r"(web[/\\].*)"
 mw.addonManager.setWebExports(__name__, regex)
 
 
-
-
-
-def warning_message_about_templates(tmpl_list):
-    fmted_list = "SINGLE- ".join(tmpl_list)
-    return f"""
-You have the add-on "{addonname}" installed. This add-on will NOT work with these note types:
-SINGLE- {fmted_list}SINGLE
-Before you continue read the section about "Updating Templates" on ankiweb at {ankiwebpage}.SINGLE
-Auto update these note types?
-""".replace("\n", "").replace("SINGLE","\n")
 
 
 first_start = f"""
@@ -148,7 +135,6 @@ I want to auto-adjust the styling section of my note types if necessary now.
 #### config: on startup load it, then maybe update old version, save on exit
 config_var.init()
 
-
 def load_conf_dict():
     config = defaultconfig.copy()
     if os.path.isfile(picklefile):
@@ -175,7 +161,7 @@ def load_conf_dict():
         if missing:
             if askUser(warning_message_about_templates(missing)):
                 update_all_templates()
-        
+
 
 def save_conf_dict():
     # prevent error after deleting add-on
@@ -187,79 +173,13 @@ def save_conf_dict():
             pickle.dump(getconfig(), PO)
 
 
-def update_style_file_in_media():
-    classes_str = create_css_for_webviews_from_config()
-    with io.open(css_path(), 'w', encoding='utf-8') as f:
-        f.write(classes_str)
-
-
-def update_all_templates():
-    mw.progress.start(immediate=True)
-    line = """@import url("_editor_button_styles.css");"""
-    # in the additional card fields add-on I use:
-    # for mid in mw.col.models.ids():  # but in 2.1.28 method "ids" is labelled as "legacy"
-    #     model = mw.col.models.get(mid)
-    for model in mw.col.models.all():
-        if line not in model['css']:
-            model['css'] = line + "\n\n" + model['css']
-            # templates=True no longer used in 2.1.28 or later; maybe not needed anyway since
-            # the the css/styling section shouldn't affect card generation? But it shouldn't hurt.
-            mw.col.models.save(model, templates=True)
-    mw.col.models.flush()  # no longer used in 2.1.28 or later
-    mw.progress.finish()
-    tooltip("Finished updating styling sections")
-
-
-def templates_that_miss_the_import_of_the_styling_file():
-    l = """@import url("_editor_button_styles.css");"""
-    mim = []
-    for m in mw.col.models.all():
-        if l not in m['css']:
-            mim.append(m['name'])
-    return mim
-
-msg_restart_required = """
-Restart Anki (or at leat close all Add, Browser, or EditCurrent windows) so that all changes 
-take effect.
-""".replace("\n", "")
-
-def on_settings():
-    # TODO only call settings dialog if Editor or Browser are not active
-    # P: User can install "Open the same window multiple times", "Advanced Browser",
-    # my "Add and reschedule" so that these are from different classes.
-    # tooltip('Close all Browser, Add, Editcurrent windows.')
-    dialog = MainConfDialog(getconfig())
-    if dialog.exec_():
-        new = autogenerate_config_values_for_menus(dialog.config)
-        # mw.col.set_config("1899278645_config", new)
-        config_var.myconfig = new
-        update_style_file_in_media()
-        missing = templates_that_miss_the_import_of_the_styling_file()
-        if not missing:
-            showInfo(msg_restart_required)
-        else:
-            msg = msg_restart_required + "\n\n" + warning_message_about_templates(missing)
-            if askUser(msg):
-                update_all_templates()
-
-def init_menu_option():
-    action = QAction(mw)
-    action.setText("Custom Styles Options...")
-
-    mw.form.menuTools.addAction(action)
-    action.triggered.connect(on_settings)
-
-mw.addonManager.setConfigAction(__name__, on_settings)
-main_window_did_init.append(init_menu_option)
-
-
-
 def contextmenu():
     if getconfig().get("v2_show_in_contextmenu", False):
         editor_will_show_context_menu.append(add_to_context)
 
 set_css_js_for_webview()
 
+init_main_window()
 
 profile_did_open.append(load_conf_dict)
 profile_did_open.append(contextmenu)
