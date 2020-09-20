@@ -1,7 +1,7 @@
 from aqt import mw
 from aqt.qt import QAction
 from aqt.utils import askUser, showInfo, tooltip
-from aqt.gui_hooks import main_window_did_init
+from anki.hooks import addHook
 
 from .confdialog import MainConfDialog
 from .config_var import getconfig
@@ -55,4 +55,4 @@ def init_menu_option():
 
 def init_main_window():
     mw.addonManager.setConfigAction(__name__, on_settings)
-    main_window_did_init.append(init_menu_option)
+    addHook('profileLoaded', init_menu_option)
