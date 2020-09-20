@@ -26,18 +26,17 @@ uses_classes = [
     "font size (via class)",
 ]
 
-
 addable_options = [
-        "Backcolor (via class)",
-        "Forecolor (via class)",
-        "font size (via class)",
-        "text wrapper",
-        "class (other)",
-        "class (other), wrapped in div",
-        "style (inline)",
-        "Forecolor (inline)",
-        "Backcolor (inline)",
-    ]
+    "Backcolor (via class)",
+    "Forecolor (via class)",
+    "font size (via class)",
+    "text wrapper",
+    "class (other)",
+    "class (other), wrapped in div",
+    "style (inline)",
+    "Forecolor (inline)",
+    "Backcolor (inline)",
+]
 
 # I use a function because mw.col.media.dir() only works after the profile is loaded
 def css_path():

@@ -34,7 +34,7 @@ from .utils import (
 
 first_start = f"""
 This is an infobox from the add-on "{addonname}". It's shown one time because you either 
-installed it for the first time or just upgraded. 
+installed it for the first time or just upgraded.
 The most recent version of this add-on contains a better default config. If you don't use a 
 custom config you should consider resetting the config of this add-on to it's default so that 
 you get the new config: It's in the upper right corner of the config dialog behind the "more" button. 

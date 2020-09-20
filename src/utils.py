@@ -3,7 +3,7 @@ import io
 from aqt import mw
 from aqt.utils import tooltip
 
-from .vars import css_path
+from .vars import css_path, addonname, ankiwebpage
 from .config_var import getconfig
 
 
