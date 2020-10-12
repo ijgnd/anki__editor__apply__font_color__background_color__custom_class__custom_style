@@ -1,3 +1,5 @@
+from typing import Optional
+from functools import reduce
 from os.path import join
 
 from aqt.utils import showInfo
@@ -9,57 +11,49 @@ from .menu import additional_menu_basic, additional_menu_styled
 from .apply_categories import apply_categories
 
 
-def makethisbutton(editor, e, func):
+def generate_button(editor, entry) -> Optional[str]:
     try:
-        name = e["Text_in_menu"]
-        tooltip = e["extrabutton_tooltip"] + ' ' + e["Setting"]
-        label = e["extrabutton_text"]
-        hotkey = e["Hotkey"]
-        function = lambda e=editor, c=e["Setting"]: func(e, c)
+        name = entry["Text_in_menu"]
+
+        func = apply_categories[entry['Category']]
+        funct = lambda e=editor, c=entry["Setting"]: func(e, c)
+
+        tip = f'{entry["extrabutton_tooltip"]} {entry["Setting"]} ({entry["Hotkey"]})'
+        label = entry["extrabutton_text"]
+
     except KeyError:
         showInfo("Multi Highlight add-on not configured properly")
-        return ""
-    else:
-        b = editor.addButton(
-            icon=None,
-            cmd=name,
-            func=function,
-            tip="{} ({})".format(tooltip, hotkey),
-            label=label,
-            keys=None,
-        )
+        return None
 
-    return b
+    button = editor.addButton(None, name, funct, tip, label)
 
-def setup_buttons(buttons, editor):
+    return button
+
+def setup_extra_buttons(buttons, editor):
     config = getconfig()
 
-    for e in config['v3']:
-        # check if extrabutton_show is set and if True:
-        if e.get('extrabutton_show', False):
-            func = apply_categories[e['Category']]
-            buttons.append(makethisbutton(editor, e, func))
+    # extrabutton
+    for entry in filter(lambda entry: entry.get('extrabutton_show', False), config['v3']):
+        buttons.append(generate_button(editor, entry))
+
+def setup_more_button(buttons, editor):
+    config = getconfig()
 
     # collapsible menu
-    show_style_selector_button = False
+    should_show = reduce(lambda accu, entry: accu or entry['Show_in_menu'], config['v3'], False)
 
-    for e in config['v3']:
-        if e['Show_in_menu']:
-            show_style_selector_button = True
+    if not should_show:
+        return
 
-    if show_style_selector_button:
+    icon = join(iconfolder, "more_rotated.png")
+    func = additional_menu_styled if config['v2_menu_styling'] else additional_menu_basic
 
-        if config['v2_menu_styling']:
-            func = additional_menu_styled
-        else:
-            func = additional_menu_basic
+    b = editor.addButton(
+        icon,
+        "XX",
+        func,
+        "Apply Custom Styles",
+        config['v2_key_styling_menu'],
+    )
 
-        b = editor.addButton(
-            join(iconfolder, "more_rotated.png"),
-            "XX",
-            func,
-            tip="apply styles",
-            keys=config['v2_key_styling_menu'],
-        )
-
-        buttons.append(b)
+    buttons.append(b)

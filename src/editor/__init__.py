@@ -8,7 +8,7 @@ from aqt.gui_hooks import (
 from ..config_var import getconfig
 
 from .contextmenu import add_to_context
-from .buttons import setup_buttons
+from .buttons import setup_extra_buttons, setup_more_button
 from .shortcuts import setup_shortcuts
 
 
@@ -18,5 +18,8 @@ def contextmenu():
 
 def init_editor():
     profile_did_open.append(contextmenu)
-    editor_did_init_buttons.append(setup_buttons)
+
+    editor_did_init_buttons.append(setup_extra_buttons)
+    editor_did_init_buttons.append(setup_more_button)
+
     editor_did_init_shortcuts.append(setup_shortcuts)
