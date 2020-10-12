@@ -1,26 +1,15 @@
-import os
-from pprint import pprint as pp
-
-from PyQt5.QtGui import (
-    QCursor,
-    QFont,
-    QPixmap,
-) 
-from PyQt5.QtWidgets import (
-    QMenu,
-    QLabel,
-    QWidgetAction
-)
+from os.path import join
 
 from aqt import mw
+from aqt.qt import QCursor, QFont, QPixmap, QMenu, QLabel, QWidgetAction
 from aqt.editor import Editor
 
 from ..config_var import getconfig
 from ..colors import hex_to_rgb_string
 
 from .contextmenu import co_hex_to_rgb
-from .editor_rangy_helpers import classes_addon_rangy_remove_all
-from .editor_apply_categories import apply_categories
+from .rangy_helpers import classes_addon_rangy_remove_all
+from .apply_categories import apply_categories
 
 
 def my_highlight_helper(editor, category, setting):
@@ -102,7 +91,7 @@ Editor.my_label_text = my_label_text
 def create_menu_entry(editor, e, parentmenu):
     if e.get('IconInMenu', False):
         y = QLabel()
-        path = os.path.join(icon_path, e['IconInMenu'])
+        path = join(icon_path, e['IconInMenu']) # never defined!!!!
         pixmap = QPixmap(path)
         y.setPixmap(pixmap)
     else:
