@@ -12,7 +12,6 @@ def co_my_highlight_helper(view, category, setting):
     func = apply_categories[category]
     func(view.editor, setting)
 
-
 def co_hex_to_rgb(color):
     # https://stackoverflow.com/a/29643643
     c = color.lstrip('#')
@@ -22,7 +21,6 @@ def co_hex_to_rgb(color):
     alpha = 128
     values = "{}, {}, {}, {}".format(red, green, blue, alpha)
     return values
-
 
 def co_return_stylesheet(e):
     if e['Category'] == 'Backcolor (inline)':
@@ -64,7 +62,6 @@ def co_return_stylesheet(e):
         """.format(e['Text_in_menu_styling'])
     return stylesheet
 
-
 def co_my_label_text(_dict, fmt):
     config = getconfig()
     totallength = config['maxname'] + config['maxshortcut'] + 3
@@ -94,7 +91,6 @@ def co_my_label_text(_dict, fmt):
         out = t1.ljust(remaining) + _dict.get("Hotkey", "")
     return out
 
-
 def co_create_menu_entry(view, e, parentmenu):
     t = co_my_label_text(e, True)
     y = QLabel(t)
@@ -109,16 +105,18 @@ def co_create_menu_entry(view, e, parentmenu):
     x.triggered.connect(lambda _, a=cat, b=se: co_my_highlight_helper(view, a, b))  # ???
     return x
 
-
-def add_to_context_styled(view, menu):
+def add_to_context(view, menu):
     config = getconfig()
+
     menu.addSeparator()
     a = menu.addAction("Clear more formatting (Classes, etc.)")
     a.triggered.connect(lambda _: classes_addon_rangy_remove_all(view.editor))
     menu.addSeparator()
     groups = {}
+
     for i in config['context_menu_groups']:
         groups[i] = menu.addMenu(i)
+
     for row in config['v3']:
         if row.get('Show_in_menu', True):
             if row['Category'] in ["class (other)", "text wrapper"]:
@@ -128,8 +126,5 @@ def add_to_context_styled(view, menu):
                     submenu = groups[row['Category']]
             else:
                 submenu = groups[row['Category']]
+
             submenu.addAction(co_create_menu_entry(view, row, submenu))
-
-
-def add_to_context(view, menu):
-    add_to_context_styled(view, menu)
