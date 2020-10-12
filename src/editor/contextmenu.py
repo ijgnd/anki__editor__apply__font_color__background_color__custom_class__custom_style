@@ -1,6 +1,6 @@
-from aqt import mw
+from aqt.gui_hooks import editor_will_show_context_menu
 from aqt.qt import QLabel, QWidgetAction
-from aqt.editor import Editor, EditorWebView
+from aqt.editor import Editor
 
 from ..config_var import getconfig
 from ..colors import hex_to_rgb_string
@@ -96,8 +96,11 @@ def create_menu_entry(view, e, parentmenu):
     x.triggered.connect(lambda _, a=cat, b=se: my_highlight_helper(view, a, b))  # ???
     return x
 
-def add_to_context(view, menu):
+def setup_contextmenu(view, menu):
     config = getconfig()
+
+    if config.get("v2_show_in_contextmenu", False):
+        return
 
     menu.addSeparator()
     a = menu.addAction("Clear more formatting (Classes, etc.)")

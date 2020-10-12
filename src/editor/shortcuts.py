@@ -16,6 +16,12 @@ def setup_shortcuts(cuts, editor):
 
             cuts.append((e["Hotkey"], lambda s=e["Setting"], f=func: f(editor, s)))
 
+def setup_styling_undo_shortcut(cuts, editor):
+    config = getconfig()
+
     scut = config.get("v2_key_styling_undo")
-    if scut:
-        cuts.append((scut, lambda e=editor: classes_addon_rangy_remove_all(e)))
+
+    if not scut:
+        return
+
+    cuts.append((scut, lambda e=editor: classes_addon_rangy_remove_all(e)))
