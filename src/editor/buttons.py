@@ -2,7 +2,7 @@ from typing import Optional
 from functools import reduce
 from os.path import join
 
-from aqt.utils import showInfo
+from aqt.utils import showInfo, shortcut
 
 from ..config_var import getconfig
 from ..vars import iconfolder
@@ -12,20 +12,21 @@ from .apply_categories import apply_categories
 
 
 def generate_button(editor, entry) -> Optional[str]:
-    try:
-        name = entry["Text_in_menu"]
+    name = entry["Text_in_menu"]
 
-        func = apply_categories[entry['Category']]
-        funct = lambda e=editor, c=entry["Setting"]: func(e, c)
+    inner = apply_categories[entry['Category']]
+    func = lambda e=editor, c=entry["Setting"]: inner(e, c)
 
-        tip = f'{entry["extrabutton_tooltip"]} {entry["Setting"]} ({entry["Hotkey"]})'
-        label = entry["extrabutton_text"]
+    tip = f'{entry["extrabutton_tooltip"]} {entry["Setting"]} ({shortcut(entry["Hotkey"])})'
+    label = entry["extrabutton_text"]
 
-    except KeyError:
-        showInfo("Multi Highlight add-on not configured properly")
-        return None
-
-    button = editor.addButton(None, name, funct, tip, label)
+    button = editor.addButton(
+        None,
+        name,
+        func,
+        tip,
+        label,
+    )
 
     return button
 
@@ -45,15 +46,16 @@ def setup_more_button(buttons, editor):
     if not should_show:
         return
 
-    icon = join(iconfolder, "more_rotated.png")
+    icon = join(iconfolder, 'more_rotated.png')
     func = additional_menu_styled if config['v2_menu_styling'] else additional_menu_basic
+    key = config['v2_key_styling_menu']
 
     b = editor.addButton(
         icon,
-        "XX",
+        'customStylesMore',
         func,
-        "Apply Custom Styles",
-        config['v2_key_styling_menu'],
+        'Apply Custom Styles',
+        keys=key,
     )
 
     buttons.append(b)
