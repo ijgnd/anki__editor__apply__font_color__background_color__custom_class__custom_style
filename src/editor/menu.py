@@ -7,7 +7,6 @@ from aqt.editor import Editor
 from ..config_var import getconfig
 from ..colors import hex_to_rgb_string
 
-from .contextmenu import hex_to_rgb
 from .rangy_helpers import classes_addon_rangy_remove_all
 from .apply_categories import apply_categories
 
@@ -33,13 +32,13 @@ def return_stylesheet(editor, e):
         thiscolor = hex_to_rgb_string(e['Setting'])
         line1 = "background-color: rgba({}); ".format(thiscolor)
     elif e['Category'] == 'Backcolor (via class)':
-        thiscolor = hex_to_rgb(e['Text_in_menu_styling'])
+        thiscolor = hex_to_rgb_string(e['Text_in_menu_styling'])
         line1 = "background-color: rgba({}); ".format(thiscolor)
     elif e['Category'] == 'Forecolor':
         thiscolor = hex_to_rgb_string(e['Setting'])
         line1 = "color: rgba({}); ".format(thiscolor)
     elif e['Category'] == 'Forecolor (via class)':
-        thiscolor = hex_to_rgb(e['Text_in_menu_styling'])
+        thiscolor = hex_to_rgb_string(e['Text_in_menu_styling'])
         line1 = "color: rgba({}); ".format(thiscolor)
     else:
         line1 = e['Text_in_menu_styling']

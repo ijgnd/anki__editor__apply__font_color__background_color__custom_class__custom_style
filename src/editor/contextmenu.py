@@ -3,6 +3,7 @@ from aqt.qt import QLabel, QWidgetAction
 from aqt.editor import Editor, EditorWebView
 
 from ..config_var import getconfig
+from ..colors import hex_to_rgb_string
 
 from .rangy_helpers import classes_addon_rangy_remove_all
 from .apply_categories import apply_categories
@@ -12,28 +13,18 @@ def my_highlight_helper(view, category, setting):
     func = apply_categories[category]
     func(view.editor, setting)
 
-def hex_to_rgb(color):
-    # https://stackoverflow.com/a/29643643
-    c = color.lstrip('#')
-    red = int(c[0:2], 16)
-    green = int(c[2:4], 16)
-    blue = int(c[4:6], 16)
-    alpha = 128
-    values = "{}, {}, {}, {}".format(red, green, blue, alpha)
-    return values
-
 def return_stylesheet(e):
     if e['Category'] == 'Backcolor (inline)':
-        thiscolor = hex_to_rgb(e['Setting'])
+        thiscolor = hex_to_rgb_string(e['Setting'])
         line1 = "background-color: rgba({}); ".format(thiscolor)
     elif e['Category'] == 'Backcolor (via class)':
-        thiscolor = hex_to_rgb(e['Text_in_menu_styling'])
+        thiscolor = hex_to_rgb_string(e['Text_in_menu_styling'])
         line1 = "background-color: rgba({}); ".format(thiscolor)
     elif e['Category'] == 'Forecolor':
-        thiscolor = hex_to_rgb(e['Setting'])
+        thiscolor = hex_to_rgb_string(e['Setting'])
         line1 = "color: rgba({}); ".format(thiscolor)
     elif e['Category'] == 'Forecolor (via class)':
-        thiscolor = hex_to_rgb(e['Text_in_menu_styling'])
+        thiscolor = hex_to_rgb_string(e['Text_in_menu_styling'])
         line1 = "color: rgba({}); ".format(thiscolor)
     elif e['Category'] == 'text wrapper':
         line1 = ""
