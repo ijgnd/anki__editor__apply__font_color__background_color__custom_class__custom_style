@@ -1,15 +1,5 @@
-# Copyright:  (c) 2019- ignd
-# License: GNU AGPL, version 3 or later; http://www.gnu.org/licenses/agpl.html
-
-import os
-from pprint import pprint as pp
-
-from PyQt5.QtWidgets import (
-    QLabel,
-    QWidgetAction,
-)
-
 from aqt import mw
+from aqt.qt import QLabel, QWidgetAction
 from aqt.editor import Editor, EditorWebView
 
 from ..config_var import getconfig

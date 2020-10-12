@@ -1,6 +1,3 @@
-# Copyright:  (c) 2019- ignd
-# License: GNU AGPL, version 3 or later; http://www.gnu.org/licenses/agpl.html
-
 def hex_to_rgb_string(color):
     # https://stackoverflow.com/a/29643643
     c = color.lstrip('#')

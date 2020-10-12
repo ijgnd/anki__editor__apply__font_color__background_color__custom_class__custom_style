@@ -1,10 +1,3 @@
-"""
-Copyright:  (c) 2019- ignd
-            (c) Glutanimate 2015-2017
-License: GNU AGPL, version 3 or later; http://www.gnu.org/licenses/agpl.html
-Use this at your own risk
-"""
-
 import os
 from pprint import pprint as pp
 
