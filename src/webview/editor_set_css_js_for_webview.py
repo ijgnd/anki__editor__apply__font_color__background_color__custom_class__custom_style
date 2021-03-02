@@ -62,8 +62,8 @@ def js_inserter(self):
 // https://stackoverflow.com/questions/5222814/window-getselection-return-html
 function selectionAsHtml() {
     var out = "";
-    if (typeof window.getSelection != "undefined") {
-        var sel = window.getSelection();
+    if (typeof getCurrentField().shadowRoot.getSelection != "undefined") {
+        var sel = getCurrentField().shadowRoot.getSelection();
         if (sel.rangeCount) {
             var helper_span = document.createElement("span");
             for (var i = 0, l = sel.rangeCount; i < l; ++i) {
@@ -82,7 +82,7 @@ function selectionAsHtml() {
 
 var classes_addon_wrap = (elemName) => (surrounding_elem_tag_class) => {
     debugger
-    const s = window.getSelection();
+    const s = getCurrentField().shadowRoot.getSelection();
     let r = s.getRangeAt(0);
     const content = r.cloneContents();
     r.deleteContents();

@@ -95,15 +95,15 @@ def my_apply_span_class(editor, _class):
 
     # workaround for issue18 "formatting is applied to more than selection"
     js_workaround= """
-var cla_sel_str = window.getSelection().toString();
+var cla_sel_str = getCurrentField().shadowRoot.getSelection().toString();
 var cla_sel_html = selectionAsHtml();
 
-if (cla_sel_str == cla_sel_html){
-    classes_addon_wrap_span_helper('%(CLASS)s');
+if (cla_sel_str == cla_sel_html) {
+    classes_addon_wrap_span_helper(`%(CLASS)s`);
 }
 else {
-    var action = dict["%(CLASS)shighlighter"];
-    action.highlightSelection('%(CLASS)s');
+    var action = dict[`%(CLASS)shighlighter`];
+    action.highlightSelection(`%(CLASS)s`);
 }
 
 """  % { 
@@ -120,9 +120,9 @@ some js
 """
 var rangy_loaded = None
 function highlight_helper(_class){
-    if (rangy_loaded){
+    if (rangy_loaded) {
         dict[`{_class}highlighter`].highlightSelection(_class);
-        highlighter, '{_class}');
+        highlighter, `{_class}`);
     }
 }
 """
