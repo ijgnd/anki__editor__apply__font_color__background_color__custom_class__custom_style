@@ -91,27 +91,9 @@ def my_apply_span_class(editor, _class):
     # search didn't render results.
     # WORKAROUND: use rangy.removeAllHighlights(), see  https://github.com/timdown/rangy/wiki/Highlighter-Module
 
-
-
     # workaround for issue18 "formatting is applied to more than selection"
-    js_workaround= """
-var cla_sel_str = getCurrentField().shadowRoot.getSelection().toString();
-var cla_sel_html = selectionAsHtml();
-
-if (cla_sel_str == cla_sel_html) {
-    classes_addon_wrap_span_helper(`%(CLASS)s`);
-}
-else {
-    var action = dict[`%(CLASS)shighlighter`];
-    action.highlightSelection(`%(CLASS)s`);
-}
-
-"""  % { 
-"CLASS": _class,
-}
+    js_workaround = "classes_addon_wrap_span_helper(`%(CLASS)s`); "  % { "CLASS": _class }
     editor.web.eval(js_workaround)
-
-
 
 
     '''
