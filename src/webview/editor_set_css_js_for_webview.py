@@ -59,7 +59,6 @@ def js_inserter(self):
         # JS error :41 Uncaught TypeError: rangy.createHighlighter is not a function
 
     jsstring = """
-
 // https://stackoverflow.com/questions/5222814/window-getselection-return-html
 function selectionAsHtml() {
     var out = "";
@@ -81,40 +80,25 @@ function selectionAsHtml() {
     return out;
 }
 
-
-function classes_addon_wrap_span_helper(surrounding_span_tag_class){
+var classes_addon_wrap = (elemName) => (surrounding_elem_tag_class) => {
+    debugger
     const s = window.getSelection();
     let r = s.getRangeAt(0);
     const content = r.cloneContents();
     r.deleteContents();
-    const span = document.createElement("span");
-    if (surrounding_span_tag_class){
-        span.className = surrounding_span_tag_class;
+    const elem = document.createElement(elemName);
+    if (surrounding_elem_tag_class) {
+        elem.className = surrounding_elem_tag_class;
     }
-    span.appendChild(content);
-    r.insertNode(span);
-    saveField('key');
+    elem.appendChild(content);
+    r.insertNode(elem);
+    saveNow(true);
 }
 
+var classes_addon_wrap_span_helper = classes_addon_wrap("span")
+var classes_addon_wrap_helper = classes_addon_wrap("div")
 
-
-
-
-function classes_addon_wrap_helper(surrounding_div_tag_class){
-    const s = window.getSelection();
-    let r = s.getRangeAt(0);
-    const content = r.cloneContents();
-    r.deleteContents();
-    const div = document.createElement("div");
-    if (surrounding_div_tag_class){
-        div.className = surrounding_div_tag_class;
-    }
-    div.appendChild(content);
-    r.insertNode(div);
-    saveField('key');
-}
-
-var injectScript = (src) => {
+function injectScript(src) {
     return new Promise((resolve, reject) => {
         const script = document.createElement('script');
         script.src = src;
@@ -124,7 +108,6 @@ var injectScript = (src) => {
         document.head.appendChild(script);
     });
 };
-
 
 $(document).ready(function(){
     (async () => {
