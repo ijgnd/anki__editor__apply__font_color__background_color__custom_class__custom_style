@@ -45,9 +45,27 @@ def append_js_to_Editor(web_content, context):
         web_content.head += f"""\n<script>\n{rangy__create_global_variables_for_later_use()}\n</script>\n"""
 
 
-def append_css_to_Editor(web_content, context):
-    if isinstance(context, Editor):
-        web_content.head += f"""\n<style>\n{create_css_for_webviews_from_config()}\n</style>\n"""
+def append_css_to_Editor(js, note, editor) -> str:
+    newjs = js + ("""
+var userStyle = document.createElement("style");
+userStyle.rel = "stylesheet";
+userStyle.textContent = `USER_STYLE`;
+userStyle.id = "customStyles";
+
+forEditorField([], (field) => {
+    var sr = field.editingArea.shadowRoot;
+    var customStyles = sr.getElementById("customStyles");
+    if (customStyles) {
+        customStyles.parentElement.replaceChild(userStyle, customStyles)
+    }
+    else {
+        sr.insertBefore(userStyle.cloneNode(true), field.editingArea.editable)
+    }
+});
+
+""".replace("USER_STYLE", create_css_for_webviews_from_config()))
+
+    return newjs
 
 
 def js_inserter(self):
@@ -126,8 +144,6 @@ $(document).ready(function(){
         focusField(0);
     })();
 });
-
-
 """.replace("PORTPORT", str(mw.mediaServer.getPort()))\
    .replace("NAMENAME", __name__.split('.', 1)[0])\
    .replace("HIGHLIGHTERS", rangy_higlighters_for_each_class())\
