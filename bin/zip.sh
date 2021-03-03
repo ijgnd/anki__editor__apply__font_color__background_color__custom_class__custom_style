@@ -6,4 +6,12 @@ declare addon_id='custom_styles'
 cd "$DIR/src"
 
 zip -r "$DIR/build/$addon_id.ankiaddon" \
-  *
+  *".py" \
+  "LICENSE" \
+  "manifest.json" \
+  "confdialog/"*".py" \
+  "confdialog/forms/"*".py" \
+  "web/"*".js" \
+  "webview/"*".py" \
+  "editor/"*".py" \
+  "icons/"*
