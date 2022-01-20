@@ -82,7 +82,7 @@ class MainConfDialog(QDialog):
         a.triggered.connect(self.onExport)
         a = m.addAction("Import Button Config from json")
         a.triggered.connect(self.onImport)
-        m.exec_(QCursor.pos())
+        m.exec(QCursor.pos())
 
     def restoreDefault(self):
         text = "Delete your setup and restore default buttons config?"
@@ -140,7 +140,7 @@ class MainConfDialog(QDialog):
 
     def onAdd(self):
         e = AddEntry(self)
-        if e.exec_():
+        if e.exec():
             self.active.append(e.newsetting)
             self.active = sorted(self.active, key=lambda k: k['Category'])
             self.set_table(self.bo.tw_active, self.active)
@@ -163,7 +163,7 @@ class MainConfDialog(QDialog):
                 if action == "modify":
                     config = thisli[row]
                     a = gui_dialog(self, sel=None, config=config)
-                    if a.exec_():
+                    if a.exec():
                         thisli[row] = a.newsetting
                         self.set_table(activewidget, thisli)
                 if action == "del":
@@ -264,7 +264,7 @@ class MainConfDialog(QDialog):
             li = self.inactive
         config = li[row]
         a = gui_dialog(self, sel=None, config=config)
-        if a.exec_():
+        if a.exec():
             li[row] = a.newsetting
             self.set_table(w, li)
 

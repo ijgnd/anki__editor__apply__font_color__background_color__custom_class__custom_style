@@ -33,7 +33,7 @@ def on_settings():
     # my "Add and reschedule" so that these are from different classes.
     # tooltip('Close all Browser, Add, Editcurrent windows.')
     dialog = MainConfDialog(getconfig())
-    if dialog.exec_():
+    if dialog.exec():
         new = autogenerate_config_values_for_menus(dialog.config)
         # mw.col.set_config("1899278645_config", new)
         config_var.myconfig = new

@@ -121,7 +121,7 @@ def additional_menu_styled(editor):
     for e in config['v3']:
         if e.get('Show_in_menu', False):
             m.addAction(editor.create_menu_entry(e, m))
-    m.exec_(QCursor.pos())
+    m.exec(QCursor.pos())
 Editor.additional_menu_styled = additional_menu_styled
 
 
@@ -156,5 +156,5 @@ def additional_menu_basic(editor):
             cat = e["Category"]
             se = e.get("Setting", e.get("Category", False))
             a.triggered.connect(lambda _, a=cat, b=se: my_highlight_helper(editor, a, b))
-    m.exec_(QCursor.pos())
+    m.exec(QCursor.pos())
 Editor.additional_menu_basic = additional_menu_basic

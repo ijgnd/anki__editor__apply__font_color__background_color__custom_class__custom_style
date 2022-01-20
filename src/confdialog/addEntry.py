@@ -48,7 +48,7 @@ class AddEntry(QDialog):
             if not askUser(classeswarning):
                 return
         a = gui_dialog(self, sel=sel, config=None)
-        if a.exec_():
+        if a.exec():
             self.newsetting = a.newsetting
             self.newsetting['Category'] = sel
             QDialog.accept(self)
