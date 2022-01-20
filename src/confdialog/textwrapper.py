@@ -1,6 +1,9 @@
-from aqt.qt import Qt, QDialog
+from aqt.qt import Qt, QDialog, qtmajor
 
-from .forms import settings_textwrapper
+if qtmajor == 5:
+    from .forms5 import settings_textwrapper
+else:
+    from .forms6 import settings_textwrapper
 
 
 class SettingsForTextWrapper(QDialog):

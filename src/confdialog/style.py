@@ -1,9 +1,9 @@
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (
-    QDialog,
-)
+from aqt.qt import *
 
-from .forms import settings_style
+if qtmajor == 5:
+    from .forms5 import settings_style
+else:
+    from .forms6 import settings_style
 
 
 class SettingsForStyle(QDialog):

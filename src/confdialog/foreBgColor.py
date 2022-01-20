@@ -1,13 +1,9 @@
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import (
-    QColor,
-) 
-from PyQt5.QtWidgets import (
-    QColorDialog,
-    QDialog,
-)
+from aqt.qt import *
 
-from .forms import settings_forecolor_bgcolor
+if qtmajor == 5:
+    from .forms5 import settings_forecolor_bgcolor
+else:
+    from .forms6 import settings_forecolor_bgcolor
 
 
 class SettingsForForeBgColor(QDialog):

@@ -10,7 +10,8 @@ zip -r "$DIR/build/$addon_id.ankiaddon" \
   "LICENSE" \
   "manifest.json" \
   "confdialog/"*".py" \
-  "confdialog/forms/"*".py" \
+  "confdialog/forms5/"*".py" \
+  "confdialog/forms6/"*".py" \
   "web/"*".js" \
   "webview/"*".py" \
   "editor/"*".py" \

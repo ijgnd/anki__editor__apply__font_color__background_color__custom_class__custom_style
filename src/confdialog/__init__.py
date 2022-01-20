@@ -6,19 +6,7 @@ from collections import OrderedDict
 
 from aqt import mw
 
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import (
-    QCursor,
-)
-from PyQt5.QtWidgets import (
-    QAbstractItemView,
-    QAbstractScrollArea,
-    QDialog,
-    QHeaderView,
-    QMenu,
-    QTableView,
-    QTableWidgetItem,
-)
+from aqt.qt import *
 
 from aqt.utils import (
     askUser,
@@ -33,7 +21,10 @@ from aqt.utils import (
 from ..defaultconfig import defaultconfig
 from ..vars import addonname, addable_options, unique_string
 
-from .forms import settings_main_widgets
+if qtmajor == 5:
+    from .forms5 import settings_main_widgets
+else:
+    from .forms6 import settings_main_widgets
 from .addEntry import AddEntry
 from .utils import gui_dialog
 

@@ -1,13 +1,13 @@
 import re
 
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (
-    QDialog,
-)
+from aqt.qt import *
 
 from aqt.utils import showInfo
 
-from .forms import settings_class
+if qtmajor == 5:
+    from .forms5 import settings_class
+else:
+    from .forms6 import settings_class
 
 
 class SettingsForClass(QDialog):
