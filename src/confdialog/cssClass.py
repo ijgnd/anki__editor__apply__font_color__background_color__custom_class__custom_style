@@ -14,7 +14,7 @@ class SettingsForClass(QDialog):
     def __init__(self, parent=None, config=None, inspan=True):
         self.parent = parent
         self.config = config
-        QDialog.__init__(self, parent, Qt.Window)
+        QDialog.__init__(self, parent, Qt.WindowType.Window)
         self.dialog = settings_class.Ui_Dialog()
         self.dialog.setupUi(self)
 

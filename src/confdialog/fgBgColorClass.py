@@ -12,7 +12,7 @@ class SettingsForFgBgColorClass(QDialog):
         self.category = category
         self.config = config
         self.parent = parent
-        QDialog.__init__(self, parent, Qt.Window)
+        QDialog.__init__(self, parent, Qt.WindowType.Window)
         self.dialog = settings_forecolor_bgcolor_class.Ui_Dialog()
         self.dialog.setupUi(self)
 
