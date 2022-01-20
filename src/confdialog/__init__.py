@@ -210,7 +210,7 @@ class MainConfDialog(QDialog):
         self.bo.tw_inactive.itemDoubleClicked.connect(self.ondoubleclick)
 
     def set_table(self, widget, li):
-        widget.setSelectionBehavior(QTableView.SelectRows)
+        widget.setSelectionBehavior(QAbstractItemView.SelectRows)
         widget.setEditTriggers(QAbstractItemView.NoEditTriggers)
         widget.setRowCount(len(li))
         widget.setColumnCount(len(self.tableHeaders))
