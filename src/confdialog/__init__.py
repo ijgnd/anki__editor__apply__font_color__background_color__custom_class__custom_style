@@ -210,21 +210,21 @@ class MainConfDialog(QDialog):
         self.bo.tw_inactive.itemDoubleClicked.connect(self.ondoubleclick)
 
     def set_table(self, widget, li):
-        widget.setSelectionBehavior(QAbstractItemView.SelectRows)
-        widget.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        widget.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        widget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         widget.setRowCount(len(li))
         widget.setColumnCount(len(self.tableHeaders))
         widget.setHorizontalHeaderLabels(self.tableHeaders.values())
         # widget.verticalHeader().setVisible(False)
-        widget.setSizeAdjustPolicy(QAbstractScrollArea.AdjustToContents)
+        widget.setSizeAdjustPolicy(QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
         widget.resizeColumnsToContents()
-        widget.verticalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
+        widget.verticalHeader().setSectionResizeMode(QHeaderView.ResizeMode.ResizeToContents)
 
         # stretch all to resize
-        widget.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)  # Stretch
+        widget.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.ResizeToContents)  # Stretch
         # per column https://stackoverflow.com/q/38098763
-        widget.horizontalHeader().setSectionResizeMode(3, QHeaderView.Stretch)
-        widget.horizontalHeader().setSectionResizeMode(4, QHeaderView.Stretch)
+        widget.horizontalHeader().setSectionResizeMode(3, QHeaderView.ResizeMode.Stretch)
+        widget.horizontalHeader().setSectionResizeMode(4, QHeaderView.ResizeMode.Stretch)
         # widget.horizontalHeader().setSectionResizeMode(6, QHeaderView.Stretch)
         # widget.horizontalHeader().setSectionResizeMode(9, QHeaderView.Stretch)
 
