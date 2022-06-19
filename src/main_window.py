@@ -7,7 +7,7 @@ from .confdialog import MainConfDialog
 from .config_var import getconfig
 
 from .adjust_config import (
-    autogenerate_config_values_for_menus, 
+    autogenerate_config_values_for_menus,
     read_and_update_old_v2_config_from_meta_json,
     update_config_for_202005,
 )
@@ -25,7 +25,10 @@ from .utils import (
 msg_restart_required = """
 Restart Anki (or at leat close all Add, Browser, or EditCurrent windows) so that all changes 
 take effect.
-""".replace("\n", "")
+""".replace(
+    "\n", ""
+)
+
 
 def on_settings():
     # TODO only call settings dialog if Editor or Browser are not active
@@ -33,7 +36,7 @@ def on_settings():
     # my "Add and reschedule" so that these are from different classes.
     # tooltip('Close all Browser, Add, Editcurrent windows.')
     dialog = MainConfDialog(getconfig())
-    if dialog.exec_():
+    if dialog.exec():
         new = autogenerate_config_values_for_menus(dialog.config)
         # mw.col.set_config("1899278645_config", new)
         config_var.myconfig = new
@@ -42,9 +45,12 @@ def on_settings():
         if not missing:
             showInfo(msg_restart_required)
         else:
-            msg = msg_restart_required + "\n\n" + warning_message_about_templates(missing)
+            msg = (
+                msg_restart_required + "\n\n" + warning_message_about_templates(missing)
+            )
             if askUser(msg):
                 update_all_templates()
+
 
 def init_menu_option():
     action = QAction(mw)
@@ -53,6 +59,7 @@ def init_menu_option():
     mw.form.menuTools.addAction(action)
     action.triggered.connect(on_settings)
 
+
 def init_main_window():
     mw.addonManager.setConfigAction(__name__, on_settings)
-    addHook('profileLoaded', init_menu_option)
+    addHook("profileLoaded", init_menu_option)

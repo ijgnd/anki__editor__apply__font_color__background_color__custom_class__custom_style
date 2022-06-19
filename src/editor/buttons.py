@@ -14,7 +14,7 @@ from .apply_categories import apply_categories
 def generate_button(editor, entry) -> Optional[str]:
     name = entry["Text_in_menu"]
 
-    inner = apply_categories[entry['Category']]
+    inner = apply_categories[entry["Category"]]
     func = lambda e=editor, c=entry["Setting"]: inner(e, c)
 
     tip = f'{entry["extrabutton_tooltip"]} {entry["Setting"]} ({shortcut(entry["Hotkey"])})'
@@ -30,31 +30,39 @@ def generate_button(editor, entry) -> Optional[str]:
 
     return button
 
+
 def setup_extra_buttons(buttons, editor):
     config = getconfig()
 
     # extrabutton
-    for entry in filter(lambda entry: entry.get('extrabutton_show', False), config['v3']):
+    for entry in filter(
+        lambda entry: entry.get("extrabutton_show", False), config["v3"]
+    ):
         buttons.append(generate_button(editor, entry))
+
 
 def setup_more_button(buttons, editor):
     config = getconfig()
 
     # collapsible menu
-    should_show = reduce(lambda accu, entry: accu or entry['Show_in_menu'], config['v3'], False)
+    should_show = reduce(
+        lambda accu, entry: accu or entry["Show_in_menu"], config["v3"], False
+    )
 
     if not should_show:
         return
 
-    icon = join(iconfolder, 'more_rotated.png')
-    func = additional_menu_styled if config['v2_menu_styling'] else additional_menu_basic
-    key = config['v2_key_styling_menu']
+    icon = join(iconfolder, "more_rotated.png")
+    func = (
+        additional_menu_styled if config["v2_menu_styling"] else additional_menu_basic
+    )
+    key = config["v2_key_styling_menu"]
 
     b = editor.addButton(
         icon,
-        'customStylesMore',
+        "customStylesMore",
         func,
-        'Apply Custom Styles',
+        "Apply Custom Styles",
         keys=key,
     )
 

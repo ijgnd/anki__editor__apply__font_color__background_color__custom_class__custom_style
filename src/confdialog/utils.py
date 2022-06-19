@@ -11,7 +11,7 @@ from .textwrapper import SettingsForTextWrapper
 
 def gui_dialog(inst, sel=None, config=None):
     if not sel:
-        sel = config['Category']
+        sel = config["Category"]
     if sel in ["Backcolor (inline)", "Forecolor (inline)"]:
         return SettingsForForeBgColor(inst, sel, config)
     if sel in ["Backcolor (via class)", "Forecolor (via class)"]:
@@ -27,12 +27,13 @@ def gui_dialog(inst, sel=None, config=None):
     if sel == "text wrapper":
         return SettingsForTextWrapper(inst, config)
     else:
-        text = (f"Error in config of add-on {addonname}\n\n"
-                 "The following part of the config contains an error in"
-                 "the setting 'Category': "
-                f"\n\n{str(config)}"
-                 "\n\nClick Abort/Cancel and maybe delete this entry."
-                 "\n\nYou might encounter some error messages after this window."
-                )
+        text = (
+            f"Error in config of add-on {addonname}\n\n"
+            "The following part of the config contains an error in"
+            "the setting 'Category': "
+            f"\n\n{str(config)}"
+            "\n\nClick Abort/Cancel and maybe delete this entry."
+            "\n\nYou might encounter some error messages after this window."
+        )
         showInfo(text)
         return

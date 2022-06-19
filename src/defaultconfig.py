@@ -188,6 +188,6 @@ defaultconfig = {
             "extrabutton_show": False,
             "extrabutton_text": "130",
             "extrabutton_tooltip": "set font size to 130%",
-        }
-    ]
-} 
+        },
+    ],
+}

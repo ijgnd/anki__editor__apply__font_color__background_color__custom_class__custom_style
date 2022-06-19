@@ -1,20 +1,22 @@
 def hex_to_rgb_tuple(color):
-    c = color.lstrip('#')
+    c = color.lstrip("#")
     red = int(c[0:2], 16)
     green = int(c[2:4], 16)
     blue = int(c[4:6], 16)
     alpha = 128
     return (red, green, blue, alpha)
 
+
 def hex_to_rgb_string(color):
     # https://stackoverflow.com/a/29643643
-    c = color.lstrip('#')
+    c = color.lstrip("#")
     red = int(c[0:2], 16)
     green = int(c[2:4], 16)
     blue = int(c[4:6], 16)
     alpha = 128
     values = "{}, {}, {}, {}".format(red, green, blue, alpha)
     return values
+
 
 # https://en.wikipedia.org/wiki/Web_colors
 html4colors = {

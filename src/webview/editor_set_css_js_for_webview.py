@@ -17,6 +17,7 @@ from ..vars import (
 from ..config_var import getconfig
 from ..utils import create_css_for_webviews_from_config
 
+
 def rangy__create_global_variables_for_later_use():
     jsstring = """var dict = new Object();"""
     # for e in getconfig()["v3"]:
@@ -46,7 +47,8 @@ def append_js_to_Editor(web_content, context):
 
 
 def append_css_to_Editor(js, note, editor) -> str:
-    newjs = js + ("""
+    newjs = js + (
+        """
 var userStyle = document.createElement("style");
 userStyle.rel = "stylesheet";
 userStyle.textContent = `USER_STYLE`;
@@ -63,7 +65,10 @@ forEditorField([], (field) => {
     }
 });
 
-""".replace("USER_STYLE", create_css_for_webviews_from_config()))
+""".replace(
+            "USER_STYLE", create_css_for_webviews_from_config()
+        )
+    )
 
     return newjs
 
@@ -72,11 +77,12 @@ def js_inserter(self):
     # load rangy and create highlighters
     # rangy is inserted/loaded here and not with webview_will_set_content because this didn't work in
     # Windows in 2020-05 for me, also see issue #3/#7. I got
-        # JS error /_addons/1899278645/web/rangy-classapplier.js:15 Uncaught TypeError: Cannot read property 'createModule' of undefined
-        # JS error /_addons/1899278645/web/rangy-core.js:10 Uncaught Error: required module 'ClassApplier' not found
-        # JS error :41 Uncaught TypeError: rangy.createHighlighter is not a function
+    # JS error /_addons/1899278645/web/rangy-classapplier.js:15 Uncaught TypeError: Cannot read property 'createModule' of undefined
+    # JS error /_addons/1899278645/web/rangy-core.js:10 Uncaught Error: required module 'ClassApplier' not found
+    # JS error :41 Uncaught TypeError: rangy.createHighlighter is not a function
 
-    jsstring = """
+    jsstring = (
+        """
 // https://stackoverflow.com/questions/5222814/window-getselection-return-html
 function selectionAsHtml() {
     var out = "";
@@ -144,10 +150,16 @@ $(document).ready(function(){
         focusField(0);
     })();
 });
-""".replace("PORTPORT", str(mw.mediaServer.getPort()))\
-   .replace("NAMENAME", __name__.split('.', 1)[0])\
-   .replace("HIGHLIGHTERS", rangy_higlighters_for_each_class())\
-   .replace("MAYBE_HBIR", "hbir_init();" if "1095648795" in mw.addonManager.allAddons() else "")
-    # the line above is a workaround for half-baked incremental reading, 
+""".replace(
+            "PORTPORT", str(mw.mediaServer.getPort())
+        )
+        .replace("NAMENAME", __name__.split(".", 1)[0])
+        .replace("HIGHLIGHTERS", rangy_higlighters_for_each_class())
+        .replace(
+            "MAYBE_HBIR",
+            "hbir_init();" if "1095648795" in mw.addonManager.allAddons() else "",
+        )
+    )
+    # the line above is a workaround for half-baked incremental reading,
     # https://ankiweb.net/shared/info/1095648795
     self.web.eval(jsstring)
