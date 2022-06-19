@@ -84,38 +84,59 @@ def js_inserter(self):
     jsstring = (
         """
 // https://stackoverflow.com/questions/5222814/window-getselection-return-html
-function selectionAsHtml() {
-    var out = "";
-    if (typeof getCurrentField().shadowRoot.getSelection != "undefined") {
-        var sel = getCurrentField().shadowRoot.getSelection();
-        if (sel.rangeCount) {
-            var helper_span = document.createElement("span");
-            for (var i = 0, l = sel.rangeCount; i < l; ++i) {
-                helper_span.appendChild(sel.getRangeAt(i).cloneContents());
-            }
-            out = helper_span.innerHTML;
-        }
-    } 
-    else if (typeof document.selection != "undefined") {
-        if (document.selection.type == "Text") {
-            out = document.selection.createRange().htmlText;
-        }
+async function selectionAsHtml() {
+    const input = require("svelte/store").get(require("anki/NoteEditor").instances[0].focusedInput)
+
+    if (!input || input.name !== "richText") {
+        return "";
     }
+
+    const element = await input.element;
+    const selection =  element.getRootNode().getSelection();
+
+    if (!selection) {
+        return "";
+    }
+
+    let out = "";
+
+    if (selection.rangeCount) {
+        var helper_span = document.createElement("span");
+        for (var i = 0, l = selection.rangeCount; i < l; ++i) {
+            helper_span.appendChild(selection.getRangeAt(i).cloneContents());
+        }
+        out = helper_span.innerHTML;
+    }
+
     return out;
 }
 
-var classes_addon_wrap = (elemName) => (surrounding_elem_tag_class) => {
-    debugger
-    const s = getCurrentField().shadowRoot.getSelection();
-    let r = s.getRangeAt(0);
-    const content = r.cloneContents();
-    r.deleteContents();
-    const elem = document.createElement(elemName);
-    if (surrounding_elem_tag_class) {
-        elem.className = surrounding_elem_tag_class;
+var classes_addon_wrap = (elemName) => async (surrounding_elem_tag_class) => {
+    const input = require("svelte/store").get(require("anki/NoteEditor").instances[0].focusedInput)
+
+    if (!input || input.name !== "richText") {
+        return;
     }
-    elem.appendChild(content);
-    r.insertNode(elem);
+
+    const element = await input.element;
+    const selection =  element.getRootNode().getSelection();
+
+    if (!selection) {
+        return;
+    }
+
+    const range = s.getRangeAt(0);
+    const content = range.cloneContents();
+    const element = document.createElement(elemName);
+
+    range.deleteContents();
+
+    if (surrounding_elem_tag_class) {
+        element.className = surrounding_elem_tag_class;
+    }
+
+    element.appendChild(content);
+    range.insertNode(elem);
     saveNow(true);
 }
 
