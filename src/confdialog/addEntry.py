@@ -35,7 +35,7 @@ DOUBLEContinue?
 class AddEntry(QDialog):
     def __init__(self, parent=None):
         self.parent = parent
-        QDialog.__init__(self, parent, Qt.Window)
+        QDialog.__init__(self, parent, Qt.WindowType.Window)
         self.dialog = settings_select_category.Ui_Dialog()
         self.dialog.setupUi(self)
         self.dialog.list_categories.addItems(addable_options)
