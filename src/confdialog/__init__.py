@@ -6,11 +6,8 @@ from collections import OrderedDict
 
 from aqt import mw
 
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import (
+from aqt.qt import (
     QCursor,
-)
-from PyQt5.QtWidgets import (
     QAbstractItemView,
     QAbstractScrollArea,
     QDialog,

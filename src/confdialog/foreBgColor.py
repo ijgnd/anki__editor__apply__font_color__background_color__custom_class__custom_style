@@ -1,8 +1,6 @@
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import (
+from aqt.qt import (
+    Qt,
     QColor,
-) 
-from PyQt5.QtWidgets import (
     QColorDialog,
     QDialog,
 )
