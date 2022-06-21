@@ -93,50 +93,21 @@ def my_apply_style(editor, style):
 
 
 def my_wrap_in_class(editor, _class):
-    js = f"classes_addon_wrap_helper('{_class}');"
+    js = f"classesAddonWrapHelper('{_class}');"
     editor.web.eval(js)
 
 
-def my_apply_span_class(editor, _class):
-    # TODO there's no undo for this with ctrl+z
-    # for undo you apparently should use document.execCommand(insertHTML), see
-    # https://stackoverflow.com/questions/28217539/allowing-contenteditable-to-undo-after-dom-modification
-    # But insertHTML doesn't help, because rangy by default directly modifies the page and not
-    # some variable that I insert. So I'd have to look into rangy. Sounds complicated, very quick
-    # search didn't render results.
-    # WORKAROUND: use rangy.removeAllHighlights(), see  https://github.com/timdown/rangy/wiki/Highlighter-Module
-
-    # workaround for issue18 "formatting is applied to more than selection"
-    js_workaround = "classes_addon_wrap_span_helper(`%(CLASS)s`); " % {
-        "CLASS": _class}
+def my_apply_span_class(editor, class_name):
+    js_workaround = f"classesAddonWrapSpanHelper(`{class_name}`); "
     editor.web.eval(js_workaround)
 
-    '''
-    TODO: maybe only load rangy when command is called the first time?
-some js
-"""
-var rangy_loaded = None
-function highlight_helper(_class){
-    if (rangy_loaded) {
-        dict[`{_class}highlighter`].highlightSelection(_class);
-        highlighter, `{_class}`);
-    }
-}
-"""
-P: I'm losing focus when loading rangy: I use  focusField(0); in my "$(document).ready(function(){" function ...
-   so how would I highlight a selection ...
-   maybe pycmd so that I can use self.editor.web.setFocus() from QWebEngine ...?
-    js =   f"""    highlight_helper('{_class}');   """
-'''
-    # js = f"""    dict["{_class}highlighter"].highlightSelection('{_class}');   """
-    # editor.web.eval(js)
     for e in getconfig()["v3"]:
         if (
             e["Category"] == "class (other)"
-            and e["Setting"] == _class
+            and e["Setting"] == class_name
             and e.get("surround_with_div_tag")
         ):
-            editor.web.eval("classes_addon_wrap_helper();")
+            editor.web.eval("classesAddonWrapHelper();")
             break
 
 

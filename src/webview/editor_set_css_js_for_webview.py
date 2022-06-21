@@ -16,17 +16,12 @@ def rangy__create_global_variables_for_later_use():
 
 
 def rangy_higlighters_for_each_class():
-    js_str = """
-    dict["temporary_highlighter_for_styles"] = rangy.createHighlighter();
-    dict["temporary_highlighter_for_styles"].addClassApplier(rangy.createClassApplier('temp_styles_helper'));
-"""
+    js_str = "dict['temporary_highlighter_for_styles'] = console.log;"
     for e in getconfig()["v3"]:
         if e["Category"] in uses_classes:
             classname = e["Setting"]
-            js_str += f"""
-    dict["{classname}highlighter"] = rangy.createHighlighter();
-    dict["{classname}highlighter"].addClassApplier(rangy.createClassApplier('{classname}'));
-"""
+            js_str += f"\ndict['{classname}highlighter'] = console.log;"
+
     return js_str
 
 
@@ -59,67 +54,102 @@ def js_inserter(self):
 
     jsstring = (
         """
-// https://stackoverflow.com/questions/5222814/window-getselection-return-html
-async function selectionAsHtml() {
-    const input = require("svelte/store")
-        .get(require("anki/NoteEditor").instances[0].focusedInput)
-
-    if (!input || input.name !== "richText") {
-        return "";
+function removeEmptyStyle(element) {
+    if (element.style.cssText.length === 0) {
+        element.removeAttribute("style");
+        // Calling `.hasAttribute` right after `.removeAttribute` might return true.
+        return true;
     }
 
-    const element = await input.element;
-    const selection =  element.getRootNode().getSelection();
+    return false;
+}
 
-    if (!selection) {
-        return "";
-    }
+function removeStyleProperties(
+    element,
+) {
+    return removeEmptyStyle(element);
+}
 
-    let out = "";
+function classesAddonWrap(tagName) {
+    return async (surroundingElemTagClass) => {
+        function matcher(
+            element,
+            match,
+        ) {
+            if (
+                element.tagName !== tagName
+                || !element.classList.contains(surroundingElemTagClass)
+            ) {
+                return;
+            }
 
-    if (selection.rangeCount) {
-        var helper_span = document.createElement("span");
-        for (var i = 0, l = selection.rangeCount; i < l; ++i) {
-            helper_span.appendChild(selection.getRangeAt(i).cloneContents());
+            match.setCache(Array.from(element.classList).sort());
+            match.clear(() => {
+                element.classList.remove(surroundingElemTagClass);
+
+                if (
+                    removeStyleProperties(element) &&
+                    element.classList.length === 0
+                ) {
+                    match.remove();
+                }
+            });
         }
-        out = helper_span.innerHTML;
-    }
 
-    return out;
+        function formatter(node) {
+            const extension = node.extensions.find(
+                (element) => element.tagName === "SPAN",
+            );
+
+            if (extension) {
+                extension.classList.add(surroundingElemTagClass);
+                return false;
+            }
+
+            const span = document.createElement("span");
+            span.classList.add(surroundingElemTagClass);
+            node.range.toDOMRange().surroundContents(span);
+            return true;
+        }
+
+        const format = {
+            matcher,
+            formatter,
+        };
+
+        console.log('test', tagName, surroundingElemTagClass, format)
+        const input = require("svelte/store")
+            .get(require("anki/NoteEditor").instances[0].focusedInput);
+
+        if (!input || input.name !== "richText") {
+            return;
+        }
+
+        const element = await input.element;
+        const selection =  element.getRootNode().getSelection();
+
+        if (!selection) {
+            return;
+        }
+
+        const range = s.getRangeAt(0);
+        const content = range.cloneContents();
+        const elem = document.createElement(tagName);
+
+        range.deleteContents();
+
+        if (surroundingElemTagClass) {
+            elem.className = surroundingElemTagClass;
+        }
+
+        elem.appendChild(content);
+        range.insertNode(elem);
+        saveNow(true);
+    }
 }
 
-var classes_addon_wrap = (elemName) => async (surrounding_elem_tag_class) => {
-    const input = require("svelte/store")
-        .get(require("anki/NoteEditor").instances[0].focusedInput);
-
-    if (!input || input.name !== "richText") {
-        return;
-    }
-
-    const element = await input.element;
-    const selection =  element.getRootNode().getSelection();
-
-    if (!selection) {
-        return;
-    }
-
-    const range = s.getRangeAt(0);
-    const content = range.cloneContents();
-    const elem = document.createElement(elemName);
-
-    range.deleteContents();
-
-    if (surrounding_elem_tag_class) {
-        elem.className = surrounding_elem_tag_class;
-    }
-
-    elem.appendChild(content);
-    range.insertNode(elem);
-    saveNow(true);
-}
-
-let classes_addon_wrap_span_helper = classes_addon_wrap("span")
-let classes_addon_wrap_helper = classes_addon_wrap("div")
+const classesAddonWrapSpanHelper = classesAddonWrap("span")
+const classesAddonWrapHelper = classesAddonWrap("div")
 
 HIGHLIGHTERS
 MAYBE_HBIR
