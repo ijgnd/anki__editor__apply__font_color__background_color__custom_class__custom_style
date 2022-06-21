@@ -76,7 +76,7 @@ def my_apply_style(editor, style):
                     % json.dumps(styled))
     """
     editor.web.eval(
-        f"""dict["temporary_highlighter_for_styles"].highlightSelection('temp_styles_helper');"""
+        """dict["temporary_highlighter_for_styles"].highlightSelection('temp_styles_helper');"""
     )
     js = """
         var matches = document.querySelectorAll(".temp_styles_helper");
@@ -107,12 +107,13 @@ def my_apply_span_class(editor, _class):
     # WORKAROUND: use rangy.removeAllHighlights(), see  https://github.com/timdown/rangy/wiki/Highlighter-Module
 
     # workaround for issue18 "formatting is applied to more than selection"
-    js_workaround = "classes_addon_wrap_span_helper(`%(CLASS)s`); " % {"CLASS": _class}
+    js_workaround = "classes_addon_wrap_span_helper(`%(CLASS)s`); " % {
+        "CLASS": _class}
     editor.web.eval(js_workaround)
 
     '''
     TODO: maybe only load rangy when command is called the first time?
-some js 
+some js
 """
 var rangy_loaded = None
 function highlight_helper(_class){

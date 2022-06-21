@@ -118,41 +118,14 @@ var classes_addon_wrap = (elemName) => async (surrounding_elem_tag_class) => {
     saveNow(true);
 }
 
-var classes_addon_wrap_span_helper = classes_addon_wrap("span")
-var classes_addon_wrap_helper = classes_addon_wrap("div")
+let classes_addon_wrap_span_helper = classes_addon_wrap("span")
+let classes_addon_wrap_helper = classes_addon_wrap("div")
 
-function injectScript(src) {
-    return new Promise((resolve, reject) => {
-        const script = document.createElement('script');
-        script.src = src;
-        script.async = true;
-        script.onload = resolve;
-        script.onerror = reject;
-        document.head.appendChild(script);
-    });
-};
-
-$(document).ready(function(){
-    (async () => {
-        console.log('rangy loaded by classes_addon');
-
-        await injectScript("http://127.0.0.1:PORTPORT/_addons/NAMENAME/web/rangy-core.js");
-        await injectScript("http://127.0.0.1:PORTPORT/_addons/NAMENAME/web/rangy-classapplier.js");
-        await injectScript("http://127.0.0.1:PORTPORT/_addons/NAMENAME/web/rangy-serializer.js");
-        await injectScript("http://127.0.0.1:PORTPORT/_addons/NAMENAME/web/rangy-textrange.js");
-        await injectScript("http://127.0.0.1:PORTPORT/_addons/NAMENAME/web/rangy-selectionsaverestore.js");
-        await injectScript("http://127.0.0.1:PORTPORT/_addons/NAMENAME/web/rangy-highlighter.js");
-
-        rangy.init();
-        HIGHLIGHTERS
-        MAYBE_HBIR
-        focusField(0);
-    })();
-});
+HIGHLIGHTERS
+MAYBE_HBIR
 """.replace(
             "PORTPORT", str(mw.mediaServer.getPort())
         )
-        .replace("NAMENAME", __name__.split(".", 1)[0])
         .replace("HIGHLIGHTERS", rangy_higlighters_for_each_class())
         .replace(
             "MAYBE_HBIR",
