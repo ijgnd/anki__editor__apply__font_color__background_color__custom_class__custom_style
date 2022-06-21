@@ -1,17 +1,7 @@
-import os
-
 from aqt import mw
 from aqt.editor import Editor
-from aqt.gui_hooks import (
-    webview_will_set_content,
-    editor_did_init,
-)
 
 from ..vars import (
-    addon_folder_name,
-    css_path,
-    css_path_Customize_Editor_Stylesheet,
-    js_to_append,
     uses_classes,
 )
 from ..config_var import getconfig
@@ -19,11 +9,10 @@ from ..utils import create_css_for_webviews_from_config
 
 
 def rangy__create_global_variables_for_later_use():
-    jsstring = """var dict = new Object();"""
+    return """var dict = new Object();"""
     # for e in getconfig()["v3"]:
     #     if e["Category"] in uses_classes:
     #         jsstring += f"""\nvar {e["Setting"]}highlighter;"""
-    return jsstring
 
 
 def rangy_higlighters_for_each_class():
@@ -47,7 +36,7 @@ def append_js_to_Editor(web_content, context):
 
 
 def append_css_to_Editor(js, note, editor) -> str:
-    newjs = js + (
+    return js + (
         """
 var userStyle = document.createElement("style");
 userStyle.rel = "stylesheet";
@@ -69,8 +58,6 @@ forEditorField([], (field) => {
             "USER_STYLE", create_css_for_webviews_from_config()
         )
     )
-
-    return newjs
 
 
 def js_inserter(self):
