@@ -38,22 +38,11 @@ def append_js_to_Editor(web_content, context):
 def append_css_to_Editor(js, note, editor) -> str:
     return js + (
         """
-var userStyle = document.createElement("style");
-userStyle.rel = "stylesheet";
-userStyle.textContent = `USER_STYLE`;
-userStyle.id = "customStyles";
-
-forEditorField([], (field) => {
-    var sr = field.editingArea.shadowRoot;
-    var customStyles = sr.getElementById("customStyles");
-    if (customStyles) {
-        customStyles.parentElement.replaceChild(userStyle, customStyles)
-    }
-    else {
-        sr.insertBefore(userStyle.cloneNode(true), field.editingArea.editable)
-    }
+require("anki/RichTextInput").lifecycle.onMount(async ({ customStyles }) => {
+    const { addStyleTag } = await customStyles;
+    const { element: styleTag } = await addStyleTag('customStyles');
+    styleTag.textContent = `USER_STYLE`
 });
-
 """.replace(
             "USER_STYLE", create_css_for_webviews_from_config()
         )
@@ -72,7 +61,8 @@ def js_inserter(self):
         """
 // https://stackoverflow.com/questions/5222814/window-getselection-return-html
 async function selectionAsHtml() {
-    const input = require("svelte/store").get(require("anki/NoteEditor").instances[0].focusedInput)
+    const input = require("svelte/store")
+        .get(require("anki/NoteEditor").instances[0].focusedInput)
 
     if (!input || input.name !== "richText") {
         return "";
@@ -99,7 +89,8 @@ async function selectionAsHtml() {
 }
 
 var classes_addon_wrap = (elemName) => async (surrounding_elem_tag_class) => {
-    const input = require("svelte/store").get(require("anki/NoteEditor").instances[0].focusedInput)
+    const input = require("svelte/store")
+        .get(require("anki/NoteEditor").instances[0].focusedInput);
 
     if (!input || input.name !== "richText") {
         return;
@@ -114,15 +105,15 @@ var classes_addon_wrap = (elemName) => async (surrounding_elem_tag_class) => {
 
     const range = s.getRangeAt(0);
     const content = range.cloneContents();
-    const element = document.createElement(elemName);
+    const elem = document.createElement(elemName);
 
     range.deleteContents();
 
     if (surrounding_elem_tag_class) {
-        element.className = surrounding_elem_tag_class;
+        elem.className = surrounding_elem_tag_class;
     }
 
-    element.appendChild(content);
+    elem.appendChild(content);
     range.insertNode(elem);
     saveNow(true);
 }
