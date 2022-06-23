@@ -70,8 +70,32 @@ function removeStyleProperties(
     return removeEmptyStyle(element);
 }
 
+const { Surrounder } = require("anki/surround");
+
+let surrounder;
+let disabled;
+
+require("anki/NoteEditor").lifecycle.onMount(({ focusedInput }) => {
+    surrounder = Surrounder.make()
+    disabled = false;
+
+    focusedInput.subscribe((input) => {
+        if (input && input.name === "rich-text") {
+            surrounder.richText = input;
+            disabled = false;
+        } else {
+            surrounder.disable();
+            disabled = true;
+        }
+    })
+});
+
 function classesAddonWrap(tagName) {
     return async (surroundingElemTagClass) => {
+        if (disabled) {
+            return;
+        }
+
         function matcher(
             element,
             match,
@@ -83,7 +107,6 @@ function classesAddonWrap(tagName) {
                 return;
             }
 
-            match.setCache(Array.from(element.classList).sort());
             match.clear(() => {
                 element.classList.remove(surroundingElemTagClass);
 
@@ -117,34 +140,7 @@ function classesAddonWrap(tagName) {
             formatter,
         };
 
-        console.log('test', tagName, surroundingElemTagClass, format)
-        const input = require("svelte/store")
-            .get(require("anki/NoteEditor").instances[0].focusedInput);
-
-        if (!input || input.name !== "richText") {
-            return;
-        }
-
-        const element = await input.element;
-        const selection =  element.getRootNode().getSelection();
-
-        if (!selection) {
-            return;
-        }
-
-        const range = s.getRangeAt(0);
-        const content = range.cloneContents();
-        const elem = document.createElement(tagName);
-
-        range.deleteContents();
-
-        if (surroundingElemTagClass) {
-            elem.className = surroundingElemTagClass;
-        }
-
-        elem.appendChild(content);
-        range.insertNode(elem);
-        saveNow(true);
+        surrounder.surround(format);
     }
 }
 
