@@ -19,9 +19,8 @@ require("anki/RichTextInput").lifecycle.onMount(async ({{ customStyles }}) => {{
 def eval_base_js(editor):
     editor.web.eval(
         f"""
-const {{ Surrounder }} = require("anki/surround");
+const {{ surrounder }} = require("anki/RichTextInput");
 
-let surrounder;
 let disabled;
 let removeFormats;
 
@@ -29,19 +28,7 @@ let editorResolve;
 const editorPromise = new Promise((resolve) => (editorResolve = resolve));
 
 function setupWrapping({{ focusedInput, toolbar }}) {{
-    surrounder = Surrounder.make()
-    disabled = false;
-
-    focusedInput.subscribe((input) => {{
-        if (input && input.name === "rich-text") {{
-            surrounder.richText = input;
-            disabled = false;
-        }} else {{
-            surrounder.disable();
-            disabled = true;
-        }}
-    }})
-
+    surrounder.active.subscribe((value) => (disabled = !value));
     removeFormats = toolbar.removeFormats;
     editorResolve();
 }}
@@ -54,6 +41,15 @@ function removeEmptyStyle(element) {{
     if (element.style.cssText.length === 0) {{
         element.removeAttribute("style");
         // Calling `.hasAttribute` right after `.removeAttribute` might return true.
+        return true;
+    }}
+
+    return false;
+}}
+
+function removeEmptyClass(element) {{
+    if (element.className.length === 0) {{
+        element.removeAttribute("class");
         return true;
     }}
 
@@ -84,10 +80,11 @@ function classesAddonWrap(tagName) {{
             match.clear(() => {{
                 element.classList.remove(className);
 
-                if (
-                    removeStyleProperties(element) &&
-                    element.classList.length === 0
-                ) {{
+                let shouldRemove = true;
+                shouldRemove = removeStyleProperties(element) && shouldRemove;
+                shouldRemove = removeEmptyClass(element) && shouldRemove;
+
+                if (shouldRemove) {{
                     match.remove();
                 }}
             }});
