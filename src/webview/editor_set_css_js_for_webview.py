@@ -54,22 +54,6 @@ def js_inserter(self):
 
     jsstring = (
         """
-function removeEmptyStyle(element) {
-    if (element.style.cssText.length === 0) {
-        element.removeAttribute("style");
-        // Calling `.hasAttribute` right after `.removeAttribute` might return true.
-        return true;
-    }
-
-    return false;
-}
-
-function removeStyleProperties(
-    element,
-) {
-    return removeEmptyStyle(element);
-}
-
 const { Surrounder } = require("anki/surround");
 
 let surrounder;
@@ -92,6 +76,22 @@ function setupWrapping({ focusedInput }) {
 
 require("anki/NoteEditor").instances.forEach(setupWrapping);
 require("anki/NoteEditor").lifecycle.onMount(setupWrapping);
+
+function removeEmptyStyle(element) {
+    if (element.style.cssText.length === 0) {
+        element.removeAttribute("style");
+        // Calling `.hasAttribute` right after `.removeAttribute` might return true.
+        return true;
+    }
+
+    return false;
+}
+
+function removeStyleProperties(
+    element,
+) {
+    return removeEmptyStyle(element);
+}
 
 function classesAddonWrap(tagName) {
     return async (surroundingElemTagClass) => {
