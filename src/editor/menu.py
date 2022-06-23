@@ -1,13 +1,11 @@
 from os.path import join
 
-from aqt import mw
 from aqt.qt import QCursor, QFont, QPixmap, QMenu, QLabel, QWidgetAction
 from aqt.editor import Editor
 
 from ..config_var import getconfig
 from ..colors import hex_to_rgb_string
 
-from .rangy_helpers import classes_addon_rangy_remove_all
 from .apply_categories import apply_categories
 
 
@@ -125,9 +123,6 @@ def additional_menu_styled(editor):
     # QMenu(editor.mw) conflict with persistent editor, 1686259334 I get
     # RuntimeError: super-class __init__() of type AnkiQt was never called
     m = QMenu()
-    a = m.addAction("Clear more formatting (Classes, etc.)")
-    a.triggered.connect(lambda _: classes_addon_rangy_remove_all(editor))
-    m.addSeparator()
     for e in config["v3"]:
         if e.get("Show_in_menu", False):
             m.addAction(editor.create_menu_entry(e, m))
@@ -158,9 +153,6 @@ def additional_menu_basic(editor):
     m = QMenu(editor.mw)
     # m.setStyleSheet(basic_stylesheet)
     m.setFont(QFont("Courier New", 11))
-    a = m.addAction("Clear more formatting (Classes, etc.)")
-    a.triggered.connect(lambda _: classes_addon_rangy_remove_all(editor))
-    m.addSeparator()
     for e in config["v3"]:
         if e.get("Show_in_menu", False):
             text = editor.my_label_text(e, False)

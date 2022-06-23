@@ -1,11 +1,8 @@
-from aqt.gui_hooks import editor_will_show_context_menu
 from aqt.qt import QLabel, QWidgetAction
-from aqt.editor import Editor
 
 from ..config_var import getconfig
 from ..colors import hex_to_rgb_string
 
-from .rangy_helpers import classes_addon_rangy_remove_all
 from .apply_categories import apply_categories
 
 
@@ -110,9 +107,6 @@ def setup_contextmenu(view, menu):
     if config.get("v2_show_in_contextmenu", False):
         return
 
-    menu.addSeparator()
-    a = menu.addAction("Clear more formatting (Classes, etc.)")
-    a.triggered.connect(lambda _: classes_addon_rangy_remove_all(view.editor))
     menu.addSeparator()
     groups = {}
 
