@@ -67,26 +67,19 @@ def setForecolor(editor, color):
 
 
 def my_apply_style(editor, style):
-    """
-    # TODO editor.web.selectedText() is text without styling
-    selected = editor.web.selectedText()
-    styled = "".join(['<span style="{}">'.format(style), selected, '</span>'])
-    # TODO use setFormat from editor.js from Anki ?
-    editor.web.eval("document.execCommand('inserthtml', false, %s);"
-                    % json.dumps(styled))
-    """
     editor.web.eval(
         """dict["temporary_highlighter_for_styles"].highlightSelection('temp_styles_helper');"""
     )
     js = """
-        var matches = document.querySelectorAll(".temp_styles_helper");
-        for (var i = 0; i < matches.length; i++) {
-            matches[i].classList.remove("temp_styles_helper");
-            matches[i].removeAttribute("style (inline)");  // delete old styling, https://stackoverflow.com/a/18691728
-            matches[i].style.cssText = "NEWSTYLE"; // set new style, https://stackoverflow.com/a/3968772
-                                                    // might only work if all other styling is removed
-            }
-    """.replace(
+const matches = document.querySelectorAll(".temp_styles_helper");
+
+for (var i = 0; i < matches.length; i++) {
+    matches[i].classList.remove("temp_styles_helper");
+    matches[i].removeAttribute("style (inline)");  // delete old styling, https://stackoverflow.com/a/18691728
+    matches[i].style.cssText = "NEWSTYLE"; // set new style, https://stackoverflow.com/a/3968772
+                                            // might only work if all other styling is removed
+}
+""".replace(
         "NEWSTYLE", style.replace("\n", " ")
     )
     editor.web.eval(js)
