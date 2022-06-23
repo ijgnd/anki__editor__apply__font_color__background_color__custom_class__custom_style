@@ -7,7 +7,6 @@ def noop(_editor, _entry):
 
 
 def setup_span_class(editor, entry):
-    print("testo")
     class_name = entry["Setting"]
     key = f"span{class_name}"
     editor.web.eval(

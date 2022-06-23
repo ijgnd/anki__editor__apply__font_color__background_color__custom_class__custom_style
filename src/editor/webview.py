@@ -25,6 +25,9 @@ let surrounder;
 let disabled;
 let removeFormats;
 
+let editorResolve;
+const editorPromise = new Promise((resolve) => (editorResolve = resolve));
+
 function setupWrapping({{ focusedInput, toolbar }}) {{
     surrounder = Surrounder.make()
     disabled = false;
@@ -40,8 +43,10 @@ function setupWrapping({{ focusedInput, toolbar }}) {{
     }})
 
     removeFormats = toolbar.removeFormats;
+    editorResolve();
 }}
 
+/* This depends on there only being one note editor */
 require("anki/NoteEditor").instances.forEach(setupWrapping);
 require("anki/NoteEditor").lifecycle.onMount(setupWrapping);
 
@@ -62,10 +67,8 @@ function removeStyleProperties(
 }}
 
 function classesAddonWrap(tagName) {{
-    return async (surroundingElemTagClass) => {{
-        if (disabled) {{
-            return;
-        }}
+    return async (className, label) => {{
+       await editorPromise;
 
        function matcher(
            element,
@@ -73,13 +76,13 @@ function classesAddonWrap(tagName) {{
        ) {{
            if (
                element.tagName !== tagName
-               || !element.classList.contains(surroundingElemTagClass)
+               || !element.classList.contains(className)
            ) {{
                return;
            }}
 
            match.clear(() => {{
-               element.classList.remove(surroundingElemTagClass);
+               element.classList.remove(className);
 
                if (
                    removeStyleProperties(element) &&
@@ -96,12 +99,12 @@ function classesAddonWrap(tagName) {{
             );
 
             if (extension) {{
-                extension.classList.add(surroundingElemTagClass);
+                extension.classList.add(className);
                 return false;
             }}
 
             const span = document.createElement("span");
-            span.classList.add(surroundingElemTagClass);
+            span.classList.add(className);
             node.range.toDOMRange().surroundContents(span);
             return true;
         }}
@@ -112,11 +115,13 @@ function classesAddonWrap(tagName) {{
         }};
 
         const namedFormat = {{
-            name: 'simple spans',
+            name: className,
             show: true,
             active: true,
             format,
         }}
+
+        removeFormats.update((formats) => [...formats, namedFormat]);
 
         return () => surrounder.surround(format);
     }}
