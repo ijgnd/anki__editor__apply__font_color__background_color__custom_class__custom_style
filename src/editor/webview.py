@@ -74,28 +74,28 @@ function classesAddonWrap(tagName) {{
            element,
            match,
        ) {{
-           if (
-               element.tagName !== tagName
-               || !element.classList.contains(className)
-           ) {{
-               return;
-           }}
+            if (
+                element.tagName !== tagName.toUpperCase()
+                || !element.classList.contains(className)
+            ) {{
+                return;
+            }}
 
-           match.clear(() => {{
-               element.classList.remove(className);
+            match.clear(() => {{
+                element.classList.remove(className);
 
-               if (
-                   removeStyleProperties(element) &&
-                   element.classList.length === 0
-               ) {{
-                   match.remove();
-               }}
-           }});
-       }}
+                if (
+                    removeStyleProperties(element) &&
+                    element.classList.length === 0
+                ) {{
+                    match.remove();
+                }}
+            }});
+        }}
 
         function formatter(node) {{
             const extension = node.extensions.find(
-                (element) => element.tagName === "SPAN",
+                (element) => element.tagName === tagName.toUpperCase()
             );
 
             if (extension) {{
@@ -103,9 +103,9 @@ function classesAddonWrap(tagName) {{
                 return false;
             }}
 
-            const span = document.createElement("span");
-            span.classList.add(className);
-            node.range.toDOMRange().surroundContents(span);
+            const elem = document.createElement(tagName);
+            elem.classList.add(className);
+            node.range.toDOMRange().surroundContents(elem);
             return true;
         }}
 
