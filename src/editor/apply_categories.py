@@ -105,10 +105,6 @@ def apply_span_class(editor, entry):
     key = f"span{class_name}"
     editor.web.eval(
         f"""
-if (!({json.dumps(key)} in customStylesDict)) {{
-    customStylesDict[{json.dumps(key)}] = classesAddonWrapSpanHelper({json.dumps(class_name)});
-}}
-
 customStylesDict[{json.dumps(key)}].then((surrounder) => surrounder());
 """
     )

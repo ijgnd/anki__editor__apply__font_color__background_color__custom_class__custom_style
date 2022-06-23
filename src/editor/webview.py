@@ -1,5 +1,4 @@
 from aqt import mw
-from aqt.editor import Editor
 
 from ..utils import create_css_for_webviews_from_config
 
@@ -17,8 +16,8 @@ require("anki/RichTextInput").lifecycle.onMount(async ({{ customStyles }}) => {{
     )
 
 
-def eval_base_js(self):
-    self.web.eval(
+def eval_base_js(editor):
+    editor.web.eval(
         f"""
 const {{ Surrounder }} = require("anki/surround");
 
@@ -125,9 +124,6 @@ function classesAddonWrap(tagName) {{
 
 const classesAddonWrapSpanHelper = classesAddonWrap("span")
 const classesAddonWrapDivHelper = classesAddonWrap("div")
-
-// We use this to cache the formatters
-const customStylesDict = {{}};
 
 {"hbir_init();" if "1095648795" in mw.addonManager.allAddons() else ""}
 // the line above is a workaround for half-baked incremental reading
