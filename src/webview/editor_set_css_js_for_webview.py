@@ -119,12 +119,12 @@ function classesAddonWrap(tagName) {{
             format,
         }}
 
-        return surrounder.surround(format);
+        return () => surrounder.surround(format);
     }}
 }}
 
- const classesAddonWrapSpanHelper = classesAddonWrap("span")
- const classesAddonWrapHelper = classesAddonWrap("div")
+const classesAddonWrapSpanHelper = classesAddonWrap("span")
+const classesAddonWrapDivHelper = classesAddonWrap("div")
 
 // We use this to cache the formatters
 const customStylesDict = {{}};

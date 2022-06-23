@@ -5,7 +5,6 @@ from anki.utils import (
     isMac,
     isWin,
 )
-from aqt.editor import Editor
 
 from ..config_var import getconfig
 from ..vars import unique_string
@@ -13,9 +12,8 @@ from ..vars import unique_string
 from .text_wrap_escape_sequences import escape_seqs
 
 
-def my_wrap_helper(editor, beforeAfter):
+def wrap_text(editor, beforeAfter):
     before, after = beforeAfter.split(unique_string)
-    # editor.web.eval(f"wrap('{before}', '{after}');")
 
     def find_escape_seq(match):
         return (
@@ -32,7 +30,7 @@ def my_wrap_helper(editor, beforeAfter):
     )
 
 
-def setBackcolor(editor, color):
+def set_backcolor(editor, color):
     # from miniformat pack _wrapWithBgColour
     """
     Wrap the selected text in an appropriate tag with a background color.
@@ -62,11 +60,11 @@ def setBackcolor(editor, color):
         )
 
 
-def setForecolor(editor, color):
+def set_forecolor(editor, color):
     editor.web.eval("setFormat('forecolor', '%s')" % color)
 
 
-def my_apply_style(editor, style):
+def apply_style(editor, style):
     editor.web.eval(
         """dict["temporary_highlighter_for_styles"].highlightSelection('temp_styles_helper');"""
     )
@@ -85,14 +83,30 @@ for (var i = 0; i < matches.length; i++) {
     editor.web.eval(js)
 
 
-def my_wrap_in_class(editor, _class):
-    js = f"classesAddonWrapHelper('{_class}');"
-    editor.web.eval(js)
+def apply_div_class(editor, class_name):
+    key = f"div{class_name}"
+    editor.web.eval(
+        f"""
+if (!({json.dumps(key)} in customStylesDict)) {{
+    customStylesDict[{json.dumps(key)}] = classesAddonWrapDivHelper({json.dumps(class_name)});
+}}
+
+customStylesDict[{json.dumps(key)}].then((surrounder) => surrounder());
+"""
+    )
 
 
-def my_apply_span_class(editor, class_name):
-    js_workaround = f"classesAddonWrapSpanHelper(`{class_name}`); "
-    editor.web.eval(js_workaround)
+def apply_span_class(editor, class_name):
+    key = f"span{class_name}"
+    editor.web.eval(
+        f"""
+if (!({json.dumps(key)} in customStylesDict)) {{
+    customStylesDict[{json.dumps(key)}] = classesAddonWrapSpanHelper({json.dumps(class_name)});
+}}
+
+customStylesDict[{json.dumps(key)}].then((surrounder) => surrounder());
+"""
+    )
 
     for e in getconfig()["v3"]:
         if (
@@ -100,18 +114,18 @@ def my_apply_span_class(editor, class_name):
             and e["Setting"] == class_name
             and e.get("surround_with_div_tag")
         ):
-            editor.web.eval("classesAddonWrapHelper();")
+            editor.web.eval("classesAddonWrapDivHelper();")
             break
 
 
 apply_categories = {
-    "class (other)": my_apply_span_class,
-    "class (other), wrapped in div": my_wrap_in_class,
-    "style (inline)": my_apply_style,
-    "Backcolor (inline)": setBackcolor,
-    "Backcolor (via class)": my_apply_span_class,
-    "Forecolor (inline)": setForecolor,
-    "Forecolor (via class)": my_apply_span_class,
-    "font size (via class)": my_apply_span_class,
-    "text wrapper": my_wrap_helper,
+    "text wrapper": wrap_text,
+    "class (other)": apply_span_class,
+    "class (other), wrapped in div": apply_div_class,
+    "style (inline)": apply_style,
+    "Backcolor (inline)": set_backcolor,
+    "Backcolor (via class)": apply_span_class,
+    "Forecolor (inline)": set_forecolor,
+    "Forecolor (via class)": apply_span_class,
+    "font size (via class)": apply_span_class,
 }
