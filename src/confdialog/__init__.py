@@ -27,7 +27,7 @@ from aqt.utils import (
 )
 
 from ..defaultconfig import defaultconfig
-from ..vars import addonname, addable_options, unique_string
+from ..vars import unique_string
 
 from .forms import settings_main_widgets
 from .addEntry import AddEntry
@@ -76,9 +76,6 @@ class MainConfDialog(QDialog):
         self.bo.cb_classes_to_styling.toggled.connect(self.onClassesToStyling)
 
         self.bo.multi_button_shortcut.setKeySequence(self.config["v2_key_styling_menu"])
-        self.bo.remove_formatting_shortcut.setKeySequence(
-            self.config["v2_key_styling_undo"]
-        )
 
         self.bo.pb_more.clicked.connect(self.onMore)
 
@@ -263,34 +260,39 @@ class MainConfDialog(QDialog):
         # workaround for QTableWidget: add empty strings to all fields to make them clickable
         for i in range(len(li)):
             for j in range(len(self.tableHeaders)):
-                newitem = QTableWidgetItem(str(" "))
+                newitem = QTableWidgetItem(" ")
                 widget.setItem(j, i, newitem)
 
         for rowidx, rowdict in enumerate(li):
             if rowdict["Category"] == "text wrapper":
-                rowdict["Setting"] = ""  # this will be fixed when closing the main gui
+                # this will be fixed when closing the main gui
+                rowdict["Setting"] = ""
                 # with text_wrapper_workaround
             for k, v in rowdict.items():
                 try:
                     index = list(self.tableHeaders.keys()).index(k)
-                    if rowdict["Category"] in [
-                        "Backcolor (via class)",
-                        "Forecolor (via class)",
-                        "class (other)",
-                    ]:
-                        if k == "Setting":
-                            index = 2
+                    if (
+                        rowdict["Category"]
+                        in [
+                            "Backcolor (via class)",
+                            "Forecolor (via class)",
+                            "class (other)",
+                        ]
+                    ) and k == "Setting":
+                        index = 2
                 except ValueError:
                     # field "active" and ugly fix for class styling in Text_in_menu_styling
-                    if rowdict["Category"] in [
-                        "Backcolor (via class)",
-                        "Forecolor (via class)",
-                        "class (other)",
-                    ]:
-                        if k == "Text_in_menu_styling":
-                            index = 3
-                            newitem = QTableWidgetItem(str(v))
-                            widget.setItem(rowidx, index, newitem)
+                    if (
+                        rowdict["Category"]
+                        in [
+                            "Backcolor (via class)",
+                            "Forecolor (via class)",
+                            "class (other)",
+                        ]
+                    ) and k == "Text_in_menu_styling":
+                        index = 3
+                        newitem = QTableWidgetItem(str(v))
+                        widget.setItem(rowidx, index, newitem)
                 else:
                     newitem = QTableWidgetItem(str(v))
                     widget.setItem(rowidx, index, newitem)
@@ -325,24 +327,14 @@ class MainConfDialog(QDialog):
         self.config[
             "v2_key_styling_menu"
         ] = self.bo.multi_button_shortcut.keySequence().toString()
+
+        self.update_all_templates = self.bo.cb_classes_to_styling.isChecked()
         self.config[
-            "v2_key_styling_undo"
-        ] = self.bo.remove_formatting_shortcut.keySequence().toString()
-
-        if self.bo.cb_classes_to_styling.isChecked():
-            self.update_all_templates = True
-        else:
-            self.update_all_templates = False
-
-        if self.bo.cb_global_contextmenu_show.isChecked():
-            self.config["v2_show_in_contextmenu"] = True
-        else:
-            self.config["v2_show_in_contextmenu"] = False
-
-        if self.bo.cb_global_contextmenu_with_styling.isChecked():
-            self.config["v2_menu_styling"] = True
-        else:
-            self.config["v2_menu_styling"] = False
+            "v2_show_in_contextmenu"
+        ] = self.bo.cb_global_contextmenu_show.isChecked()
+        self.config[
+            "v2_menu_styling"
+        ] = self.bo.cb_global_contextmenu_with_styling.isChecked()
 
         media_dir = mw.col.media.dir()
         fpath = os.path.join(media_dir, "syncdummy.txt")
