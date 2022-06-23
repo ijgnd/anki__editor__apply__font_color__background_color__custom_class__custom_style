@@ -4,17 +4,6 @@ from aqt.editor import Editor
 from ..utils import create_css_for_webviews_from_config
 
 
-def create_global_variables_for_later_use():
-    return "const customStylesDict = {};"
-
-
-def append_js_to_Editor(web_content, context):
-    if isinstance(context, Editor):
-        web_content.head += (
-            f"""\n<script>\n{create_global_variables_for_later_use()}\n</script>\n"""
-        )
-
-
 def append_css_to_Editor(js, note, editor) -> str:
     return (
         js
@@ -102,21 +91,21 @@ function classesAddonWrap(tagName) {{
            }});
        }}
 
-       function formatter(node) {{
-           const extension = node.extensions.find(
-               (element) => element.tagName === "SPAN",
-           );
+        function formatter(node) {{
+            const extension = node.extensions.find(
+                (element) => element.tagName === "SPAN",
+            );
 
-           if (extension) {{
-               extension.classList.add(surroundingElemTagClass);
-               return false;
-           }}
+            if (extension) {{
+                extension.classList.add(surroundingElemTagClass);
+                return false;
+            }}
 
-           const span = document.createElement("span");
-           span.classList.add(surroundingElemTagClass);
-           node.range.toDOMRange().surroundContents(span);
-           return true;
-       }}
+            const span = document.createElement("span");
+            span.classList.add(surroundingElemTagClass);
+            node.range.toDOMRange().surroundContents(span);
+            return true;
+        }}
 
         const format = {{
             matcher,
@@ -130,12 +119,15 @@ function classesAddonWrap(tagName) {{
             format,
         }}
 
-         return surrounder.surround(format);
-     }}
- }}
+        return surrounder.surround(format);
+    }}
+}}
 
  const classesAddonWrapSpanHelper = classesAddonWrap("span")
  const classesAddonWrapHelper = classesAddonWrap("div")
+
+// We use this to cache the formatters
+const customStylesDict = {{}};
 
 {"hbir_init();" if "1095648795" in mw.addonManager.allAddons() else ""}
 // the line above is a workaround for half-baked incremental reading
