@@ -75,7 +75,7 @@ const { Surrounder } = require("anki/surround");
 let surrounder;
 let disabled;
 
-require("anki/NoteEditor").lifecycle.onMount(({ focusedInput }) => {
+function setupWrapping({ focusedInput }) {
     surrounder = Surrounder.make()
     disabled = false;
 
@@ -88,7 +88,10 @@ require("anki/NoteEditor").lifecycle.onMount(({ focusedInput }) => {
             disabled = true;
         }
     })
-});
+}
+
+require("anki/NoteEditor").instances.forEach(setupWrapping);
+require("anki/NoteEditor").lifecycle.onMount(setupWrapping);
 
 function classesAddonWrap(tagName) {
     return async (surroundingElemTagClass) => {
