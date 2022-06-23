@@ -5,12 +5,14 @@ from .apply_categories import apply_categories
 
 def setup_shortcuts(cuts, editor):
     config = getconfig()
-    for e in config["v3"]:
-        if e.get("Hotkey", False):  # and not config["v2_show_in_contextmenu"]:
-            func = apply_categories[e["Category"]]
 
+    for entry in config["v3"]:
+        if entry.get("Hotkey", False):
             # remove already existing shortcuts first
-            for match in filter(lambda v: v[0] == e["Hotkey"], cuts):
+            for match in filter(lambda cut: cut[0] == entry["Hotkey"], cuts):
                 cuts.remove(match)
 
-            cuts.append((e["Hotkey"], lambda s=e["Setting"], f=func: f(editor, s)))
+            def callback():
+                apply_categories[entry["Category"]](editor, entry)
+
+            cuts.append((entry["Hotkey"], callback))

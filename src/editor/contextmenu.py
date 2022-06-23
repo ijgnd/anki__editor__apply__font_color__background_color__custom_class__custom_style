@@ -91,12 +91,11 @@ def create_menu_entry(view, entry, parentmenu):
     action.setDefaultWidget(label)
 
     category = entry["Category"]
-    setting = entry.get("Setting", entry.get("Category", False))
 
-    def my_highlight_helper():
-        apply_categories[category](view.editor, setting, id)
+    def callback(_):
+        apply_categories[category](view.editor, entry)
 
-    action.triggered.connect(my_highlight_helper)
+    action.triggered.connect(callback)
     return action
 
 

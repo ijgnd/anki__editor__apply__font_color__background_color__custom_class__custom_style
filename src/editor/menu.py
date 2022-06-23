@@ -7,14 +7,6 @@ from ..colors import hex_to_rgb_string
 from .apply_categories import apply_categories
 
 
-def my_highlight_helper(editor, category, setting):
-    func = apply_categories[category]
-    func(editor, setting)
-
-
-Editor.my_highlight_helper = my_highlight_helper
-
-
 """
 Stylesheet for QMenu?
 - stylesheet refers not to QAction but to QMenu
@@ -100,9 +92,13 @@ def create_menu_entry(editor, entry, parentmenu):
     label.setStyleSheet(stylesheet)
     action = QWidgetAction(parentmenu)
     action.setDefaultWidget(label)
-    cat = entry["Category"]
-    se = entry.get("Setting", entry.get("Category", False))
-    action.triggered.connect(lambda _, a=cat, b=se: my_highlight_helper(editor, a, b))
+    category = entry["Category"]
+
+    def my_highlight_helper():
+        func = apply_categories[category]
+        func(editor, entry)
+
+    action.triggered.connect(my_highlight_helper)
     return action
 
 

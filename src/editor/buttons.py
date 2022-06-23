@@ -14,10 +14,9 @@ from .apply_categories import apply_categories
 def generate_button(editor, entry) -> Optional[str]:
     name = entry["Text_in_menu"]
     category = entry["Category"]
-    callback = apply_categories[category]
 
-    def func(e=editor, c=entry["Setting"]):
-        callback(e, c)
+    def callback(_):
+        apply_categories[category](editor, entry)
 
     tip = (
         f'{entry["extrabutton_tooltip"]} '
@@ -29,7 +28,7 @@ def generate_button(editor, entry) -> Optional[str]:
     return editor.addButton(
         None,
         name,
-        func,
+        callback,
         tip,
         label,
     )

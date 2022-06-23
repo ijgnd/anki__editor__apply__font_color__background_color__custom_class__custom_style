@@ -6,13 +6,13 @@ from anki.utils import (
     isWin,
 )
 
-from ..config_var import getconfig
 from ..vars import unique_string
 
 from .text_wrap_escape_sequences import escape_seqs
 
 
-def wrap_text(editor, beforeAfter):
+def wrap_text(editor, entry):
+    beforeAfter = entry["Setting"]
     before, after = beforeAfter.split(unique_string)
 
     def find_escape_seq(match):
@@ -30,7 +30,8 @@ def wrap_text(editor, beforeAfter):
     )
 
 
-def set_backcolor(editor, color):
+def set_backcolor(editor, entry):
+    color = entry["Setting"]
     # from miniformat pack _wrapWithBgColour
     """
     Wrap the selected text in an appropriate tag with a background color.
@@ -60,11 +61,13 @@ def set_backcolor(editor, color):
         )
 
 
-def set_forecolor(editor, color):
+def set_forecolor(editor, entry):
+    color = entry["Setting"]
     editor.web.eval("setFormat('forecolor', '%s')" % color)
 
 
-def apply_style(editor, style):
+def apply_style(editor, entry):
+    style = entry["Setting"]
     editor.web.eval(
         """dict["temporary_highlighter_for_styles"].highlightSelection('temp_styles_helper');"""
     )
@@ -83,7 +86,8 @@ for (var i = 0; i < matches.length; i++) {
     editor.web.eval(js)
 
 
-def apply_div_class(editor, class_name):
+def apply_div_class(editor, entry):
+    class_name = entry["Setting"]
     key = f"div{class_name}"
     editor.web.eval(
         f"""
@@ -96,7 +100,8 @@ customStylesDict[{json.dumps(key)}].then((surrounder) => surrounder());
     )
 
 
-def apply_span_class(editor, class_name):
+def apply_span_class(editor, entry):
+    class_name = entry["Setting"]
     key = f"span{class_name}"
     editor.web.eval(
         f"""
@@ -108,14 +113,8 @@ customStylesDict[{json.dumps(key)}].then((surrounder) => surrounder());
 """
     )
 
-    for e in getconfig()["v3"]:
-        if (
-            e["Category"] == "class (other)"
-            and e["Setting"] == class_name
-            and e.get("surround_with_div_tag")
-        ):
-            editor.web.eval("classesAddonWrapDivHelper();")
-            break
+    if entry["Category"] == "class (other)" and entry.get("surround_with_div_tag"):
+        editor.web.eval("classesAddonWrapDivHelper();")
 
 
 apply_categories = {
