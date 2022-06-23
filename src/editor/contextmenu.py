@@ -6,24 +6,19 @@ from ..colors import hex_to_rgb_string
 from .apply_categories import apply_categories
 
 
-def my_highlight_helper(view, category, setting):
-    func = apply_categories[category]
-    func(view.editor, setting)
-
-
 def return_stylesheet(e):
     if e["Category"] == "Backcolor (inline)":
         thiscolor = hex_to_rgb_string(e["Setting"])
-        line1 = "background-color: rgba({}); ".format(thiscolor)
+        line1 = f"background-color: rgba({thiscolor}); "
     elif e["Category"] == "Backcolor (via class)":
         thiscolor = hex_to_rgb_string(e["Text_in_menu_styling"])
-        line1 = "background-color: rgba({}); ".format(thiscolor)
+        line1 = "background-color: rgba({thiscolor}); "
     elif e["Category"] == "Forecolor":
         thiscolor = hex_to_rgb_string(e["Setting"])
-        line1 = "color: rgba({}); ".format(thiscolor)
+        line1 = "color: rgba({thiscolor}); "
     elif e["Category"] == "Forecolor (via class)":
         thiscolor = hex_to_rgb_string(e["Text_in_menu_styling"])
-        line1 = "color: rgba({}); ".format(thiscolor)
+        line1 = "color: rgba({thiscolor}); "
     elif e["Category"] == "text wrapper":
         line1 = ""
     else:
@@ -84,19 +79,25 @@ def my_label_text(_dict, fmt):
     return out
 
 
-def create_menu_entry(view, e, parentmenu):
-    t = my_label_text(e, True)
-    y = QLabel(t)
+def create_menu_entry(view, entry, parentmenu):
+    text = my_label_text(entry, True)
+    label = QLabel(text)
     # https://stackoverflow.com/a/6876509
-    y.setAutoFillBackground(True)
-    stylesheet = return_stylesheet(e)
-    y.setStyleSheet(stylesheet)
-    x = QWidgetAction(parentmenu)
-    x.setDefaultWidget(y)
-    cat = e["Category"]
-    se = e.get("Setting", e.get("Category", False))
-    x.triggered.connect(lambda _, a=cat, b=se: my_highlight_helper(view, a, b))  # ???
-    return x
+    label.setAutoFillBackground(True)
+    stylesheet = return_stylesheet(entry)
+    label.setStyleSheet(stylesheet)
+
+    action = QWidgetAction(parentmenu)
+    action.setDefaultWidget(label)
+
+    category = entry["Category"]
+    setting = entry.get("Setting", entry.get("Category", False))
+
+    def my_highlight_helper():
+        apply_categories[category](view.editor, setting, id)
+
+    action.triggered.connect(my_highlight_helper)
+    return action
 
 
 def setup_contextmenu(view, menu):
@@ -111,14 +112,14 @@ def setup_contextmenu(view, menu):
     for i in config["context_menu_groups"]:
         groups[i] = menu.addMenu(i)
 
-    for row in config["v3"]:
-        if row.get("Show_in_menu", True):
-            if row["Category"] in ["class (other)", "text wrapper"]:
-                if row["Target group in menu"]:
-                    submenu = groups[row["Target group in menu"]]
+    for entry in config["v3"]:
+        if entry.get("Show_in_menu", True):
+            if entry["Category"] in ["class (other)", "text wrapper"]:
+                if entry["Target group in menu"]:
+                    submenu = groups[entry["Target group in menu"]]
                 else:
-                    submenu = groups[row["Category"]]
+                    submenu = groups[entry["Category"]]
             else:
-                submenu = groups[row["Category"]]
+                submenu = groups[entry["Category"]]
 
-            submenu.addAction(create_menu_entry(view, row, submenu))
+            submenu.addAction(create_menu_entry(view, entry, submenu))

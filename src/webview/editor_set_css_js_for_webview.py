@@ -28,7 +28,7 @@ require("anki/RichTextInput").lifecycle.onMount(async ({{ customStyles }}) => {{
     )
 
 
-def js_inserter(self):
+def eval_base_js(self):
     self.web.eval(
         f"""
 const {{ Surrounder }} = require("anki/surround");
