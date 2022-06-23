@@ -4,13 +4,15 @@ from aqt.editor import Editor
 from ..utils import create_css_for_webviews_from_config
 
 
-def rangy__create_global_variables_for_later_use():
-    return "const dict = {};"
+def create_global_variables_for_later_use():
+    return "const customStylesDict = {};"
 
 
 def append_js_to_Editor(web_content, context):
     if isinstance(context, Editor):
-        web_content.head += f"""\n<script>\n{rangy__create_global_variables_for_later_use()}\n</script>\n"""
+        web_content.head += (
+            f"""\n<script>\n{create_global_variables_for_later_use()}\n</script>\n"""
+        )
 
 
 def append_css_to_Editor(js, note, editor) -> str:
