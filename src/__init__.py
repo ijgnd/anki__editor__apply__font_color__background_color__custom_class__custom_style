@@ -11,9 +11,10 @@ regex = r"(web[/\\].*)"
 mw.addonManager.setWebExports(__name__, regex)
 
 
-#### config: on startup load it, then maybe update old version, save on exit
+# config: on startup load it, then maybe update old version, save on exit
 init_config_var()
 init_conf_dict()
+
 init_main_window()
 init_editor()
 init_webview()

@@ -1,19 +1,14 @@
 from aqt import mw
 from aqt.qt import QAction
-from aqt.utils import askUser, showInfo, tooltip
+from aqt.utils import askUser, showInfo
 from anki.hooks import addHook
 
 from .confdialog import MainConfDialog
 from .config_var import getconfig
 
-from .adjust_config import (
-    autogenerate_config_values_for_menus,
-    read_and_update_old_v2_config_from_meta_json,
-    update_config_for_202005,
-)
+from .adjust_config import autogenerate_config_values_for_menus
 
 from . import config_var
-from .config_var import getconfig
 
 from .utils import (
     update_style_file_in_media,
@@ -22,10 +17,7 @@ from .utils import (
     warning_message_about_templates,
 )
 
-msg_restart_required = """
-Restart Anki (or at leat close all Add, Browser, or EditCurrent windows) so that all changes 
-take effect.
-""".replace(
+msg_restart_required = """Restart Anki (or at leat close all Add, Browser, or EditCurrent windows) so that all changes take effect.""".replace(
     "\n", ""
 )
 

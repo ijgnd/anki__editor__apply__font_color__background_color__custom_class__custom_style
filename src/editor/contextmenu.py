@@ -29,17 +29,15 @@ def return_stylesheet(e):
     else:
         line1 = e["Text_in_menu_styling"]
 
-    stylesheet = """QLabel {{
-        {}
+    stylesheet = f"""QLabel {{
+        {line1}
         font-size: 15px;
         padding-top: 7px;
         padding-bottom: 7px;
         padding-right: 5px;
         padding-left: 5px;
         }}
-    """.format(
-        line1
-    )
+    """
 
     # TODO
     if e["Category"] == "font size (via class)":
