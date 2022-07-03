@@ -2,60 +2,68 @@ from typing import Optional
 from functools import reduce
 from os.path import join
 
-from aqt.utils import showInfo, shortcut
+from aqt.utils import shortcut
 
 from ..config_var import getconfig
 from ..vars import iconfolder
 
-from .menu import additional_menu_basic, additional_menu_styled
+from .menu import additional_menu_styled
 from .apply_categories import apply_categories
 
 
 def generate_button(editor, entry) -> Optional[str]:
     name = entry["Text_in_menu"]
+    category = entry["Category"]
 
-    inner = apply_categories[entry['Category']]
-    func = lambda e=editor, c=entry["Setting"]: inner(e, c)
+    def callback(_):
+        apply_categories[category](editor, entry)
 
-    tip = f'{entry["extrabutton_tooltip"]} {entry["Setting"]} ({shortcut(entry["Hotkey"])})'
+    tip = (
+        f'{entry["extrabutton_tooltip"]} '
+        f'{entry["Setting"]} '
+        f'({shortcut(entry["Hotkey"])})'
+    )
     label = entry["extrabutton_text"]
 
-    button = editor.addButton(
+    return editor.addButton(
         None,
         name,
-        func,
+        callback,
         tip,
         label,
     )
 
-    return button
 
 def setup_extra_buttons(buttons, editor):
     config = getconfig()
 
     # extrabutton
-    for entry in filter(lambda entry: entry.get('extrabutton_show', False), config['v3']):
+    for entry in filter(
+        lambda entry: entry.get("extrabutton_show", False), config["v3"]
+    ):
         buttons.append(generate_button(editor, entry))
+
 
 def setup_more_button(buttons, editor):
     config = getconfig()
 
     # collapsible menu
-    should_show = reduce(lambda accu, entry: accu or entry['Show_in_menu'], config['v3'], False)
-
-    if not should_show:
+    if not reduce(
+        lambda accu, entry: accu or entry["Show_in_menu"],
+        config["v3"],
+        False,
+    ):
         return
 
-    icon = join(iconfolder, 'more_rotated.png')
-    func = additional_menu_styled if config['v2_menu_styling'] else additional_menu_basic
-    key = config['v2_key_styling_menu']
+    icon = join(iconfolder, "more_rotated.png")
+    key = config["v2_key_styling_menu"]
 
-    b = editor.addButton(
-        icon,
-        'customStylesMore',
-        func,
-        'Apply Custom Styles',
-        keys=key,
+    buttons.append(
+        editor.addButton(
+            icon,
+            "customStylesMore",
+            additional_menu_styled,
+            "Apply Custom Styles",
+            keys=key,
+        )
     )
-
-    buttons.append(b)

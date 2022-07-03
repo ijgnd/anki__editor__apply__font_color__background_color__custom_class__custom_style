@@ -1,8 +1,6 @@
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import (
+from aqt.qt import (
+    Qt,
     QColor,
-) 
-from PyQt5.QtWidgets import (
     QColorDialog,
     QDialog,
 )
@@ -15,7 +13,7 @@ class SettingsForForeBgColor(QDialog):
         self.category = category
         self.config = config
         self.parent = parent
-        QDialog.__init__(self, parent, Qt.Window)
+        QDialog.__init__(self, parent, Qt.WindowType.Window)
         self.dialog = settings_forecolor_bgcolor.Ui_Dialog()
         self.dialog.setupUi(self)
 
@@ -24,7 +22,9 @@ class SettingsForForeBgColor(QDialog):
             if "Hotkey" in config:
                 self.dialog.hotkey.setKeySequence(config["Hotkey"])
             if "Setting" in config:
-                self.color = config["Setting"]  # .replace("background-color: ","").replace(";","")
+                self.color = config[
+                    "Setting"
+                ]  # .replace("background-color: ","").replace(";","")
                 self.dialog.pb_color.setText(str(self.color))
             if config["Show_in_menu"]:
                 self.dialog.cb_contextmenu_show.setChecked(True)
@@ -53,10 +53,10 @@ class SettingsForForeBgColor(QDialog):
             "Hotkey": self.dialog.hotkey.keySequence().toString(),
             "Setting": self.color,  # "background-color: " + self.color + ";",
             "Show_in_menu": self.dialog.cb_contextmenu_show.isChecked(),
-            "Text_in_menu":  self.dialog.le_contextmenu_text.text(),
+            "Text_in_menu": self.dialog.le_contextmenu_text.text(),
             "Text_in_menu_styling": "",
             "extrabutton_show": self.dialog.cb_extrabutton_show.isChecked(),
-            "extrabutton_text":  self.dialog.le_extrabutton_text.text(),
-            "extrabutton_tooltip":  self.dialog.le_tooltip_text.text(),
+            "extrabutton_text": self.dialog.le_extrabutton_text.text(),
+            "extrabutton_tooltip": self.dialog.le_tooltip_text.text(),
         }
         QDialog.accept(self)

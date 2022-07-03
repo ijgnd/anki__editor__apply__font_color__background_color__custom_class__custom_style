@@ -1,8 +1,6 @@
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import (
+from aqt.qt import (
+    Qt,
     QColor,
-) 
-from PyQt5.QtWidgets import (
     QColorDialog,
     QDialog,
 )
@@ -16,7 +14,7 @@ class SettingsForFgBgColorClass(QDialog):
         self.category = category
         self.config = config
         self.parent = parent
-        QDialog.__init__(self, parent, Qt.Window)
+        QDialog.__init__(self, parent, Qt.WindowType.Window)
         self.dialog = settings_forecolor_bgcolor_class.Ui_Dialog()
         self.dialog.setupUi(self)
 
@@ -69,11 +67,11 @@ class SettingsForFgBgColorClass(QDialog):
             "Hotkey": self.dialog.hotkey.keySequence().toString(),
             "Setting": self.thisclass,
             "Show_in_menu": self.dialog.cb_contextmenu_show.isChecked(),
-            "Text_in_menu":  self.dialog.le_contextmenu_text.text(),
+            "Text_in_menu": self.dialog.le_contextmenu_text.text(),
             "Text_in_menu_styling": self.color,
             "Text_in_menu_styling_nightmode": self.color_nightmode,
             "extrabutton_show": self.dialog.cb_extrabutton_show.isChecked(),
-            "extrabutton_text":  self.dialog.le_extrabutton_text.text(),
-            "extrabutton_tooltip":  self.dialog.le_tooltip_text.text(),
+            "extrabutton_text": self.dialog.le_extrabutton_text.text(),
+            "extrabutton_tooltip": self.dialog.le_tooltip_text.text(),
         }
         QDialog.accept(self)

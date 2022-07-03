@@ -11,7 +11,11 @@ inlinewarning = """
 In Anki 2.1 when you copy text from one field to another Anki will remove the background color 
 and styles.DOUBLEThis is not just a limitation of this add-on. The same applies e.g. to the 
 background color function of the add-on 'Mini Format Pack'.DOUBLEContinue?
-""".replace("\n", "").replace("DOUBLE","\n")
+""".replace(
+    "\n", ""
+).replace(
+    "DOUBLE", "\n"
+)
 
 
 classeswarning = """
@@ -21,13 +25,17 @@ text.DOUBLENote: If you insert unformatted text into a html paragraph that alrea
 formatting the inserted text will also show this formatting. So the remove all formatting" options 
 only works as expected if you have unformatted text before your selection.
 DOUBLEContinue?
-""".replace("\n", "").replace("DOUBLE","\n")
+""".replace(
+    "\n", ""
+).replace(
+    "DOUBLE", "\n"
+)
 
 
 class AddEntry(QDialog):
     def __init__(self, parent=None):
         self.parent = parent
-        QDialog.__init__(self, parent, Qt.Window)
+        QDialog.__init__(self, parent, Qt.WindowType.Window)
         self.dialog = settings_select_category.Ui_Dialog()
         self.dialog.setupUi(self)
         self.dialog.list_categories.addItems(addable_options)
@@ -41,13 +49,19 @@ class AddEntry(QDialog):
         if sel in ["Backcolor (inline)", "style (inline)"]:
             if not askUser(inlinewarning):
                 return
-        if sel in ["class (other)", "Backcolor (via class)", "Forecolor (via class)", "font size (via class)", "class (other), wrapped in div"]:
+        if sel in [
+            "class (other)",
+            "Backcolor (via class)",
+            "Forecolor (via class)",
+            "font size (via class)",
+            "class (other), wrapped in div",
+        ]:
             if not askUser(classeswarning):
                 return
         a = gui_dialog(self, sel=sel, config=None)
-        if a.exec_():
+        if a.exec():
             self.newsetting = a.newsetting
-            self.newsetting['Category'] = sel
+            self.newsetting["Category"] = sel
             QDialog.accept(self)
         else:
             QDialog.reject(self)

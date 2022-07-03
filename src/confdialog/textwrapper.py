@@ -7,7 +7,7 @@ class SettingsForTextWrapper(QDialog):
     def __init__(self, parent=None, config=None):
         self.parent = parent
         self.config = config
-        QDialog.__init__(self, parent, Qt.Window)
+        QDialog.__init__(self, parent, Qt.WindowType.Window)
         self.dialog = settings_textwrapper.Ui_Dialog()
         self.dialog.setupUi(self)
 
@@ -21,7 +21,9 @@ class SettingsForTextWrapper(QDialog):
             if config["Text_in_menu_styling"]:
                 self.dialog.pte_before.insertPlainText(config["Text_in_menu_styling"])
             if config["Text_in_menu_styling_nightmode"]:
-                self.dialog.pte_after.insertPlainText(config["Text_in_menu_styling_nightmode"])
+                self.dialog.pte_after.insertPlainText(
+                    config["Text_in_menu_styling_nightmode"]
+                )
             if config["Show_in_menu"]:
                 self.dialog.cb_contextmenu_show.setChecked(True)
             if config["Text_in_menu"]:
@@ -37,28 +39,28 @@ class SettingsForTextWrapper(QDialog):
         QDialog.reject(self)
 
     def accept(self):
-        # originally "Setting" was used for the foreground or background color. The value for 
+        # originally "Setting" was used for the foreground or background color. The value for
         # "Setting" is used when clicking a menu/button or shortcut. So before/after must be
         # in "Setting"
         # But only set this when closing the dialog so that the unique string is not shown
-        # to the user. That workaround is a consequence of reading the config from the 
+        # to the user. That workaround is a consequence of reading the config from the
         # QTableWidget directly ....
         bef = self.dialog.pte_before.toPlainText()
         aft = self.dialog.pte_after.toPlainText()
         self.newsetting = {
             "Category": "text wrapper",
             "Hotkey": self.dialog.hotkey.keySequence().toString(),
-            "Setting": "", # bef + unique_string + aft, 
+            "Setting": "",  # bef + unique_string + aft,
             "Show_in_menu": self.dialog.cb_contextmenu_show.isChecked(),
             "Target group in menu": self.dialog.le_menu_group.text(),
-            "Text_in_menu":  self.dialog.le_contextmenu_text.text(),
+            "Text_in_menu": self.dialog.le_contextmenu_text.text(),
             "Text_in_menu_styling": bef,
             "Text_in_menu_styling_nightmode": aft,
             "extrabutton_show": self.dialog.cb_extrabutton_show.isChecked(),
-            "extrabutton_text":  self.dialog.le_extrabutton_text.text(),
-            "extrabutton_tooltip":  self.dialog.le_tooltip_text.text(),
+            "extrabutton_text": self.dialog.le_extrabutton_text.text(),
+            "extrabutton_tooltip": self.dialog.le_tooltip_text.text(),
         }
-        if self.config:   # new entries don't have this entry yet
+        if self.config:  # new entries don't have this entry yet
             if "Category" in self.config:
                 self.newsetting["Category"] = self.config["Category"]
         QDialog.accept(self)

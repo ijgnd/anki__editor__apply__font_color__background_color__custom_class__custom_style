@@ -1,5 +1,5 @@
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (
+from aqt.qt import (
+    Qt,
     QDialog,
 )
 
@@ -10,7 +10,7 @@ class SettingsForStyle(QDialog):
     def __init__(self, parent=None, config=None):
         self.parent = parent
         self.config = config
-        QDialog.__init__(self, parent, Qt.Window)
+        QDialog.__init__(self, parent, Qt.WindowType.Window)
         self.dialog = settings_style.Ui_Dialog()
         self.dialog.setupUi(self)
         self.color = ""
@@ -39,14 +39,14 @@ class SettingsForStyle(QDialog):
             "Hotkey": self.dialog.hotkey.keySequence().toString(),
             "Setting": self.dialog.pte_style.toPlainText(),
             "Show_in_menu": self.dialog.cb_contextmenu_show.isChecked(),
-            "Text_in_menu":  self.dialog.le_contextmenu_text.text(),
+            "Text_in_menu": self.dialog.le_contextmenu_text.text(),
             "Text_in_menu_styling": self.dialog.pte_style.toPlainText(),
             "Text_in_menu_styling_nightmode": "",
             "extrabutton_show": self.dialog.cb_extrabutton_show.isChecked(),
-            "extrabutton_text":  self.dialog.le_extrabutton_text.text(),
-            "extrabutton_tooltip":  self.dialog.le_tooltip_text.text(),
+            "extrabutton_text": self.dialog.le_extrabutton_text.text(),
+            "extrabutton_tooltip": self.dialog.le_tooltip_text.text(),
         }
-        if self.config:   # new entries don't have this entry yet
+        if self.config:  # new entries don't have this entry yet
             if "Category" in self.config:
                 self.newsetting["Category"] = self.config["Category"]
         QDialog.accept(self)

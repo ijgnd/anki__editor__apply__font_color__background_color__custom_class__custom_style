@@ -1,5 +1,5 @@
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (
+from aqt.qt import (
+    Qt,
     QDialog,
 )
 
@@ -12,7 +12,7 @@ class SettingsForFont(QDialog):
         self.category = category
         self.config = config
         self.parent = parent
-        QDialog.__init__(self, parent, Qt.Window)
+        QDialog.__init__(self, parent, Qt.WindowType.Window)
         self.dialog = settings_fontsize.Ui_Dialog()
         self.dialog.setupUi(self)
 
@@ -41,7 +41,9 @@ class SettingsForFont(QDialog):
         QDialog.reject(self)
 
     def return_font_size(self):
-        font = self.dialog.le_fontsize.text()  #"font-size:" + self.dialog.le_fontsize.text() + ";",
+        font = (
+            self.dialog.le_fontsize.text()
+        )  # "font-size:" + self.dialog.le_fontsize.text() + ";",
         return font.rstrip(";").lstrip("font-size:")
 
     def accept(self):
@@ -54,7 +56,7 @@ class SettingsForFont(QDialog):
             "Text_in_menu_styling": self.return_font_size(),
             "Text_in_menu_styling_nightmode": self.Text_in_menu_styling_nightmode,
             "extrabutton_show": self.dialog.cb_extrabutton_show.isChecked(),
-            "extrabutton_text":  self.dialog.le_extrabutton_text.text(),
-            "extrabutton_tooltip":  self.dialog.le_tooltip_text.text(),
+            "extrabutton_text": self.dialog.le_extrabutton_text.text(),
+            "extrabutton_tooltip": self.dialog.le_tooltip_text.text(),
         }
         QDialog.accept(self)

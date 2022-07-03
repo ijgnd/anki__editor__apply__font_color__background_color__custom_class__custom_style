@@ -10,19 +10,14 @@ from aqt.gui_hooks import (
 from . import config_var
 
 from .adjust_config import (
-    autogenerate_config_values_for_menus, 
+    autogenerate_config_values_for_menus,
     read_and_update_old_v2_config_from_meta_json,
     update_config_for_202005,
 )
 
 from .config_var import getconfig
 from .defaultconfig import defaultconfig
-from .vars import (
-    addonname,
-    ankiwebpage,
-    picklefile,
-    user_files_folder
-)
+from .vars import addonname, ankiwebpage, picklefile, user_files_folder
 
 from .utils import (
     update_style_file_in_media,
@@ -61,13 +56,17 @@ DOUBLE
 I have read the description on ankiweb and confirm to have a backup that I know how to restore.
 DOUBLE
 I want to auto-adjust the styling section of my note types if necessary now.
-""".replace("\n", "").replace("DOUBLE", "\n\n")
+""".replace(
+    "\n", ""
+).replace(
+    "DOUBLE", "\n\n"
+)
 
 
 def load_conf_dict():
     config = defaultconfig.copy()
     if os.path.isfile(picklefile):
-        with open(picklefile, 'rb') as PO:
+        with open(picklefile, "rb") as PO:
             try:
                 config = pickle.load(PO)
             except:
@@ -93,7 +92,7 @@ def load_conf_dict():
 def save_conf_dict():
     # prevent error after deleting add-on
     if os.path.exists(user_files_folder):
-        with open(picklefile, 'wb') as PO:
+        with open(picklefile, "wb") as PO:
             cnf = getconfig()
             if "v3" not in cnf:  # sanity check
                 return

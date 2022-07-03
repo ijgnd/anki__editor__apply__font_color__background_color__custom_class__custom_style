@@ -1,16 +1,12 @@
 import os
 import json
 
-from pprint import pprint as pp
 from collections import OrderedDict
 
 from aqt import mw
 
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import (
+from aqt.qt import (
     QCursor,
-)
-from PyQt5.QtWidgets import (
     QAbstractItemView,
     QAbstractScrollArea,
     QDialog,
@@ -31,7 +27,7 @@ from aqt.utils import (
 )
 
 from ..defaultconfig import defaultconfig
-from ..vars import addonname, addable_options, unique_string
+from ..vars import unique_string
 
 from .forms import settings_main_widgets
 from .addEntry import AddEntry
@@ -46,31 +42,40 @@ class MainConfDialog(QDialog):
         self.bo = settings_main_widgets.Ui_Dialog()
         self.bo.setupUi(self)
         self.bo.cb_classes_to_styling.setParent(None)  # maybe ask user more prominently
-        self.bo.cb_global_contextmenu_with_styling.setParent(None)  # To make the add-on less complex I removed the option for an unstyled context menu.
+        self.bo.cb_global_contextmenu_with_styling.setParent(
+            None
+        )  # To make the add-on less complex I removed the option for an unstyled context menu.
         restoreGeom(self, "class_custom_style_config_gui")
-        self.setWindowTitle("Anki: Change Options for Add-on 'Buttons for Color and Style'")
+        self.setWindowTitle(
+            "Anki: Change Options for Add-on 'Buttons for Color and Style'"
+        )
         self.init_tables()
         self.init_buttons()
 
     def init_buttons(self):
         self.set_check_state_buttons()
         self.bo.pb_modify_active.clicked.connect(
-            lambda _, w=self.bo.tw_active: self.process_row(w, "modify"))
+            lambda _, w=self.bo.tw_active: self.process_row(w, "modify")
+        )
         self.bo.pb_modify_inactive.clicked.connect(
-            lambda _, w=self.bo.tw_inactive: self.process_row(w, "modify"))
+            lambda _, w=self.bo.tw_inactive: self.process_row(w, "modify")
+        )
         self.bo.pb_add.clicked.connect(self.onAdd)
         self.bo.pb_deactivate.clicked.connect(
-            lambda _, w=self.bo.tw_active: self.process_row(w, "switch"))
+            lambda _, w=self.bo.tw_active: self.process_row(w, "switch")
+        )
         self.bo.pb_activate.clicked.connect(
-            lambda _, w=self.bo.tw_inactive: self.process_row(w, "switch"))
+            lambda _, w=self.bo.tw_inactive: self.process_row(w, "switch")
+        )
         self.bo.pb_delete_from_active.clicked.connect(
-            lambda _, w=self.bo.tw_active: self.process_row(w, "del"))
+            lambda _, w=self.bo.tw_active: self.process_row(w, "del")
+        )
         self.bo.pb_delete_from_inactive.clicked.connect(
-            lambda _, w=self.bo.tw_inactive: self.process_row(w, "del"))
+            lambda _, w=self.bo.tw_inactive: self.process_row(w, "del")
+        )
         self.bo.cb_classes_to_styling.toggled.connect(self.onClassesToStyling)
 
         self.bo.multi_button_shortcut.setKeySequence(self.config["v2_key_styling_menu"])
-        self.bo.remove_formatting_shortcut.setKeySequence(self.config["v2_key_styling_undo"])
 
         self.bo.pb_more.clicked.connect(self.onMore)
 
@@ -91,7 +96,7 @@ class MainConfDialog(QDialog):
         a.triggered.connect(self.onExport)
         a = m.addAction("Import Button Config from json")
         a.triggered.connect(self.onImport)
-        m.exec_(QCursor.pos())
+        m.exec(QCursor.pos())
 
     def restoreDefault(self):
         text = "Delete your setup and restore default buttons config?"
@@ -106,28 +111,32 @@ class MainConfDialog(QDialog):
             self.set_table(self.bo.tw_inactive, self.inactive)
 
     def onExport(self):
-        o = getSaveFile(mw, title="Anki - Select file for export",
-                        dir_description="jsonbuttons",
-                        key=".json",
-                        ext=".json",
-                        fname="anki_addon_styling_buttons_config.json"
-                        )
+        o = getSaveFile(
+            mw,
+            title="Anki - Select file for export",
+            dir_description="jsonbuttons",
+            key=".json",
+            ext=".json",
+            fname="anki_addon_styling_buttons_config.json",
+        )
         if o:
             self.updateConfig()
-            with open(o, 'w') as fp:
+            with open(o, "w") as fp:
                 json.dump(self.config, fp)
 
     def onImport(self):
-        o = getFile(self, 
-                    title="Anki - Select file for import ", 
-                    cb=None, 
-                    filter="*.json", 
-                    dir=None,
-                    key=".json",
-                    multi=False)
+        o = getFile(
+            self,
+            title="Anki - Select file for import ",
+            cb=None,
+            filter="*.json",
+            dir=None,
+            key=".json",
+            multi=False,
+        )
         if o:
             try:
-                with open(o, 'r') as fp:
+                with open(o, "r") as fp:
                     c = json.load(fp)
             except:
                 showInfo("Aborting. Error while reading file.")
@@ -149,9 +158,9 @@ class MainConfDialog(QDialog):
 
     def onAdd(self):
         e = AddEntry(self)
-        if e.exec_():
+        if e.exec():
             self.active.append(e.newsetting)
-            self.active = sorted(self.active, key=lambda k: k['Category'])
+            self.active = sorted(self.active, key=lambda k: k["Category"])
             self.set_table(self.bo.tw_active, self.active)
 
     def process_row(self, activewidget, action):
@@ -172,38 +181,39 @@ class MainConfDialog(QDialog):
                 if action == "modify":
                     config = thisli[row]
                     a = gui_dialog(self, sel=None, config=config)
-                    if a.exec_():
+                    if a.exec():
                         thisli[row] = a.newsetting
                         self.set_table(activewidget, thisli)
                 if action == "del":
-                    text = "Delete row number %s" % str(row+1)
+                    text = "Delete row number %s" % str(row + 1)
                     if askUser(text, defaultno=True):
                         del thisli[row]
                         self.set_table(activewidget, thisli)
                 elif action == "switch":
-                    text = "Toggle state row number %s" % str(row+1)
+                    text = "Toggle state row number %s" % str(row + 1)
                     if askUser(text, defaultno=True):
                         otherli.append(thisli[row])
                         del thisli[row]
-                        thisli = sorted(thisli, key=lambda k: k['Category'])
-                        otherli = sorted(otherli, key=lambda k: k['Category'])
+                        thisli = sorted(thisli, key=lambda k: k["Category"])
+                        otherli = sorted(otherli, key=lambda k: k["Category"])
                         self.set_table(activewidget, thisli)
                         self.set_table(otherwidget, otherli)
             else:
-                tooltip('no row selected.')
+                tooltip("no row selected.")
 
     def init_tables(self):
-        headers = [("Category", "Category"),
-                   ("Hotkey", "Hotkey"),
-                   ("Setting", "class (other)"),
-                   ("Text_in_menu_styling", "Styling"),
-                   ("Text_in_menu_styling_nightmode", "Styling\n(night mode)"),
-                   ("Show_in_menu", "Show in\nmenu"),
-                   ("Text_in_menu", "Text in\nmenu"),
-                   ("extrabutton_show", "extra\nbutton\nshow"),
-                   ("extrabutton_text", "extra\nbutton\ntext"),
-                   ("extrabutton_tooltip", "extra\nbutton\ntooltip"),
-                   ]
+        headers = [
+            ("Category", "Category"),
+            ("Hotkey", "Hotkey"),
+            ("Setting", "class (other)"),
+            ("Text_in_menu_styling", "Styling"),
+            ("Text_in_menu_styling_nightmode", "Styling\n(night mode)"),
+            ("Show_in_menu", "Show in\nmenu"),
+            ("Text_in_menu", "Text in\nmenu"),
+            ("extrabutton_show", "extra\nbutton\nshow"),
+            ("extrabutton_text", "extra\nbutton\ntext"),
+            ("extrabutton_tooltip", "extra\nbutton\ntooltip"),
+        ]
         self.tableHeaders = OrderedDict(headers)
 
         self.active = self.config["v3"]
@@ -211,55 +221,78 @@ class MainConfDialog(QDialog):
             self.inactive = self.config["v3_inactive"]
         else:
             self.inactive = []
-        self.active = sorted(self.active, key=lambda k: k['Category'])
-        self.inactive = sorted(self.inactive, key=lambda k: k['Category'])
+        self.active = sorted(self.active, key=lambda k: k["Category"])
+        self.inactive = sorted(self.inactive, key=lambda k: k["Category"])
         self.set_table(self.bo.tw_active, self.active)
         self.bo.tw_active.itemDoubleClicked.connect(self.ondoubleclick)
         self.set_table(self.bo.tw_inactive, self.inactive)
         self.bo.tw_inactive.itemDoubleClicked.connect(self.ondoubleclick)
 
     def set_table(self, widget, li):
-        widget.setSelectionBehavior(QTableView.SelectRows)
-        widget.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        widget.setSelectionBehavior(QTableView.SelectionBehavior.SelectRows)
+        widget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         widget.setRowCount(len(li))
         widget.setColumnCount(len(self.tableHeaders))
         widget.setHorizontalHeaderLabels(self.tableHeaders.values())
         # widget.verticalHeader().setVisible(False)
-        widget.setSizeAdjustPolicy(QAbstractScrollArea.AdjustToContents)
+        widget.setSizeAdjustPolicy(
+            QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents
+        )
         widget.resizeColumnsToContents()
-        widget.verticalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
+        widget.verticalHeader().setSectionResizeMode(
+            QHeaderView.ResizeMode.ResizeToContents
+        )
 
         # stretch all to resize
-        widget.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)  # Stretch
+        widget.horizontalHeader().setSectionResizeMode(
+            QHeaderView.ResizeMode.ResizeToContents
+        )  # Stretch
         # per column https://stackoverflow.com/q/38098763
-        widget.horizontalHeader().setSectionResizeMode(3, QHeaderView.Stretch)
-        widget.horizontalHeader().setSectionResizeMode(4, QHeaderView.Stretch)
-        # widget.horizontalHeader().setSectionResizeMode(6, QHeaderView.Stretch)
-        # widget.horizontalHeader().setSectionResizeMode(9, QHeaderView.Stretch)
+        widget.horizontalHeader().setSectionResizeMode(
+            3, QHeaderView.ResizeMode.Stretch
+        )
+        widget.horizontalHeader().setSectionResizeMode(
+            4, QHeaderView.ResizeMode.Stretch
+        )
+        # widget.horizontalHeader().setSectionResizeMode(6, QHeaderView.ResizeMode.Stretch)
+        # widget.horizontalHeader().setSectionResizeMode(9, QHeaderView.ResizeMode.Stretch)
 
         # workaround for QTableWidget: add empty strings to all fields to make them clickable
         for i in range(len(li)):
             for j in range(len(self.tableHeaders)):
-                newitem = QTableWidgetItem(str(" "))
+                newitem = QTableWidgetItem(" ")
                 widget.setItem(j, i, newitem)
 
         for rowidx, rowdict in enumerate(li):
             if rowdict["Category"] == "text wrapper":
-                rowdict["Setting"] = ""  # this will be fixed when closing the main gui 
-                                         # with text_wrapper_workaround
+                # this will be fixed when closing the main gui
+                rowdict["Setting"] = ""
+                # with text_wrapper_workaround
             for k, v in rowdict.items():
                 try:
                     index = list(self.tableHeaders.keys()).index(k)
-                    if rowdict["Category"] in ["Backcolor (via class)", "Forecolor (via class)", "class (other)"]:
-                        if k == "Setting":
-                            index = 2
+                    if (
+                        rowdict["Category"]
+                        in [
+                            "Backcolor (via class)",
+                            "Forecolor (via class)",
+                            "class (other)",
+                        ]
+                    ) and k == "Setting":
+                        index = 2
                 except ValueError:
                     # field "active" and ugly fix for class styling in Text_in_menu_styling
-                    if rowdict["Category"] in ["Backcolor (via class)", "Forecolor (via class)", "class (other)"]:
-                        if k == "Text_in_menu_styling":
-                            index = 3
-                            newitem = QTableWidgetItem(str(v))
-                            widget.setItem(rowidx, index, newitem)
+                    if (
+                        rowdict["Category"]
+                        in [
+                            "Backcolor (via class)",
+                            "Forecolor (via class)",
+                            "class (other)",
+                        ]
+                    ) and k == "Text_in_menu_styling":
+                        index = 3
+                        newitem = QTableWidgetItem(str(v))
+                        widget.setItem(rowidx, index, newitem)
                 else:
                     newitem = QTableWidgetItem(str(v))
                     widget.setItem(rowidx, index, newitem)
@@ -273,7 +306,7 @@ class MainConfDialog(QDialog):
             li = self.inactive
         config = li[row]
         a = gui_dialog(self, sel=None, config=config)
-        if a.exec_():
+        if a.exec():
             li[row] = a.newsetting
             self.set_table(w, li)
 
@@ -291,23 +324,17 @@ class MainConfDialog(QDialog):
         self.config["v3"] = self.active
         self.config["v3_inactive"] = self.inactive
 
-        self.config["v2_key_styling_menu"] = self.bo.multi_button_shortcut.keySequence().toString()
-        self.config["v2_key_styling_undo"] = self.bo.remove_formatting_shortcut.keySequence().toString()
+        self.config[
+            "v2_key_styling_menu"
+        ] = self.bo.multi_button_shortcut.keySequence().toString()
 
-        if self.bo.cb_classes_to_styling.isChecked():
-            self.update_all_templates = True
-        else:
-            self.update_all_templates = False
-
-        if self.bo.cb_global_contextmenu_show.isChecked():
-            self.config["v2_show_in_contextmenu"] = True
-        else:
-            self.config["v2_show_in_contextmenu"] = False
-
-        if self.bo.cb_global_contextmenu_with_styling.isChecked():
-            self.config["v2_menu_styling"] = True
-        else:
-            self.config["v2_menu_styling"] = False
+        self.update_all_templates = self.bo.cb_classes_to_styling.isChecked()
+        self.config[
+            "v2_show_in_contextmenu"
+        ] = self.bo.cb_global_contextmenu_show.isChecked()
+        self.config[
+            "v2_menu_styling"
+        ] = self.bo.cb_global_contextmenu_with_styling.isChecked()
 
         media_dir = mw.col.media.dir()
         fpath = os.path.join(media_dir, "syncdummy.txt")
