@@ -79,19 +79,11 @@ def update_style_file_in_media():
 
 
 def update_all_templates():
-    mw.progress.start(immediate=True)
     line = """@import url("_editor_button_styles.css");"""
-    # in the additional card fields add-on I use:
-    # for mid in mw.col.models.ids():  # but in 2.1.28 method "ids" is labelled as "legacy"
-    #     model = mw.col.models.get(mid)
     for model in mw.col.models.all():
         if line not in model["css"]:
             model["css"] = line + "\n\n" + model["css"]
-            # templates=True no longer used in 2.1.28 or later; maybe not needed anyway since
-            # the the css/styling section shouldn't affect card generation? But it shouldn't hurt.
-            mw.col.models.save(model, templates=True)
-    mw.col.models.flush()  # no longer used in 2.1.28 or later
-    mw.progress.finish()
+            mw.col.models.update_dict(model)
     tooltip("Finished updating styling sections")
 
 
