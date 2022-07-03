@@ -3,7 +3,7 @@ import io
 from aqt import mw
 from aqt.utils import tooltip
 
-from .vars import css_path, addonname, ankiwebpage
+from .vars import css_path, addonname, addon_webpage
 from .config_var import getconfig
 
 
@@ -109,7 +109,7 @@ def warning_message_about_templates(tmpl_list):
     return f"""
 You have the add-on "{addonname}" installed. This add-on will NOT work with these note types:
 SINGLE- {fmted_list}SINGLE
-Before you continue read the section about "Updating Templates" on ankiweb at {ankiwebpage}.SINGLE
+Before you continue read the section about "Updating Templates" on ankiweb at {addon_webpage}.SINGLE
 Auto update these note types?
 """.replace(
         "\n", ""

@@ -15,7 +15,7 @@ from .adjust_config import (
 
 from .config_var import getconfig
 from .default_config import default_config
-from .vars import addonname, ankiwebpage, picklefile, user_files_folder
+from .vars import addonname, addon_webpage, picklefile, user_files_folder
 
 from .utils import (
     update_style_file_in_media,
@@ -45,7 +45,7 @@ DOUBLE
 If something went wrong there would be a lot of damage so that most likely only a backup would help. 
 The code that automatically updates your templates has been downloaded thousands of times and I 
 haven't heard a complaint. But better safe than sorry: So make sure to have backups and know 
-how to restore them. Read the section "Setup" on ankiweb, {ankiwebpage}.
+how to restore them. Read the section "Setup" on ankiweb, {addon_webpage}.
 DOUBLE
 If you don't update the templates now this add-on offers to auto-update your note types whenever 
 you change the add-on config.
