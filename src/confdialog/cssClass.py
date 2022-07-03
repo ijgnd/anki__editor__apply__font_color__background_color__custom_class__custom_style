@@ -3,11 +3,15 @@ import re
 from aqt.qt import (
     Qt,
     QDialog,
+    qtmajor,
 )
 
 from aqt.utils import showInfo
 
-from .forms import settings_class
+if qtmajor == 5:
+    from .forms5 import settings_class
+else:
+    from .forms6 import settings_class
 
 
 class SettingsForClass(QDialog):

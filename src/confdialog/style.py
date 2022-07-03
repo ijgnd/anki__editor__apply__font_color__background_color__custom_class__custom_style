@@ -1,9 +1,13 @@
 from aqt.qt import (
     Qt,
     QDialog,
+    qtmajor,
 )
 
-from .forms import settings_style
+if qtmajor == 5:
+    from .forms5 import settings_style
+else:
+    from .forms6 import settings_style
 
 
 class SettingsForStyle(QDialog):

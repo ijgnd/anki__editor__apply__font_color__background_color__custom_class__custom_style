@@ -14,6 +14,7 @@ from aqt.qt import (
     QMenu,
     QTableView,
     QTableWidgetItem,
+    qtmajor,
 )
 
 from aqt.utils import (
@@ -29,7 +30,10 @@ from aqt.utils import (
 from ..defaultconfig import defaultconfig
 from ..vars import unique_string
 
-from .forms import settings_main_widgets
+if qtmajor == 5:
+    from .forms5 import settings_main_widgets
+else:
+    from .forms6 import settings_main_widgets
 from .addEntry import AddEntry
 from .utils import gui_dialog
 

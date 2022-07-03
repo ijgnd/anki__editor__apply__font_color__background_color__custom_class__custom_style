@@ -3,10 +3,15 @@ from aqt.qt import (
     QColor,
     QColorDialog,
     QDialog,
+    qtmajor,
 )
 
 from .helpers import bg_classname
-from .forms import settings_forecolor_bgcolor_class
+
+if qtmajor == 5:
+    from .forms5 import settings_forecolor_bgcolor_class
+else:
+    from .forms6 import settings_forecolor_bgcolor_class
 
 
 class SettingsForFgBgColorClass(QDialog):

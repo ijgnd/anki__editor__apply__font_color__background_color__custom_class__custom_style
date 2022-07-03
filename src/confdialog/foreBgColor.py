@@ -3,9 +3,13 @@ from aqt.qt import (
     QColor,
     QColorDialog,
     QDialog,
+    qtmajor,
 )
 
-from .forms import settings_forecolor_bgcolor
+if qtmajor == 5:
+    from .forms5 import settings_forecolor_bgcolor
+else:
+    from .forms6 import settings_forecolor_bgcolor
 
 
 class SettingsForForeBgColor(QDialog):

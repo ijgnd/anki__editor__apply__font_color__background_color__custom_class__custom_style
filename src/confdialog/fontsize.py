@@ -1,10 +1,15 @@
 from aqt.qt import (
     Qt,
     QDialog,
+    qtmajor,
 )
 
 from .helpers import bg_classname
-from .forms import settings_fontsize
+
+if qtmajor == 5:
+    from .forms5 import settings_fontsize
+else:
+    from .forms6 import settings_fontsize
 
 
 class SettingsForFont(QDialog):
