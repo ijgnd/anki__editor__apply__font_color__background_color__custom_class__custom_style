@@ -1,5 +1,3 @@
-import io
-
 from aqt import mw
 from aqt.utils import tooltip
 
@@ -74,7 +72,7 @@ def create_css_for_webviews_from_config():
 
 def update_style_file_in_media():
     classes_str = create_css_for_webviews_from_config()
-    with io.open(css_path(), "w", encoding="utf-8") as f:
+    with open(css_path(), "w", encoding="utf-8") as f:
         f.write(classes_str)
 
 
