@@ -5,7 +5,7 @@ from aqt import mw
 
 addon_path = os.path.dirname(__file__)
 addon_folder_name = os.path.basename(addon_path)
-iconfolder = os.path.join(addon_path, "icons")
+icon_folder = os.path.join(addon_path, "icons")
 # don't use settings/meta.json to make it easier to save multiline values
 user_files_folder = os.path.join(addon_path, "user_files")
 pickle_file = os.path.join(user_files_folder, "settings.pypickle")

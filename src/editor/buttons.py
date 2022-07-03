@@ -5,7 +5,7 @@ from os.path import join
 from aqt.utils import shortcut
 
 from ..config_var import getconfig
-from ..vars import iconfolder
+from ..vars import icon_folder
 
 from .menu import additional_menu_styled
 from .apply_categories import apply_categories
@@ -55,7 +55,7 @@ def setup_more_button(buttons, editor):
     ):
         return
 
-    icon = join(iconfolder, "more_rotated.png")
+    icon = join(icon_folder, "more_rotated.png")
     key = config["v2_key_styling_menu"]
 
     buttons.append(
