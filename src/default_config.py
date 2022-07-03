@@ -4,6 +4,7 @@ default_config = {
     "v2_key_styling_menu": "F2",
     "v2_key_styling_undo": "Alt+r",
     "v2_show_in_contextmenu": True,
+    "v3_inactive": [],
     "v3": [
         {
             "active": True,
