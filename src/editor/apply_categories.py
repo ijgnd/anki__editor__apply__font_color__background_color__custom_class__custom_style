@@ -2,8 +2,8 @@ import json
 import re
 
 from anki.utils import (
-    isMac,
-    isWin,
+    is_mac,
+    is_win,
 )
 
 from ..vars import unique_string
@@ -48,7 +48,7 @@ def set_backcolor(editor, entry):
         % (color, color)
     )
 
-    if isWin or isMac:
+    if is_win or is_mac:
         # remove all Apple style classes, which is needed for
         # text highlighting on platforms other than Linux
         editor.web.eval(
