@@ -17,9 +17,7 @@ from .utils import (
     warning_message_about_templates,
 )
 
-msg_restart_required = """Restart Anki (or at leat close all Add, Browser, or EditCurrent windows) so that all changes take effect.""".replace(
-    "\n", ""
-)
+msg_restart_required = "Restart Anki (or at least close all Add, Browser, and EditCurrent windows) so that all changes take effect."
 
 
 def on_settings():
