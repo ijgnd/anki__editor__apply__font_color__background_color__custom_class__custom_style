@@ -11,7 +11,6 @@ from . import config_var
 
 from .adjust_config import (
     autogenerate_config_values_for_menus,
-    update_config_for_202005,
 )
 
 from .config_var import getconfig
@@ -70,20 +69,15 @@ def load_conf_dict():
                 config = pickle.load(PO)
             except:
                 showInfo("Error. Settings file not readable")
-    first_after_update_install, config = update_config_for_202005(config)
     config = autogenerate_config_values_for_menus(config)
     config_var.myconfig = config
     update_style_file_in_media()  # always rewrite the file in case a new profile is used
     if not os.path.exists(user_files_folder):
         os.makedirs(user_files_folder)
-    if first_after_update_install:
-        if askUser(first_start):
+    missing = templates_that_miss_the_import_of_the_styling_file()
+    if missing:
+        if askUser(warning_message_about_templates(missing)):
             update_all_templates()
-    else:
-        missing = templates_that_miss_the_import_of_the_styling_file()
-        if missing:
-            if askUser(warning_message_about_templates(missing)):
-                update_all_templates()
 
 
 def save_conf_dict():
