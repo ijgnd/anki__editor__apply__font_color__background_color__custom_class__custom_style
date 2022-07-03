@@ -11,7 +11,6 @@ from . import config_var
 
 from .adjust_config import (
     autogenerate_config_values_for_menus,
-    read_and_update_old_v2_config_from_meta_json,
     update_config_for_202005,
 )
 
@@ -71,8 +70,6 @@ def load_conf_dict():
                 config = pickle.load(PO)
             except:
                 showInfo("Error. Settings file not readable")
-    else:
-        config = read_and_update_old_v2_config_from_meta_json(config)
     first_after_update_install, config = update_config_for_202005(config)
     config = autogenerate_config_values_for_menus(config)
     config_var.myconfig = config
