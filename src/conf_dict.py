@@ -15,7 +15,7 @@ from .adjust_config import (
 )
 
 from .config_var import getconfig
-from .defaultconfig import defaultconfig
+from .default_config import default_config
 from .vars import addonname, ankiwebpage, picklefile, user_files_folder
 
 from .utils import (
@@ -63,7 +63,7 @@ I want to auto-adjust the styling section of my note types if necessary now.
 
 
 def load_conf_dict():
-    config = defaultconfig.copy()
+    config = default_config.copy()
     if os.path.isfile(picklefile):
         with open(picklefile, "rb") as PO:
             try:

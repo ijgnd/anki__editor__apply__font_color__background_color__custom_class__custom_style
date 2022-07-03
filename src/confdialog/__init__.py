@@ -27,7 +27,7 @@ from aqt.utils import (
     tooltip,
 )
 
-from ..defaultconfig import defaultconfig
+from ..default_config import default_config
 from ..vars import unique_string
 
 if qtmajor == 5:
@@ -105,7 +105,7 @@ class MainConfDialog(QDialog):
     def restoreDefault(self):
         text = "Delete your setup and restore default buttons config?"
         if askUser(text, defaultno=False):
-            self.config["v3"] = defaultconfig["v3"][:]
+            self.config["v3"] = default_config["v3"][:]
             self.config["v3_inactive"] = [][:]
             self.active = self.config["v3"]
             self.inactive = self.config["v3_inactive"]

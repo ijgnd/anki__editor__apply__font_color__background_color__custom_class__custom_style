@@ -1,4 +1,4 @@
-defaultconfig = {
+default_config = {
     "update_level": "1589114109",
     "v2_menu_styling": True,
     "v2_key_styling_menu": "F2",

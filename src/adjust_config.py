@@ -9,7 +9,7 @@ from aqt.utils import (
 )
 
 from .colors import html4colors, css3colors
-from .defaultconfig import defaultconfig
+from .default_config import default_config
 from .vars import addonname, mjfile, uses_classes
 
 
@@ -59,7 +59,7 @@ def update_config_for_202005(config):
     if "v3" not in config:
         # something's broken in the config??
         # just rest it?
-        config["v3"] = defaultconfig.copy()["v3"]
+        config["v3"] = default_config.copy()["v3"]
     for e in config["v3"]:
         if not "Text_in_menu_styling" in e:
             e["Text_in_menu_styling"] = ""
