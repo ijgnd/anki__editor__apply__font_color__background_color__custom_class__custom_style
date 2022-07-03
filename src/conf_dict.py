@@ -15,7 +15,7 @@ from .adjust_config import (
 
 from .config_var import getconfig
 from .default_config import default_config
-from .vars import addonname, addon_webpage, picklefile, user_files_folder
+from .vars import addon_name, addon_webpage, picklefile, user_files_folder
 
 from .utils import (
     update_style_file_in_media,
@@ -26,7 +26,7 @@ from .utils import (
 
 
 first_start = f"""
-This is an infobox from the add-on "{addonname}". It's shown one time because you either 
+This is an infobox from the add-on "{addon_name}". It's shown one time because you either 
 installed it for the first time or just upgraded.
 The most recent version of this add-on contains a better default config. If you don't use a 
 custom config you should consider resetting the config of this add-on to it's default so that 

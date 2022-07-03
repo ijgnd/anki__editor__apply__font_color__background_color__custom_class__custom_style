@@ -7,7 +7,7 @@ else:
     from .forms6 import settings_select_category
 from .utils import gui_dialog
 
-from ..vars import addonname, addable_options, unique_string
+from ..vars import addon_name, addable_options, unique_string
 
 
 inlinewarning = """

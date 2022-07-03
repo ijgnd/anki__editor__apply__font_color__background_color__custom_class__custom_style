@@ -10,7 +10,7 @@ from aqt.utils import (
 
 from .colors import html4colors, css3colors
 from .default_config import default_config
-from .vars import addonname, mjfile, uses_classes
+from .vars import addon_name, mjfile, uses_classes
 
 
 def autogenerate_config_values_for_menus(config):

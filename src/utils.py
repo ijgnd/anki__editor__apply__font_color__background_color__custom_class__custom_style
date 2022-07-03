@@ -3,7 +3,7 @@ import io
 from aqt import mw
 from aqt.utils import tooltip
 
-from .vars import css_path, addonname, addon_webpage
+from .vars import css_path, addon_name, addon_webpage
 from .config_var import getconfig
 
 
@@ -107,7 +107,7 @@ def templates_that_miss_the_import_of_the_styling_file():
 def warning_message_about_templates(tmpl_list):
     fmted_list = "SINGLE- ".join(tmpl_list)
     return f"""
-You have the add-on "{addonname}" installed. This add-on will NOT work with these note types:
+You have the add-on "{addon_name}" installed. This add-on will NOT work with these note types:
 SINGLE- {fmted_list}SINGLE
 Before you continue read the section about "Updating Templates" on ankiweb at {addon_webpage}.SINGLE
 Auto update these note types?

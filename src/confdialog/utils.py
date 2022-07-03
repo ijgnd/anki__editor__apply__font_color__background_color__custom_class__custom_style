@@ -1,5 +1,5 @@
 from aqt.utils import showInfo
-from ..vars import addonname
+from ..vars import addon_name
 
 from .cssClass import SettingsForClass
 from .fgBgColorClass import SettingsForFgBgColorClass
@@ -28,7 +28,7 @@ def gui_dialog(inst, sel=None, config=None):
         return SettingsForTextWrapper(inst, config)
     else:
         text = (
-            f"Error in config of add-on {addonname}\n\n"
+            f"Error in config of add-on {addon_name}\n\n"
             "The following part of the config contains an error in"
             "the setting 'Category': "
             f"\n\n{str(config)}"

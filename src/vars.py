@@ -10,7 +10,7 @@ iconfolder = os.path.join(addon_path, "icons")
 user_files_folder = os.path.join(addon_path, "user_files")
 picklefile = os.path.join(user_files_folder, "settings.pypickle")
 mjfile = os.path.join(addon_path, "meta.json")
-addonname = mw.addonManager.addonName(addon_folder_name)
+addon_name = mw.addonManager.addonName(addon_folder_name)
 addon_webpage = "https://ankiweb.net/shared/info/1899278645"
 
 unique_string = "91cb101665994f66a728db9aa0a4294a"
