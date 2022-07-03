@@ -15,7 +15,7 @@ from .adjust_config import (
 
 from .config_var import getconfig
 from .default_config import default_config
-from .vars import addon_name, addon_webpage, picklefile, user_files_folder
+from .vars import addon_name, addon_webpage, pickle_file, user_files_folder
 
 from .utils import (
     update_style_file_in_media,
@@ -63,8 +63,8 @@ I want to auto-adjust the styling section of my note types if necessary now.
 
 def load_conf_dict():
     config = default_config.copy()
-    if os.path.isfile(picklefile):
-        with open(picklefile, "rb") as PO:
+    if os.path.isfile(pickle_file):
+        with open(pickle_file, "rb") as PO:
             try:
                 config = pickle.load(PO)
             except:
@@ -83,7 +83,7 @@ def load_conf_dict():
 def save_conf_dict():
     # prevent error after deleting add-on
     if os.path.exists(user_files_folder):
-        with open(picklefile, "wb") as PO:
+        with open(pickle_file, "wb") as PO:
             cnf = getconfig()
             if "v3" not in cnf:  # sanity check
                 return

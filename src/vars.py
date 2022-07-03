@@ -8,7 +8,7 @@ addon_folder_name = os.path.basename(addon_path)
 iconfolder = os.path.join(addon_path, "icons")
 # don't use settings/meta.json to make it easier to save multiline values
 user_files_folder = os.path.join(addon_path, "user_files")
-picklefile = os.path.join(user_files_folder, "settings.pypickle")
+pickle_file = os.path.join(user_files_folder, "settings.pypickle")
 mjfile = os.path.join(addon_path, "meta.json")
 addon_name = mw.addonManager.addonName(addon_folder_name)
 addon_webpage = "https://ankiweb.net/shared/info/1899278645"
