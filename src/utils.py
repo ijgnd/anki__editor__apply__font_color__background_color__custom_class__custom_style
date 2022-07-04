@@ -1,5 +1,6 @@
 from aqt import mw
 from aqt.utils import tooltip
+from aqt.operations.notetype import update_notetype_legacy
 
 from .vars import css_path, addon_name, addon_webpage
 from .config_var import getconfig
@@ -81,7 +82,8 @@ def update_all_templates():
     for model in mw.col.models.all():
         if line not in model["css"]:
             model["css"] = line + "\n\n" + model["css"]
-            mw.col.models.update_dict(model)
+            # mw.col.models.update_dict(model)
+            update_notetype_legacy(parent=mw, notetype=model).run_in_background()
     tooltip("Finished updating styling sections")
 
 
