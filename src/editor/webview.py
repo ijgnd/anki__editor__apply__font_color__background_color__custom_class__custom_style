@@ -106,21 +106,24 @@ function classesAddonWrap(tagName) {{
             return true;
         }}
 
+        const key = "customStyles" + tagName + className + label;
+
         const format = {{
             matcher,
             formatter,
         }};
 
         const namedFormat = {{
+            key,
             name: className,
             show: true,
             active: true,
-            format,
         }}
 
+        surrounder.registerFormat(key, format)
         removeFormats.update((formats) => [...formats, namedFormat]);
 
-        return () => surrounder.surround(format);
+        return () => surrounder.surround(key);
     }}
 }}
 
