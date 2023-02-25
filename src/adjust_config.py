@@ -1,16 +1,4 @@
-import json
-import os
-from pprint import pprint as pp
-
-from aqt import mw
-from aqt.utils import (
-    askUser,
-    showInfo,
-)
-
-from .colors import html4colors, css3colors
-from .default_config import default_config
-from .vars import addon_name, uses_classes
+from .vars import uses_classes
 
 
 def autogenerate_config_values_for_menus(config):

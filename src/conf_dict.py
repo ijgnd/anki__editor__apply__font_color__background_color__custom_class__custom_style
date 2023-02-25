@@ -15,7 +15,7 @@ from .adjust_config import (
 
 from .config_var import getconfig
 from .default_config import default_config
-from .vars import addon_name, addon_webpage, pickle_file, user_files_folder
+from .vars import pickle_file, user_files_folder
 
 from .utils import (
     update_style_file_in_media,

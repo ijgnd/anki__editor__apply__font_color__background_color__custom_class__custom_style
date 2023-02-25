@@ -7,11 +7,7 @@ from aqt.qt import (
 )
 
 from aqt.utils import showInfo
-
-if qtmajor == 5:
-    from .forms5 import settings_class
-else:
-    from .forms6 import settings_class
+from .forms import settings_class
 
 
 class SettingsForClass(QDialog):

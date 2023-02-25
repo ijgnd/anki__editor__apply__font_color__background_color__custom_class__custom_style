@@ -1,10 +1,7 @@
 from aqt.qt import QDialog, Qt, qtmajor
 from aqt.utils import askUser
 
-if qtmajor == 5:
-    from .forms5 import settings_select_category
-else:
-    from .forms6 import settings_select_category
+from .forms import settings_select_category
 from .utils import gui_dialog
 
 from ..vars import addon_name, addable_options, unique_string
