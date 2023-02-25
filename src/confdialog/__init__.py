@@ -30,10 +30,7 @@ from aqt.utils import (
 from ..default_config import default_config
 from ..vars import unique_string
 
-if qtmajor == 5:
-    from .forms5 import settings_main_widgets
-else:
-    from .forms6 import settings_main_widgets
+from .forms import settings_main_widgets
 from .addEntry import AddEntry
 from .utils import gui_dialog
 
@@ -233,7 +230,7 @@ class MainConfDialog(QDialog):
         self.bo.tw_inactive.itemDoubleClicked.connect(self.ondoubleclick)
 
     def set_table(self, widget, li):
-        widget.setSelectionBehavior(QTableView.SelectionBehavior.SelectRows)
+        widget.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
         widget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         widget.setRowCount(len(li))
         widget.setColumnCount(len(self.tableHeaders))
