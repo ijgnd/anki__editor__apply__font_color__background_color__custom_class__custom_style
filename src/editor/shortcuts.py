@@ -12,7 +12,4 @@ def setup_shortcuts(cuts, editor):
             for match in filter(lambda cut: cut[0] == entry["Hotkey"], cuts):
                 cuts.remove(match)
 
-            def callback():
-                apply_categories[entry["Category"]](editor, entry)
-
-            cuts.append((entry["Hotkey"], callback))
+            cuts.append((entry["Hotkey"], lambda ed=editor, ent=entry, cat=entry["Category"]: apply_categories[cat](ed, ent)))
